@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Web markdown editor</title>
+    </head>
+    <body>
+        test
+        <script>
+            fetch('markdown.wasm').then(response =>
+                response.arrayBuffer()
+            ).then(bytes => 
+                WebAssembly.instantiate(bytes, {})
+            ).then(results => {
+                console.log(results);
+                console.log(results.instance.exports.hoge(1));
+            });
+       </script>
+    </body>
+</html> 
+

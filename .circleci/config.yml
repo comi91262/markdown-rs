@@ -2,13 +2,23 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: circleci/rust
     steps:
       - checkout
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: Build
+          command: | 
+              rustup target add wasm32-unknown-unknown
+              cargo build --release --target=wasm32-unknown-unknown
       - run:
-          name: Print the Current Time
-          command: date
-
+          name: Deploy
+          command: |
+              git clone https://github.com/ykonomi/ykonomi.github.io.git
+              cp target/wasm32-unknown-unknown/release/web_markdown_rs.wasm ykonomi.github.io/markdown/markdown.wasm
+              cp index.html ykonomi.github.io/markdown/index.html
+              cd ykonomi.github.io
+              git config --global user.name 'deploying_bot'
+              git config --global user.email 'bot@mail.com'
+              git add --all
+              git commit -m "Deployed web-markdown-rs at `date '+%Y/%m/%d %H:%M:%S'`"
+              git push origin master
