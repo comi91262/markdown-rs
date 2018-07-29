@@ -14,11 +14,11 @@ jobs:
           name: Deploy
           command: |
               git clone https://github.com/ykonomi/ykonomi.github.io.git
-              cp target/wasm32-unknown-unknown/release/web_markdown_rs.wasm ykonomi.github.io/markdown.wasm
-              cp index.html ykonomi.github.io/index.html
+              cp target/wasm32-unknown-unknown/release/web_markdown_rs.wasm ykonomi.github.io/markdown/markdown.wasm
+              cp index.html ykonomi.github.io/markdown/index.html
               cd ykonomi.github.io
               git config --global user.name 'deploying_bot'
               git config --global user.email 'bot@mail.com'
               git add --all
-              git commit -m "Deploy web-markdown-rs: `date '+%Y/%m/%d %H:%M:%S'`"
+              git commit -m "Deployed web-markdown-rs at `date '+%Y/%m/%d %H:%M:%S'`"
               git push origin master
