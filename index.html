@@ -5,8 +5,13 @@
         <title>Web markdown editor</title>
     </head>
     <body>
-        test
+        <textarea cols="80" rows="20" oninput="myTranslate(this.value)"></textarea>
+        <div id='display' data-text=""></div>
+
         <script>
+            function myTranslate(text) {
+                document.getElementById('display').innerHTML = text;
+            };
             fetch('markdown.wasm').then(response =>
                 response.arrayBuffer()
             ).then(bytes => 
