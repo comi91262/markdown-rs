@@ -5,5 +5,3 @@ authors = ["ykonomi <hgKaguyaToupako4er@gmail.com>"]
 
 [lib]
 crate-type = ["cdylib"]
-
-[dependencies]
