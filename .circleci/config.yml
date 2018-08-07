@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/rust
+        environment:
+            TZ: Asia/Tokyo
     steps:
       - checkout
       - run:
@@ -20,5 +22,5 @@ jobs:
               git config --global user.name 'deploying_bot'
               git config --global user.email 'bot@mail.com'
               git add --all
-              git commit -m "Deployed web-markdown-rs at `env LANG=ja_JP.UTF-8 date '+%Y/%m/%d %H:%M:%S'`"
+              git commit -m "Deployed web-markdown-rs at `date '+%Y/%m/%d %H:%M:%S'`"
               git push origin master
