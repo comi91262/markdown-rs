@@ -5,8 +5,11 @@ sharp = _{ "#" }
 space = _{ " " }
 text = { any* }
 
+
 header = { ws* ~ sharp ~ space ~ text }
 
-exp = _{ ws* ~ header | text }
+thematic_break = { "***" | "---" | "___" }
+
+exp = _{ ws* ~ header | thematic_break | text }
         
 

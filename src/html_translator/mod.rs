@@ -11,6 +11,9 @@ pub fn exec(input_str: &str) -> String {
             let next = pair.into_inner().next().unwrap();
             return format!("<h1>{}</h1>", next.as_str())
         },
+        parser::Rule::thematic_break => {
+            return format!("<hr />")
+        },
         parser::Rule::text => {
             return pair.as_str().to_string();
         }
