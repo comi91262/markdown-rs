@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/rust
+        environment:
+            TZ: Asia/Tokyo
     steps:
       - checkout
       - run:
@@ -14,11 +16,15 @@ jobs:
           name: Deploy
           command: |
               git clone https://github.com/ykonomi/ykonomi.github.io.git
-              cp target/wasm32-unknown-unknown/release/web_markdown_rs.wasm ykonomi.github.io/markdown/markdown.wasm
+              if [ ! -d ykonomi.github.io/markdown ]; then
+                mkdir -p ykonomi.github.io/markdown/js
+              fi
+              cp target/wasm32-unknown-unknown/release/markdown_rs.wasm ykonomi.github.io/markdown/markdown.wasm
               cp index.html ykonomi.github.io/markdown/index.html
+              cp -r js/* ykonomi.github.io/markdown/js/.
               cd ykonomi.github.io
               git config --global user.name 'deploying_bot'
               git config --global user.email 'bot@mail.com'
               git add --all
-              git commit -m "Deployed web-markdown-rs at `date '+%Y/%m/%d %H:%M:%S'`"
+              git commit -m "Deployed markdown-rs at `date '+%Y/%m/%d %H:%M:%S'`"
               git push origin master

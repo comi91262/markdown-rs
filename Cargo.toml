@@ -1,9 +1,12 @@
 [package]
-name = "web-markdown-rs"
+name = "markdown-rs"
 version = "0.1.0"
 authors = ["ykonomi <hgKaguyaToupako4er@gmail.com>"]
 
 [lib]
 crate-type = ["cdylib"]
 
+
 [dependencies]
+pest = "^1.0"
+pest_derive = "^1.0"
