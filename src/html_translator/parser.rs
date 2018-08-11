@@ -1,5 +1,5 @@
-use pest::Parser;
 use pest::iterators::Pairs;
+use pest::Parser;
 
 #[cfg(debug_assertions)]
 const _GRAMMAR: &'static str = include_str!("../markdown.pest");
@@ -9,9 +9,7 @@ const _GRAMMAR: &'static str = include_str!("../markdown.pest");
 struct MarkdownParser;
 
 pub fn parse(line: &str) -> Pairs<Rule> {
-    MarkdownParser::parse(Rule::exp, line)
-        .unwrap_or_else(|e| panic!("{}", e))
-
+    MarkdownParser::parse(Rule::exp, line).unwrap_or_else(|e| panic!("{}", e))
 }
 
 #[test]
@@ -21,8 +19,4 @@ fn test() {
     let s = pairs.next().unwrap();
 
     assert_eq!(rules.as_str(), "empty");
-
-
-
 }
-

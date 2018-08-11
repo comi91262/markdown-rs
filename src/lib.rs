@@ -9,7 +9,6 @@ extern crate pest_derive;
 
 mod html_translator;
 
-
 #[no_mangle]
 pub extern "C" fn alloc(size: usize) -> *mut c_void {
     let mut buf = Vec::with_capacity(size);
