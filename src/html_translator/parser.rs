@@ -9,7 +9,6 @@ const _GRAMMAR: &'static str = include_str!("../markdown.pest");
 struct MarkdownParser;
 
 pub fn parse(line: &str) -> Pairs<Rule> {
-    let a = Rule::header;
     MarkdownParser::parse(Rule::exp, line)
         .unwrap_or_else(|e| panic!("{}", e))
 
