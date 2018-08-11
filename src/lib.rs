@@ -3,6 +3,13 @@ use std::ffi::CString;
 use std::mem;
 use std::os::raw::{c_char, c_void};
 
+extern crate pest;
+#[macro_use]
+extern crate pest_derive;
+
+mod html_translator;
+
+
 #[no_mangle]
 pub extern "C" fn alloc(size: usize) -> *mut c_void {
     let mut buf = Vec::with_capacity(size);
@@ -26,9 +33,8 @@ pub extern "C" fn dealloc_str(ptr: *mut c_char) {
 }
 
 #[no_mangle]
-pub extern "C" fn roundtrip(data: *mut c_char) -> *mut c_char {
+pub extern "C" fn translate(data: *mut c_char) -> *mut c_char {
     let input = unsafe { CStr::from_ptr(data).to_string_lossy().into_owned() };
-
-    let output = format!("b{}b", input);
+    let output = html_translator::exec(&input);
     CString::new(output).unwrap().into_raw()
 }

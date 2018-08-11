@@ -8,10 +8,10 @@ fetchAndInstantiate("./markdown.wasm", {})
         Module.alloc       = mod.exports.alloc;
         Module.dealloc     = mod.exports.dealloc;
         Module.dealloc_str = mod.exports.dealloc_str;
-        Module.myTranslate = function(str) {
+        Module.translate = function(str) {
             let buf = newString(Module, str);
             console.log(new Uint8Array(Module.memory.buffer, buf, 10));
-            let outptr = mod.exports.roundtrip(buf);
+            let outptr = mod.exports.translate(buf);
             console.log(new Uint8Array(Module.memory.buffer, outptr, 10));
 
             let result = copyCStr(Module, outptr);
@@ -21,7 +21,7 @@ fetchAndInstantiate("./markdown.wasm", {})
 
 function myTranslate(text) {
     document.getElementById('display').innerHTML
-        = Module.myTranslate(text)
+        = Module.translate(text)
 }
 
 
