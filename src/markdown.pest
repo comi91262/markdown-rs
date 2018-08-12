@@ -38,6 +38,17 @@ unicode_whitespace = { unicode_whitespace_character+ }
 space = { "\u{0020}" }
 
 
+ascii_punctuation_character = { "!" | "\"" | "#" | "$" | "%" | "'"
+                              | "(" | ")" | "*" | "+" | "," | "-"
+                              | "." | "/" | ":" | ";" | "<" | "="
+                              | ">" | "?" | "@" | "[" | "\\" | "]"
+                              | "^" | "_" | "`" | "{" | "|" | "}" | "~" }
+
+
+// TODO: A punctuation character is an ASCII punctuation character or anything in the general Unicode categories Pc, Pd, Pe, Pf, Pi, Po, or Ps.
+// TODO: A line containing no characters, or a line containing only spaces (U+0020) or tabs (U+0009), is called a blank line.
+// TODO: A non-whitespace character is any character that is not a whitespace character.
+
 sharp = _{ "#" }
 text = { any* }
 
