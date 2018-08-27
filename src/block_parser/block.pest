@@ -1,0 +1,94 @@
+// A whitespace character is a space (U+0020), tab (U+0009), newline (U+000A), line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D).
+
+whitespace_character = { "\u{0020}" | "\u{0009}" | "\u{000A}" | "\u{000B}" | "\u{000C}" | "\u{000D}" }
+// whitespace = _{ whitespace_character+ }
+
+// A Unicode whitespace character is any code point in the Unicode Zs general category, or a tab (U+0009),
+//  carriage return (U+000D), newline (U+000A), or form feed (U+000C).
+// 
+// Unicode Zs general category.
+//
+// U+0020 SPACE
+// U+00A0 NO-BREAK SPACE
+// U+1680 OGHAM SPACE MARK
+// U+2000 EN QUAD
+// U+2001 EM QUAD
+// U+2002 EN SPACE
+// U+2003 EM SPACE
+// U+2004 THREE-PER-EM SPACE
+// U+2005 FOUR-PER-EM SPACE
+// U+2006 SIX-PER-EM SPACE
+// U+2007 FIGURE SPAC
+// U+2008 PUNCTUATION SPACE
+// U+2009 THIN SPACE
+// U+200A HAIR SPACE
+// U+202F NARROW NO-BREAK SPACE
+// U+205F MEDIUM MATHEMATICAL SPACE
+// U+3000 IDEOGRAPHIC SPACE
+//
+
+unicode_whitespace_character = { "\u{0020}" | "\u{00A0}" | "\u{1680}" | '\u{2000}'..'\u{200A}' | "\u{202F}" | "\u{205F}" 
+                               | "\u{0009}" | "\u{000D}" | "\u{000A}" | "\u{000C}" }
+
+unicode_whitespace = { unicode_whitespace_character+ }
+
+space = { "\u{0020}" }
+
+
+ascii_punctuation_character = { "!" | "\"" | "#" | "$" | "%" | "'"
+                              | "(" | ")" | "*" | "+" | "," | "-"
+                              | "." | "/" | ":" | ";" | "<" | "="
+                              | ">" | "?" | "@" | "[" | "\\" | "]"
+                              | "^" | "_" | "`" | "{" | "|" | "}" | "~" }
+
+
+// TODO: A punctuation character is an ASCII punctuation character or anything in the general Unicode categories Pc, Pd, Pe, Pf, Pi, Po, or Ps.
+// TODO: A line containing no characters, or a line containing only spaces (U+0020) or tabs (U+0009), is called a blank line.
+// TODO: A non-whitespace character is any character that is not a whitespace character.
+
+sharp = _{ "#" }
+
+
+//header = { sharp ~ space ~ line_character }
+
+astar = _{ "*" }
+hyphen = _{ "-" }
+under = _{ "_" }
+
+
+thematic_break =
+{
+    astar ~ astar ~ astar
+  | hyphen ~ hyphen ~ hyphen
+  | under ~ under ~ under
+}
+
+
+break_line = {
+  ("\u{0020}" | "\u{0009}")+
+}
+
+empty = {
+  "" 
+}
+
+newline = _{ "\u{000A}" }
+carrige_return = _{ "\u{000D}" }
+line_ending = _{ newline | carrige_return | newline ~ carrige_return }
+character = _{ any } 
+paragraph = {(!newline ~ !carrige_return ~ character)+ }
+
+
+line = _{
+    thematic_break
+  | break_line
+  | paragraph
+  | empty
+}
+
+document = _{ line ~ (line_ending ~ line)* }
+
+        
+
+
+

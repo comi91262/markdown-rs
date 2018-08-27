@@ -3,12 +3,14 @@ use std::ffi::CString;
 use std::mem;
 use std::os::raw::{c_char, c_void};
 
+#[macro_use]
 extern crate pest;
 #[macro_use]
 extern crate pest_derive;
 
-mod html_translator;
-
+mod block_parser;
+mod inline_parser;
+mod translator;
 
 #[no_mangle]
 pub extern "C" fn alloc(size: usize) -> *mut c_void {
@@ -35,6 +37,6 @@ pub extern "C" fn dealloc_str(ptr: *mut c_char) {
 #[no_mangle]
 pub extern "C" fn translate(data: *mut c_char) -> *mut c_char {
     let input = unsafe { CStr::from_ptr(data).to_string_lossy().into_owned() };
-    let output = html_translator::exec(&input);
+    let output = translator::exec(&input);
     CString::new(output).unwrap().into_raw()
 }
