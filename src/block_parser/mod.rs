@@ -11,6 +11,7 @@ struct BlockParser;
 pub enum BlockType {
     Document,
     ThematicBreaks,
+    BreakLine,
     //    AtxHeadings,
     //    BlockQuote,
     //    Paragraph,
@@ -58,6 +59,9 @@ pub fn parse(line: &str) -> Block {
             Rule::thematic_break => {
                 root_block.add(BlockType::ThematicBreaks, "".to_string());
             }
+            Rule::break_line => {
+                root_block.add(BlockType::BreakLine, "".to_string());
+            }
             _ => (),
         }
     }
@@ -98,6 +102,18 @@ fn test_example_13() {
     };
 }
 
+#[test]
+fn test_example_xx() {
+    parses_to! {
+        parser: BlockParser,
+        input: " \n",
+        rule: Rule::document,
+        tokens: [
+          break_line(0, 1, [
+          ]),
+        ]
+    };
+}
 //fn test_s() {
 //    let mut root_block = Block {
 //        is_closed: false,

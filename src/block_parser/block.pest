@@ -77,14 +77,11 @@ thematic_break =
 
 line = _{
     thematic_break
+  | break_line
 }
 
 document = _{ line ~ (line_ending ~ line)* }
-
 //    ( header ~ line_ending 
-//      | thematic_break+
-//      | line ) ~ document*
-//}
 
         
 

@@ -23,6 +23,10 @@ fn print(tree: block_parser::Block) -> String {
             result_str.push_str("<hr />");
             result_str
         }
+        Block {
+            block_type: BlockType::BreakLine,
+            ..
+        } => "".to_string(),
     }
 }
 
