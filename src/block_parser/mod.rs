@@ -14,7 +14,7 @@ pub enum BlockType {
     BreakLine,
     //    AtxHeadings,
     //    BlockQuote,
-    //    Paragraph,
+    Paragraph,
     //    List,
     //    ListItem,
 }
@@ -23,8 +23,8 @@ pub enum BlockType {
 pub struct Block {
     pub block_type: BlockType,
     pub children: Vec<Block>,
+    pub raw_text: String,
     is_closed: bool,
-    raw_text: String,
 }
 
 impl Block {
@@ -59,13 +59,15 @@ pub fn parse(line: &str) -> Block {
             Rule::thematic_break => {
                 root_block.add(BlockType::ThematicBreaks, "".to_string());
             }
-            Rule::break_line => {
+            Rule::break_line | Rule::empty => {
                 root_block.add(BlockType::BreakLine, "".to_string());
+            }
+            Rule::paragraph => {
+                root_block.add(BlockType::Paragraph, token.as_str().to_string());
             }
             _ => (),
         }
     }
-    println!("{:?}", root_block);
     root_block
 }
 
@@ -89,7 +91,7 @@ pub fn parse(line: &str) -> Block {
 fn test_example_13() {
     parses_to! {
         parser: BlockParser,
-        input: "***\n---\n___\n",
+        input: "***\n---\n___",
         rule: Rule::document,
         tokens: [
           thematic_break(0, 3, [
@@ -97,23 +99,49 @@ fn test_example_13() {
           thematic_break(4, 7, [
           ]),
           thematic_break(8, 11, [
-          ])
+          ]),
         ]
     };
 }
 
 #[test]
-fn test_example_xx() {
+fn test_example_182() {
     parses_to! {
         parser: BlockParser,
-        input: " \n",
+        input: "aaa\n\nbbb",
         rule: Rule::document,
         tokens: [
-          break_line(0, 1, [
+          paragraph(0, 3, [
+          ]),
+          empty(4, 4, [
+          ]),
+          paragraph(5, 8, [
           ]),
         ]
     };
 }
+
+#[test]
+fn test_example_183() {
+    parses_to! {
+        parser: BlockParser,
+        input: "aaa\nbbb\n\nccc\nddd",
+        rule: Rule::document,
+        tokens: [
+          paragraph(0, 3, [
+          ]),
+          paragraph(4, 7, [
+          ]),
+          empty(8, 8, [
+          ]),
+          paragraph(9, 12, [
+          ]),
+          paragraph(13, 16, [
+          ])
+        ]
+    };
+}
+
 //fn test_s() {
 //    let mut root_block = Block {
 //        is_closed: false,

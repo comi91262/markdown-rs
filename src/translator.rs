@@ -27,6 +27,11 @@ fn print(tree: block_parser::Block) -> String {
             block_type: BlockType::BreakLine,
             ..
         } => "".to_string(),
+        Block {
+            block_type: BlockType::Paragraph,
+            raw_text,
+            ..
+        } => format!("<p>{}</p>", raw_text),
     }
 }
 
@@ -36,7 +41,19 @@ pub fn exec(input_str: &str) -> String {
 }
 
 #[test]
-fn test_exec() {
+fn test_example_13() {
     let tree = exec("***\n---\n___\n");
     assert_eq!(tree, "<hr /><hr /><hr />");
 }
+
+//#[test]
+//fn test_example_182() {
+//    let tree = exec("aaa\n\nbbb\n");
+//    assert_eq!(tree, "<p>aaa</p>\n<p>bbb</p>");
+//}
+
+//#[test]
+//fn test_example_183() {
+//    let tree = exec("aaa\n\nbbb\nccc\n\nddd\n");
+//    assert_eq!(tree, "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>");
+//}
