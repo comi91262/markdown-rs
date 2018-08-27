@@ -3,9 +3,9 @@ character = { any }
 newline = { "\u{000A}" }
 carrige_return = { "\u{000D}" }
 
-line = { (!newline ~ !carrige_return ~ character)* }
+//line = { (!newline ~ !carrige_return ~ character)* }
 line_character = { !newline ~ !carrige_return ~ character }
-line_ending = {"\u{000A}" | "\u{000D}" | "\u{000D}" ~ "\u{000A}" }
+line_ending = _{"\u{000A}" | "\u{000D}" | "\u{000D}" ~ "\u{000A}" }
 
 
 // A whitespace character is a space (U+0020), tab (U+0009), newline (U+000A), line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D).
@@ -63,22 +63,28 @@ text = { any* }
 header = { sharp ~ space ~ line_character }
 
 astar = _{ "*" }
-hyphen = { "-" }
-under = { "_" }
+hyphen = _{ "-" }
+under = _{ "_" }
 
+break_line = {"\u{0020}" | "\u{0009}"}
 
 thematic_break =
 {
-    astar ~ astar ~ astar ~ line_ending 
-  | hyphen ~ hyphen ~ hyphen~ line_ending
-  | under ~ under ~ under ~ line_ending
+    astar ~ astar ~ astar
+  | hyphen ~ hyphen ~ hyphen
+  | under ~ under ~ under
 }
 
-document = _{ 
-    ( header ~ line_ending 
-      | thematic_break+
-      | line )
+line = _{
+    thematic_break
 }
+
+document = _{ line ~ (line_ending ~ line)* }
+
+//    ( header ~ line_ending 
+//      | thematic_break+
+//      | line ) ~ document*
+//}
 
         
 

@@ -82,30 +82,17 @@ pub fn parse(line: &str) -> Block {
 //             "aliquando id"
 
 #[test]
-fn test_t() {
-    // Example 13
+fn test_example_13() {
     parses_to! {
         parser: BlockParser,
         input: "***\n---\n___\n",
         rule: Rule::document,
         tokens: [
-          thematic_break(0, 4, [
-    //      astar(0, 1),
-    //      astar(1, 2),
-    //      astar(2, 3),
-          line_ending(3, 4),
+          thematic_break(0, 3, [
           ]),
-          thematic_break(4, 8, [
-          hyphen(4, 5),
-          hyphen(5, 6),
-          hyphen(6, 7),
-          line_ending(7, 8),
+          thematic_break(4, 7, [
           ]),
-          thematic_break(8, 12, [
-          under(8, 9),
-          under(9, 10),
-          under(10, 11),
-          line_ending(11, 12),
+          thematic_break(8, 11, [
           ])
         ]
     };
