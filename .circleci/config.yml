@@ -28,3 +28,14 @@ jobs:
               git add --all
               git commit -m "Deployed markdown-rs at `date '+%Y/%m/%d %H:%M:%S'`"
               git push origin master
+  test:
+    docker:
+      - image: circleci/rust
+        environment:
+            TZ: Asia/Tokyo
+    steps:
+      - checkout
+      - run:
+          name: Cargo Test
+          command: |
+              cargo test
