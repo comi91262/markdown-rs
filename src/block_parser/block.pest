@@ -1,11 +1,17 @@
-// character ::= u   u: a unicode code point
+character = { any } 
 
-// line ::= character* (EOF | line_ending)
-// ling_ending ::= \u{000A} | \u{000D} | \u{000D} \u{000A}
+newline = { "\u{000A}" }
+carrige_return = { "\u{000D}" }
+
+line = { (!newline ~ !carrige_return ~ character)* }
+line_character = { !newline ~ !carrige_return ~ character }
+line_ending = {"\u{000A}" | "\u{000D}" | "\u{000D}" ~ "\u{000A}" }
+
 
 // A whitespace character is a space (U+0020), tab (U+0009), newline (U+000A), line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D).
+
 whitespace_character = { "\u{0020}" | "\u{0009}" | "\u{000A}" | "\u{000B}" | "\u{000C}" | "\u{000D}" }
-whitespace = _{ whitespace_character+ }
+// whitespace = _{ whitespace_character+ }
 
 // A Unicode whitespace character is any code point in the Unicode Zs general category, or a tab (U+0009),
 //  carriage return (U+000D), newline (U+000A), or form feed (U+000C).
@@ -29,6 +35,7 @@ whitespace = _{ whitespace_character+ }
 // U+202F NARROW NO-BREAK SPACE
 // U+205F MEDIUM MATHEMATICAL SPACE
 // U+3000 IDEOGRAPHIC SPACE
+//
 
 unicode_whitespace_character = { "\u{0020}" | "\u{00A0}" | "\u{1680}" | '\u{2000}'..'\u{200A}' | "\u{202F}" | "\u{205F}" 
                                | "\u{0009}" | "\u{000D}" | "\u{000A}" | "\u{000C}" }
@@ -52,10 +59,28 @@ ascii_punctuation_character = { "!" | "\"" | "#" | "$" | "%" | "'"
 sharp = _{ "#" }
 text = { any* }
 
-header = { sharp ~ text }
-thematic_break = { "***" | "---" | "___" }
 
-exp = _{ header | thematic_break | text }
+header = { sharp ~ space ~ line_character }
+
+astar = _{ "*" }
+hyphen = { "-" }
+under = { "_" }
+
+
+thematic_break =
+{
+    astar ~ astar ~ astar ~ line_ending 
+  | hyphen ~ hyphen ~ hyphen~ line_ending
+  | under ~ under ~ under ~ line_ending
+}
+
+document = _{ 
+    ( header ~ line_ending 
+      | thematic_break+
+      | line )
+}
+
         
+
 
 
