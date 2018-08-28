@@ -32,6 +32,12 @@ fn print(tree: block_parser::Block) -> String {
             raw_text,
             ..
         } => format!("<p>{}</p>", raw_text),
+        Block {
+            block_type: BlockType::AtxHeading1,
+            raw_text,
+            ..
+        } => format!("<h1>{}</h1>", raw_text),
+        _ => "".to_string()
     }
 }
 
@@ -45,6 +51,10 @@ fn test_example_13() {
     let tree = exec("***\n---\n___\n");
     assert_eq!(tree, "<hr /><hr /><hr />");
 }
+
+//#[test]
+//fn test_example_32() {
+//}
 
 //#[test]
 //fn test_example_182() {

@@ -12,7 +12,12 @@ pub enum BlockType {
     Document,
     ThematicBreaks,
     BreakLine,
-    //    AtxHeadings,
+    AtxHeading1,
+    AtxHeading2,
+    AtxHeading3,
+    AtxHeading4,
+    AtxHeading5,
+    AtxHeading6,
     //    BlockQuote,
     Paragraph,
     //    List,
@@ -65,6 +70,9 @@ pub fn parse(line: &str) -> Block {
             Rule::paragraph => {
                 root_block.add(BlockType::Paragraph, token.as_str().to_string());
             }
+            Rule::atx_heading1 => {
+                root_block.add(BlockType::AtxHeading1, token.as_str().to_string());
+            }
             _ => (),
         }
     }
@@ -103,6 +111,36 @@ fn test_example_13() {
         ]
     };
 }
+
+#[test]
+fn test_example_32() {
+    parses_to! {
+        parser: BlockParser,
+        input: "# foo\n## foo\n### foo\n#### foo\n##### foo\n###### foo",
+        rule: Rule::document,
+        tokens: [
+          atx_heading1(0, 5, [
+            text(2,5,[]),
+          ]),
+          atx_heading2(6, 12, [
+            text(9,12,[]),
+          ]),
+          atx_heading3(13, 20, [
+            text(17,20,[]),
+          ]),
+          atx_heading4(21, 29, [
+            text(26,29,[]),
+          ]),
+          atx_heading5(30, 39, [
+            text(36,39,[]),
+          ]),
+          atx_heading6(40, 50, [
+            text(47,50,[]),
+          ]),
+        ]
+    };
+}
+
 
 #[test]
 fn test_example_182() {
@@ -163,23 +201,6 @@ fn test_example_183() {
 //
 //}
 //
-
-//# foo
-//## foo
-//### foo
-//#### foo
-//##### foo
-//###### foo
-//####### foo
-//
-//<p>####### foo</p>
-//
-//<h1>foo</h1>
-//<h2>foo</h2>
-//<h3>foo</h3>
-//<h4>foo</h4>
-//<h5>foo</h5>
-//<h6>foo</h6>
 //    root_block.add(BlockType::BlockQuote, "".to_string());
 //
 //    let block2 = Block {
