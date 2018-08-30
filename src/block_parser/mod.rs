@@ -83,7 +83,7 @@ pub fn parse(line: &str) -> Block {
                         prev.raw_text.push_str("\n");
                         prev.raw_text.push_str(token.as_str());
                     }
-                    _ => panic!(""),
+                    _ => root_block.add(BlockType::Paragraph, token.as_str().to_string()),
                 }
                 }
             },
@@ -252,10 +252,3 @@ fn test_example_183() {
 //
 //    println!("{:?}", root_block);
 //
-//pest::parses_to! {
-//    parser: MarkdownParser,
-//    input: "# 1",
-//    rule: Rule::exp,
-//    tokens: [
-//    ]
-//};

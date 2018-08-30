@@ -56,11 +56,19 @@ fn test_example_13() {
 //fn test_example_32() {
 //}
 
-//#[test]
-//fn test_example_182() {
-//    let tree = exec("aaa\n\nbbb\n");
-//    assert_eq!(tree, "<p>aaa</p>\n<p>bbb</p>");
-//}
+
+/// # Example 182
+/// aaa
+/// 
+/// bbb
+///  
+/// <p>aaa</p>
+/// <p>bbb</p>
+#[test]
+fn test_example_182() {
+    let tree = exec("aaa\n\nbbb");
+    assert_eq!(tree, "<p>aaa</p><p>bbb</p>");
+}
 
 //#[test]
 //fn test_example_183() {
