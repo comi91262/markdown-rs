@@ -37,7 +37,7 @@ fn print(tree: block_parser::Block) -> String {
             raw_text,
             ..
         } => format!("<h1>{}</h1>", raw_text),
-        _ => "".to_string()
+        _ => "".to_string(),
     }
 }
 

@@ -7,7 +7,7 @@ const _GRAMMAR: &'static str = include_str!("block.pest");
 #[grammar = "block_parser/block.pest"]
 struct BlockParser;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum BlockType {
     Document,
     ThematicBreaks,
@@ -24,7 +24,7 @@ pub enum BlockType {
     //    ListItem,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Block {
     pub block_type: BlockType,
     pub children: Vec<Block>,
@@ -42,6 +42,10 @@ impl Block {
         };
 
         self.children.push(child);
+    }
+
+    fn get_prev(&mut self) -> Option<&mut Block> {
+        self.children.as_mut_slice().last_mut()
     }
 
     fn get(&self) -> &Block {
@@ -68,8 +72,21 @@ pub fn parse(line: &str) -> Block {
                 root_block.add(BlockType::BreakLine, "".to_string());
             }
             Rule::paragraph => {
-                root_block.add(BlockType::Paragraph, token.as_str().to_string());
-            }
+                let mut check = root_block.clone();
+                match check.get_prev() {
+                None => root_block.add(BlockType::Paragraph, token.as_str().to_string()),
+                Some(prev) => match prev {
+                    Block {
+                        block_type: BlockType::Paragraph,
+                        ..
+                    } => {
+                        prev.raw_text.push_str("\n");
+                        prev.raw_text.push_str(token.as_str());
+                    }
+                    _ => panic!(""),
+                }
+                }
+            },
             Rule::atx_heading1 => {
                 root_block.add(BlockType::AtxHeading1, token.as_str().to_string());
             }
@@ -77,6 +94,12 @@ pub fn parse(line: &str) -> Block {
         }
     }
     root_block
+}
+
+#[test]
+fn test_parse() {
+    let b = parse("a a\na a");
+    println!("{:?}", b);
 }
 
 // > Lorem ipsum dolor
@@ -140,7 +163,6 @@ fn test_example_32() {
         ]
     };
 }
-
 
 #[test]
 fn test_example_182() {
