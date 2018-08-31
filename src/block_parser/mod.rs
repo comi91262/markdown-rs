@@ -57,21 +57,6 @@ pub fn parse(line: &str) -> Block {
     root_block
 }
 
-// > Lorem ipsum dolor
-// sit amet.
-// > - Qui *quodsi iracundia*
-// > - aliquando id
-//-> document
-//  -> block_quote
-//       paragraph
-//         "Lorem ipsum dolor\nsit amet."
-//    -> list (type=bullet tight=true bullet_char=-)
-//         list_item
-//           paragraph
-//             "Qui *quodsi iracundia*"
-//      -> list_item
-//        -> paragraph
-//             "aliquando id"
 
 #[test]
 fn test_parsing_themantic_break() {
@@ -123,18 +108,18 @@ fn test_parsing_atx_headings() {
 fn test_parsing_paragraph() {
     parses_to! {
         parser: BlockParser,
-        input: "aaa\nbbb\n\nccc\nddd",
+        input: "  aaa\nbbb\n\nccc\nd d d",
         rule: Rule::document,
         tokens: [
-          paragraph(0, 3, [
+          paragraph(0, 5, [
           ]),
-          paragraph(4, 7, [
+          paragraph(6, 9, [
           ]),
-          empty(8, 8, [
+          empty(10, 10, [
           ]),
-          paragraph(9, 12, [
+          paragraph(11, 14, [
           ]),
-          paragraph(13, 16, [
+          paragraph(15, 20, [
           ])
         ]
     };
@@ -142,10 +127,25 @@ fn test_parsing_paragraph() {
 
 #[test]
 fn test_check_tree() {
-    let b = parse("aaa\nbbb\n");
-    //println!("{:?}", b);
+    let tokens = parse("  aaa\n bbb\n");
+    println!("{:?}", tokens);
 }
 
+// > Lorem ipsum dolor
+// sit amet.
+// > - Qui *quodsi iracundia*
+// > - aliquando id
+//-> document
+//  -> block_quote
+//       paragraph
+//         "Lorem ipsum dolor\nsit amet."
+//    -> list (type=bullet tight=true bullet_char=-)
+//         list_item
+//           paragraph
+//             "Qui *quodsi iracundia*"
+//      -> list_item
+//        -> paragraph
+//             "aliquando id"
 //    root_block.add(BlockType::BlockQuote, "".to_string());
 //
 //    let block2 = Block {

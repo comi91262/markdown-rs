@@ -83,7 +83,7 @@ thematic_break =
 
 
 break_line = {
-  ("\u{0020}" | "\u{0009}")+
+  ("\u{0020}" | "\u{0009}")+ ~ !text
 }
 
 empty = { "" }
