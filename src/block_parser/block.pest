@@ -99,7 +99,7 @@ line = _{
     atx_headings
   | thematic_break
   | break_line
-  | paragraph
+  | space* ~ paragraph
   | empty
 }
 

@@ -110,7 +110,7 @@ fn test_parsing_paragraph() {
         input: "  aaa\nbbb\n\nccc\nd d d",
         rule: Rule::document,
         tokens: [
-          paragraph(0, 5, [
+          paragraph(2, 5, [
           ]),
           paragraph(6, 9, [
           ]),
@@ -126,8 +126,8 @@ fn test_parsing_paragraph() {
 
 #[test]
 fn test_check_tree() {
-    let tokens = parse("  aaa\n bbb\n");
-    println!("{:?}", tokens);
+    //let tokens = parse("  aaa\n bbb\n");
+    //println!("{:?}", tokens);
 }
 
 // > Lorem ipsum dolor

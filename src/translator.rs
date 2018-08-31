@@ -151,14 +151,14 @@ fn test_example_184() {
     assert_eq!(html_code, "<p>aaa</p>\n<p>bbb</p>\n");
 }
 
-// # Example 185
-//  aaa
-// bbb
-//
-//<p>aaa
-//bbb</p>
-//#[test]
-//fn test_example_185() {
-//    let html_code = exec("  aaa\n bbb\n");
-//    assert_eq!(html_code, "<p>aaa\nbbb</p>\n");
-//}
+/// # Example 185
+///  aaa
+/// bbb
+///
+///<p>aaa
+///bbb</p>
+#[test]
+fn test_example_185() {
+    let html_code = exec("  aaa\n bbb\n");
+    assert_eq!(html_code, "<p>aaa\nbbb</p>\n");
+}
