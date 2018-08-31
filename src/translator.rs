@@ -55,8 +55,8 @@ pub fn exec(input_str: &str) -> String {
 ///<hr />
 #[test]
 fn test_example_13() {
-    let tree = exec("***\n---\n___\n");
-    assert_eq!(tree, "<hr />\n<hr />\n<hr />\n");
+    let html_code = exec("***\n---\n___\n");
+    assert_eq!(html_code, "<hr />\n<hr />\n<hr />\n");
 }
 
 /// # Example 14
@@ -65,8 +65,8 @@ fn test_example_13() {
 ///<p>+++</p>
 #[test]
 fn test_example_14() {
-    let tree = exec("+++\n");
-    assert_eq!(tree, "<p>+++</p>\n");
+    let html_code = exec("+++\n");
+    assert_eq!(html_code, "<p>+++</p>\n");
 }
 
 /// # Example 15
@@ -75,8 +75,8 @@ fn test_example_14() {
 ///<p>===</p>
 #[test]
 fn test_example_15() {
-    let tree = exec("===\n");
-    assert_eq!(tree, "<p>===</p>\n");
+    let html_code = exec("===\n");
+    assert_eq!(html_code, "<p>===</p>\n");
 }
 
 /// # Example 16
@@ -89,38 +89,52 @@ fn test_example_15() {
 ///__</p>
 #[test]
 fn test_example_16() {
-    let tree = exec("--\n**\n__\n");
-    assert_eq!(tree, "<p>--\n**\n__</p>\n");
+    let html_code = exec("--\n**\n__\n");
+    assert_eq!(html_code, "<p>--\n**\n__</p>\n");
 }
 
+// # Example 17
+// ***
+//  ***
+//   ***
+//
+//<hr />
+//<hr />
+//<hr />
+//#[test]
+//fn test_example_17() {
+//    let html_code = exec(" ***\n  ***\n   ***\n");
+//    assert_eq!(html_code, "<hr />\n<hr />\n<hr />\n");
+//}
+
 /// # Example 182
-/// aaa
+///aaa
 ///
-/// bbb
+///bbb
 ///  
-/// <p>aaa</p>
-/// <p>bbb</p>
+///<p>aaa</p>
+///<p>bbb</p>
 #[test]
 fn test_example_182() {
-    let tree = exec("aaa\n\nbbb");
-    assert_eq!(tree, "<p>aaa</p>\n<p>bbb</p>\n");
+    let html_code = exec("aaa\n\nbbb");
+    assert_eq!(html_code, "<p>aaa</p>\n<p>bbb</p>\n");
 }
 
 /// # Example 183
-/// aaa
-/// bbb
+///aaa
+///bbb
 ///
-/// ccc
-/// ddd
+///ccc
+///ddd
 ///  
-/// <p>aaa
-/// bbb</p>
-/// <p>ccc
-/// ddd</p>
+///<p>aaa
+///bbb</p>
+///<p>ccc
+///ddd</p>
 #[test]
 fn test_example_183() {
-    let tree = exec("aaa\nbbb\n\nccc\nddd\n");
-    assert_eq!(tree, "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>\n");
+    let html_code = exec("aaa\nbbb\n\nccc\nddd\n");
+    assert_eq!(html_code, "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>\n");
 }
 
 /// # Example 184
@@ -133,8 +147,8 @@ fn test_example_183() {
 ///<p>bbb</p>
 #[test]
 fn test_example_184() {
-    let tree = exec("aaa\n\n\nbbb\n");
-    assert_eq!(tree, "<p>aaa</p>\n<p>bbb</p>\n");
+    let html_code = exec("aaa\n\n\nbbb\n");
+    assert_eq!(html_code, "<p>aaa</p>\n<p>bbb</p>\n");
 }
 
 // # Example 185
@@ -145,6 +159,6 @@ fn test_example_184() {
 //bbb</p>
 //#[test]
 //fn test_example_185() {
-//    let tree = exec("  aaa\n bbb\n");
-//    assert_eq!(tree, "<p>aaa\nbbb</p>\n");
+//    let html_code = exec("  aaa\n bbb\n");
+//    assert_eq!(html_code, "<p>aaa\nbbb</p>\n");
 //}
