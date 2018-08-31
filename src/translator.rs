@@ -162,3 +162,29 @@ fn test_example_185() {
     let html_code = exec("  aaa\n bbb\n");
     assert_eq!(html_code, "<p>aaa\nbbb</p>\n");
 }
+
+/// # Example 186
+///aaa
+///             bbb
+///                                       ccc
+///
+///<p>aaa
+///bbb
+///ccc</p>
+#[test]
+fn test_example_186() {
+    let html_code = exec("aaa\n             bbb\n                                       ccc\n");
+    assert_eq!(html_code, "<p>aaa\nbbb\nccc</p>\n");
+}
+
+/// # Example 187
+///   aaa
+///bbb
+///
+///<p>aaa
+///bbb</p>
+#[test]
+fn test_example_187() {
+    let html_code = exec("   aaa\nbbb\n");
+    assert_eq!(html_code, "<p>aaa\nbbb</p>\n");
+}
