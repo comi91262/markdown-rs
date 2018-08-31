@@ -71,7 +71,7 @@ fn test_example_14() {
 
 /// # Example 15
 ///===
-/// 
+///
 ///<p>===</p>
 #[test]
 fn test_example_15() {
