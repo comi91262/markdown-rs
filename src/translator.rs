@@ -59,6 +59,26 @@ fn test_example_13() {
     assert_eq!(tree, "<hr />\n<hr />\n<hr />\n");
 }
 
+/// # Example 14
+///+++
+///
+///<p>+++</p>
+#[test]
+fn test_example_14() {
+    let tree = exec("+++\n");
+    assert_eq!(tree, "<p>+++</p>\n");
+}
+
+/// # Example 15
+///===
+/// 
+///<p>===</p>
+#[test]
+fn test_example_15() {
+    let tree = exec("===\n");
+    assert_eq!(tree, "<p>===</p>\n");
+}
+
 /// # Example 182
 /// aaa
 ///
