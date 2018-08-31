@@ -52,14 +52,9 @@ fn test_example_13() {
     assert_eq!(tree, "<hr /><hr /><hr />");
 }
 
-//#[test]
-//fn test_example_32() {
-//}
-
-
 /// # Example 182
 /// aaa
-/// 
+///
 /// bbb
 ///  
 /// <p>aaa</p>
@@ -70,8 +65,19 @@ fn test_example_182() {
     assert_eq!(tree, "<p>aaa</p>\n<p>bbb</p>\n");
 }
 
-//#[test]
-//fn test_example_183() {
-//    let tree = exec("aaa\n\nbbb\nccc\n\nddd\n");
-//    assert_eq!(tree, "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>");
-//}
+/// # Example 183
+/// aaa
+/// bbb
+///
+/// ccc
+/// ddd
+///  
+/// <p>aaa
+/// bbb</p>
+/// <p>ccc
+/// ddd</p>
+#[test]
+fn test_example_183() {
+    let tree = exec("aaa\nbbb\n\nccc\nddd\n");
+    assert_eq!(tree, "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>\n");
+}

@@ -7,7 +7,7 @@ const _GRAMMAR: &'static str = include_str!("block.pest");
 #[grammar = "block_parser/block.pest"]
 struct BlockParser;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum BlockType {
     Document,
     ThematicBreaks,
@@ -24,7 +24,7 @@ pub enum BlockType {
     //    ListItem,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Block {
     pub block_type: BlockType,
     pub children: Vec<Block>,
@@ -51,6 +51,38 @@ impl Block {
     fn get(&self) -> &Block {
         &self
     }
+
+    fn update_prev(&mut self, s: &str) {
+        let mut last = self.children.as_mut_slice().last_mut().unwrap();
+        last.raw_text.push_str(s);
+    }
+
+    fn update(&mut self, s: &str) {
+        //let mut last = self.children.as_mut_slice().last_mut().unwrap();
+        self.raw_text.push_str(s);
+    }
+
+    // fn test_get_prev() {
+    //     let mut root_block = Block {
+    //         is_closed: false,
+    //         block_type: BlockType::Document,
+    //         raw_text: "".to_string(),
+    //         children: vec![],
+    //     };
+
+    //     assert_eq!(None, root_block.get_prev());
+
+    //     root_block.add(BlockType::Paragraph, "aaa".to_string());
+
+    //     let mut expected_block = Block {
+    //         is_closed: false,
+    //         block_type: BlockType::Paragraph,
+    //         raw_text: "aaa".to_string(),
+    //         children: vec![],
+    //     };
+
+    //     assert_eq!(Some(&mut expected_block), root_block.get_prev());
+    // }
 }
 
 pub fn parse(line: &str) -> Block {
@@ -72,21 +104,26 @@ pub fn parse(line: &str) -> Block {
                 root_block.add(BlockType::BreakLine, "".to_string());
             }
             Rule::paragraph => {
-                let mut check = root_block.clone();
-                match check.get_prev() {
-                None => root_block.add(BlockType::Paragraph, token.as_str().to_string()),
-                Some(prev) => match prev {
-                    Block {
-                        block_type: BlockType::Paragraph,
-                        ..
-                    } => {
-                        prev.raw_text.push_str("\n");
-                        prev.raw_text.push_str(token.as_str());
-                    }
-                    _ => root_block.add(BlockType::Paragraph, token.as_str().to_string()),
+                let mut update = false;
+                match root_block.get_prev() {
+                    None => (),
+                    Some(prev) => match prev {
+                        Block {
+                            block_type: BlockType::Paragraph,
+                            ..
+                        } => {
+                            prev.update("\n");
+                            prev.update(token.as_str());
+                            update = true;
+                        }
+                        _ => (),
+                    },
                 }
+
+                if !update {
+                    root_block.add(BlockType::Paragraph, token.as_str().to_string());
                 }
-            },
+            }
             Rule::atx_heading1 => {
                 root_block.add(BlockType::AtxHeading1, token.as_str().to_string());
             }
@@ -94,12 +131,6 @@ pub fn parse(line: &str) -> Block {
         }
     }
     root_block
-}
-
-#[test]
-fn test_parse() {
-    let b = parse("a a\na a");
-    println!("{:?}", b);
 }
 
 // > Lorem ipsum dolor
@@ -119,7 +150,7 @@ fn test_parse() {
 //             "aliquando id"
 
 #[test]
-fn test_example_13() {
+fn test_parsing_themantic_break() {
     parses_to! {
         parser: BlockParser,
         input: "***\n---\n___",
@@ -136,7 +167,7 @@ fn test_example_13() {
 }
 
 #[test]
-fn test_example_32() {
+fn test_parsing_atx_headings() {
     parses_to! {
         parser: BlockParser,
         input: "# foo\n## foo\n### foo\n#### foo\n##### foo\n###### foo",
@@ -165,24 +196,7 @@ fn test_example_32() {
 }
 
 #[test]
-fn test_example_182() {
-    parses_to! {
-        parser: BlockParser,
-        input: "aaa\n\nbbb",
-        rule: Rule::document,
-        tokens: [
-          paragraph(0, 3, [
-          ]),
-          empty(4, 4, [
-          ]),
-          paragraph(5, 8, [
-          ]),
-        ]
-    };
-}
-
-#[test]
-fn test_example_183() {
+fn test_parsing_paragraph() {
     parses_to! {
         parser: BlockParser,
         input: "aaa\nbbb\n\nccc\nddd",
@@ -202,27 +216,12 @@ fn test_example_183() {
     };
 }
 
-//fn test_s() {
-//    let mut root_block = Block {
-//        is_closed: false,
-//        block_type: BlockType::Document,
-//        raw_text: "".to_string(),
-//        children: vec![],
-//    };
-//
-//    for token in parse("***\n---\n___\n") {
-//        match token {
-//            thematic_break => root_block.add(BlockType::AtxHeadings, "".to_string()),
-//            _ => println!("{:?}", token),
-//
-//        }
-//
-//    }
-//
-//     println!("{:?}", root_block);
-//
-//}
-//
+#[test]
+fn test_check_tree() {
+    let b = parse("aaa\nbbb\n");
+    //println!("{:?}", b);
+}
+
 //    root_block.add(BlockType::BlockQuote, "".to_string());
 //
 //    let block2 = Block {
@@ -249,6 +248,3 @@ fn test_example_183() {
 //            ],
 //        }],
 //    };
-//
-//    println!("{:?}", root_block);
-//
