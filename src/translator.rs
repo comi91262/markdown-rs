@@ -79,6 +79,20 @@ fn test_example_15() {
     assert_eq!(tree, "<p>===</p>\n");
 }
 
+/// # Example 16
+///--
+///**
+///__
+///
+///<p>--
+///**
+///__</p>
+#[test]
+fn test_example_16() {
+    let tree = exec("--\n**\n__\n");
+    assert_eq!(tree, "<p>--\n**\n__</p>\n");
+}
+
 /// # Example 182
 /// aaa
 ///
