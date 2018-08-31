@@ -57,7 +57,6 @@ pub fn parse(line: &str) -> Block {
     root_block
 }
 
-
 #[test]
 fn test_parsing_themantic_break() {
     parses_to! {

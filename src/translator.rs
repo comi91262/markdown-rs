@@ -20,7 +20,7 @@ fn print(tree: Block) -> String {
             ..
         } => {
             let mut result_str = String::with_capacity(6);
-            result_str.push_str("<hr />");
+            result_str.push_str("<hr />\n");
             result_str
         }
         Block {
@@ -36,7 +36,7 @@ fn print(tree: Block) -> String {
             block_type: BlockType::AtxHeading1,
             raw_text,
             ..
-        } => format!("<h1>{}</h1>", raw_text),
+        } => format!("<h1>{}</h1>\n", raw_text),
     }
 }
 
@@ -45,10 +45,18 @@ pub fn exec(input_str: &str) -> String {
     print(tree)
 }
 
+/// # Example 13
+///***
+///---
+///___
+///
+///<hr />
+///<hr />
+///<hr />
 #[test]
 fn test_example_13() {
     let tree = exec("***\n---\n___\n");
-    assert_eq!(tree, "<hr /><hr /><hr />");
+    assert_eq!(tree, "<hr />\n<hr />\n<hr />\n");
 }
 
 /// # Example 182
@@ -98,7 +106,7 @@ fn test_example_184() {
 // # Example 185
 //  aaa
 // bbb
-// 
+//
 //<p>aaa
 //bbb</p>
 //#[test]
@@ -106,4 +114,3 @@ fn test_example_184() {
 //    let tree = exec("  aaa\n bbb\n");
 //    assert_eq!(tree, "<p>aaa\nbbb</p>\n");
 //}
-
