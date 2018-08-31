@@ -31,7 +31,7 @@ fn print(tree: block_parser::Block) -> String {
             block_type: BlockType::Paragraph,
             raw_text,
             ..
-        } => format!("<p>{}</p>", raw_text),
+        } => format!("<p>{}</p>\n", raw_text),
         Block {
             block_type: BlockType::AtxHeading1,
             raw_text,
@@ -67,7 +67,7 @@ fn test_example_13() {
 #[test]
 fn test_example_182() {
     let tree = exec("aaa\n\nbbb");
-    assert_eq!(tree, "<p>aaa</p><p>bbb</p>");
+    assert_eq!(tree, "<p>aaa</p>\n<p>bbb</p>\n");
 }
 
 //#[test]
