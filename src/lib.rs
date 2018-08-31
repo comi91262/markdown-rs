@@ -8,6 +8,7 @@ extern crate pest;
 #[macro_use]
 extern crate pest_derive;
 
+mod block;
 mod block_parser;
 mod inline_parser;
 mod translator;

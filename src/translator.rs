@@ -1,8 +1,8 @@
+use block::Block;
+use block::BlockType;
 use block_parser;
-use block_parser::Block;
-use block_parser::BlockType;
 
-fn print(tree: block_parser::Block) -> String {
+fn print(tree: Block) -> String {
     match tree {
         Block {
             block_type: BlockType::Document,
