@@ -8,9 +8,11 @@ extern crate pest;
 #[macro_use]
 extern crate pest_derive;
 
+mod block;
 mod block_parser;
 mod inline_parser;
 mod translator;
+mod tree;
 
 #[no_mangle]
 pub extern "C" fn alloc(size: usize) -> *mut c_void {
