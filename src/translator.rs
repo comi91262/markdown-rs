@@ -37,6 +37,31 @@ fn print(tree: Block) -> String {
             raw_text,
             ..
         } => format!("<h1>{}</h1>\n", raw_text),
+        Block {
+            block_type: BlockType::AtxHeading2,
+            raw_text,
+            ..
+        } => format!("<h2>{}</h2>\n", raw_text),
+        Block {
+            block_type: BlockType::AtxHeading3,
+            raw_text,
+            ..
+        } => format!("<h3>{}</h3>\n", raw_text),
+        Block {
+            block_type: BlockType::AtxHeading4,
+            raw_text,
+            ..
+        } => format!("<h4>{}</h4>\n", raw_text),
+        Block {
+            block_type: BlockType::AtxHeading5,
+            raw_text,
+            ..
+        } => format!("<h5>{}</h5>\n", raw_text),
+        Block {
+            block_type: BlockType::AtxHeading6,
+            raw_text,
+            ..
+        } => format!("<h6>{}</h6>\n", raw_text),
     }
 }
 
@@ -106,6 +131,73 @@ fn test_example_16() {
 //    let html_code = exec(" ***\n  ***\n   ***\n");
 //    assert_eq!(html_code, "<hr />\n<hr />\n<hr />\n");
 //}
+
+/// # Example 32
+///# foo
+///## foo
+///### foo
+///#### foo
+///##### foo
+///###### foo
+/// 
+///<h1>foo</h1>
+///<h2>foo</h2>
+///<h3>foo</h3>
+///<h4>foo</h4>
+///<h5>foo</h5>
+///<h6>foo</h6>
+#[test]
+fn test_example_32() {
+    let html_code = exec("# foo\n## foo\n### foo\n#### foo\n##### foo\n###### foo\n");
+    assert_eq!(html_code, "<h1>foo</h1>\n<h2>foo</h2>\n<h3>foo</h3>\n<h4>foo</h4>\n<h5>foo</h5>\n<h6>foo</h6>\n");
+}
+
+/// # Example 33
+///####### foo
+/// 
+///<p>####### foo</p>
+#[test]
+fn test_example_33() {
+    let html_code = exec("####### foo\n");
+    assert_eq!(html_code, "<p>####### foo</p>\n");
+}
+
+/// # Example 34
+///#5 bolt
+///
+///#hashtag
+/// 
+///<p>#5 bolt</p>
+///<p>#hashtag</p>
+#[test]
+fn test_example_34() {
+    let html_code = exec("#5 bolt\n\n#hashtag\n");
+    assert_eq!(html_code, "<p>#5 bolt</p>\n<p>#hashtag</p>\n");
+}
+
+/// # Example 37
+///#                  foo                     
+/// 
+///<h1>foo</h1>
+#[test]
+fn test_example_37() {
+    let html_code = exec("#                  foo\n");
+    assert_eq!(html_code, "<h1>foo</h1>\n");
+}
+
+/// # Example 38
+/// ### foo
+///  ## foo
+///   # foo
+/// 
+///<h3>foo</h3>
+///<h2>foo</h2>
+///<h1>foo</h1>
+#[test]
+fn test_example_38() {
+    let html_code = exec(" ### foo\n  ## foo\n   # foo\n");
+    assert_eq!(html_code, "<h3>foo</h3>\n<h2>foo</h2>\n<h1>foo</h1>\n");
+}
 
 /// # Example 182
 ///aaa

@@ -53,12 +53,12 @@ text = { (!newline ~ !carrige_return ~ character)+ }
 sharp = _{ "#" }
 
 
-atx_heading1 = { sharp ~ space ~ text }
-atx_heading2 = { sharp ~ sharp ~ space ~ text }
-atx_heading3 = { sharp ~ sharp ~ sharp ~ space ~ text }
-atx_heading4 = { sharp ~ sharp ~ sharp ~ sharp ~ space ~ text }
-atx_heading5 = { sharp ~ sharp ~ sharp ~ sharp ~ sharp ~ space ~ text }
-atx_heading6 = { sharp ~ sharp ~ sharp ~ sharp ~ sharp ~ sharp ~ space ~ text }
+atx_heading1 = { sharp ~ space+ ~ text }
+atx_heading2 = { sharp ~ sharp ~ space+ ~ text }
+atx_heading3 = { sharp ~ sharp ~ sharp ~ space+ ~ text }
+atx_heading4 = { sharp ~ sharp ~ sharp ~ sharp ~ space+ ~ text }
+atx_heading5 = { sharp ~ sharp ~ sharp ~ sharp ~ sharp ~ space+ ~ text }
+atx_heading6 = { sharp ~ sharp ~ sharp ~ sharp ~ sharp ~ sharp ~ space+ ~ text }
 
 atx_headings = _{ 
     atx_heading1
@@ -96,7 +96,7 @@ paragraph = { no_token_text }
 
 
 line = _{
-    atx_headings
+    space* ~ atx_headings
   | thematic_break
   | break_line
   | space* ~ paragraph

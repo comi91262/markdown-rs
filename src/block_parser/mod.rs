@@ -49,7 +49,28 @@ pub fn parse(line: &str) -> Block {
                 }
             }
             Rule::atx_heading1 => {
-                root_block.add(BlockType::AtxHeading1, token.as_str().to_string());
+                let text = token.into_inner().next().unwrap();
+                root_block.add(BlockType::AtxHeading1, text.as_str().to_string());
+            }
+            Rule::atx_heading2 => {
+                let text = token.into_inner().next().unwrap();
+                root_block.add(BlockType::AtxHeading2, text.as_str().to_string());
+            }
+            Rule::atx_heading3 => {
+                let text = token.into_inner().next().unwrap();
+                root_block.add(BlockType::AtxHeading3, text.as_str().to_string());
+            }
+            Rule::atx_heading4 => {
+                let text = token.into_inner().next().unwrap();
+                root_block.add(BlockType::AtxHeading4, text.as_str().to_string());
+            }
+            Rule::atx_heading5 => {
+                let text = token.into_inner().next().unwrap();
+                root_block.add(BlockType::AtxHeading5, text.as_str().to_string());
+            }
+            Rule::atx_heading6 => {
+                let text = token.into_inner().next().unwrap();
+                root_block.add(BlockType::AtxHeading6, text.as_str().to_string());
             }
             _ => (),
         }
