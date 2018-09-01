@@ -1,6 +1,7 @@
 use block::Block;
 use block::BlockType;
 use block_parser;
+use tree;
 
 fn print(tree: Block) -> String {
     match tree {
@@ -71,7 +72,8 @@ fn print(tree: Block) -> String {
 }
 
 pub fn exec(input_str: &str) -> String {
-    let tree = block_parser::parse(input_str);
+    let tokens = block_parser::parse(input_str);
+    let tree = tree::to_tree(tokens);
     print(tree)
 }
 
@@ -263,14 +265,14 @@ fn test_example_185() {
     assert_eq!(html_code, "<p>aaa\nbbb</p>\n");
 }
 
-// # Example 186
-//aaa
-//             bbb
-//                                       ccc
-//
-//<p>aaa
-//bbb
-//ccc</p>
+//// # Example 186
+////aaa
+////             bbb
+////                                       ccc
+////
+////<p>aaa
+////bbb
+////ccc</p>
 //#[test]
 //fn test_example_186() {
 //    let html_code = exec("aaa\n             bbb\n                                       ccc\n");
