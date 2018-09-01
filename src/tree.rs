@@ -17,26 +17,38 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 root_block.add(BlockType::ThematicBreaks, "".to_string());
             }
             Rule::break_line | Rule::empty => {
+                if let Some(prev) = root_block.get_mut_prev() {
+                    match prev {
+                        Block {
+                            block_type: BlockType::Paragraph,
+                            ..
+                        } => {
+                            prev.close();
+                        }
+                        _ => (),
+                    }
+                }
                 root_block.add(BlockType::BreakLine, "".to_string());
             }
             Rule::paragraph => {
-                let mut update = false;
-                match root_block.get_prev() {
+                let mut is_updated = false;
+                match root_block.get_mut_prev() {
                     None => (),
                     Some(prev) => match prev {
                         Block {
                             block_type: BlockType::Paragraph,
                             ..
                         } => {
-                            prev.update("\n");
-                            prev.update(token.as_str());
-                            update = true;
+                            // lazy continution line
+                            prev.push_raw_text("\n");
+                            prev.push_raw_text(token.as_str());
+                            is_updated = true;
                         }
                         _ => (),
                     },
                 }
 
-                if !update {
+                if !is_updated {
                     root_block.add(BlockType::Paragraph, token.as_str().to_string());
                 }
             }
@@ -64,13 +76,72 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 let text = token.into_inner().next().unwrap();
                 root_block.add(BlockType::AtxHeading6, text.as_str().to_string());
             }
-            Rule::intented_code_block => {
-                let text = token.into_inner().next().unwrap();
-                root_block.add(BlockType::AtxHeading6, text.as_str().to_string());
+            Rule::indented_code_block => {
+                let mut is_updated = false;
+                let text = token.into_inner().next().unwrap().as_str();
+
+                match root_block.get_mut_prev() {
+                    None => (),
+                    Some(prev) => match prev {
+                        Block {
+                            block_type: BlockType::Paragraph,
+                            ..
+                        } => {
+                            // lazy continution line
+                            prev.push_raw_text("\n");
+                            prev.push_raw_text(&skip_space(text.to_string()));
+                            is_updated = true;
+                        }
+                        Block {
+                            block_type: BlockType::IndentedCodeBlock,
+                            ..
+                        } => {
+                            // lazy continution line
+                            prev.push_raw_text("\n");
+                            prev.push_raw_text(text);
+                            is_updated = true;
+                        }
+                        _ => (),
+                    },
+                }
+
+                if !is_updated {
+                    root_block.add(BlockType::IndentedCodeBlock, text.to_string());
+                }
+                
             }
             _ => (),
         }
     }
 
     root_block
+}
+
+fn skip_space(mut s: String) -> String {
+    let mut i = 0;
+    for ss in s.chars() {
+        if ss != '\u{0020}' {
+            break;
+        }
+        i = i + 1;
+    }
+    s.split_off(i)
+}
+
+#[test]
+fn test_skip_space() {
+    let s = String::from("");
+    assert_eq!("", skip_space(s));
+
+    let s = String::from(" ");
+    assert_eq!("", skip_space(s));
+
+    let s = String::from("  ");
+    assert_eq!("", skip_space(s));
+
+    let s = String::from("  aaa");
+    assert_eq!("aaa", skip_space(s));
+
+    let s = String::from("  aaa   ");
+    assert_eq!("aaa   ", skip_space(s));
 }

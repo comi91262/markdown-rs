@@ -9,7 +9,7 @@ pub enum BlockType {
     AtxHeading4,
     AtxHeading5,
     AtxHeading6,
-    IntentedCodeBlock,
+    IndentedCodeBlock,
     //    BlockQuote,
     Paragraph,
     //    List,
@@ -36,43 +36,66 @@ impl Block {
         self.children.push(child);
     }
 
-    pub fn get_prev(&mut self) -> Option<&mut Block> {
+    pub fn get_mut_prev(&mut self) -> Option<&mut Block> {
         self.children.as_mut_slice().last_mut()
     }
 
-    //fn get(&self) -> &Block {
-    //    &self
-    //}
-
-    //fn update_prev(&mut self, s: &str) {
-    //    let mut last = self.children.as_mut_slice().last_mut().unwrap();
-    //    last.raw_text.push_str(s);
-    //}
-
-    pub fn update(&mut self, s: &str) {
-        self.raw_text.push_str(s);
+    pub fn close(&mut self) {
+        self.is_closed = true;
     }
 
-    //#[test]
-    //fn test_get_prev() {
-    //    let mut root_block = Block {
-    //        is_closed: false,
-    //        block_type: BlockType::Document,
-    //        raw_text: "".to_string(),
-    //        children: vec![],
-    //    };
+    pub fn push_raw_text(&mut self, s: &str) {
+        self.raw_text.push_str(s);
+    }
+}
 
-    //    assert_eq!(None, root_block.get_prev());
+#[test]
+fn test_get_mut_prev() {
+    let mut root_block = Block {
+        is_closed: false,
+        block_type: BlockType::Document,
+        raw_text: "".to_string(),
+        children: vec![],
+    };
 
-    //    root_block.add(BlockType::Paragraph, "aaa".to_string());
+    assert_eq!(None, root_block.get_mut_prev());
 
-    //    let mut expected_block = Block {
-    //        is_closed: false,
-    //        block_type: BlockType::Paragraph,
-    //        raw_text: "aaa".to_string(),
-    //        children: vec![],
-    //    };
+    root_block.add(BlockType::Paragraph, "aaa".to_string());
 
-    //    assert_eq!(Some(&mut expected_block), root_block.get_prev());
-    //}
+    let mut expected_block = Block {
+        is_closed: false,
+        block_type: BlockType::Paragraph,
+        raw_text: "aaa".to_string(),
+        children: vec![],
+    };
+
+    assert_eq!(Some(&mut expected_block), root_block.get_mut_prev());
+}
+
+#[test]
+fn test_close() {
+    let mut root_block = Block {
+        is_closed: false,
+        block_type: BlockType::Document,
+        raw_text: "aaa".to_string(),
+        children: vec![],
+    };
+
+    root_block.close();
+
+    assert_eq!(true, root_block.is_closed);
+}
+
+#[test]
+fn test_push_raw_text() {
+    let mut root_block = Block {
+        is_closed: false,
+        block_type: BlockType::Document,
+        raw_text: "aaa".to_string(),
+        children: vec![],
+    };
+
+    root_block.push_raw_text("bbb");
+
+    assert_eq!("aaabbb", root_block.raw_text);
 }

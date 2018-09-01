@@ -30,13 +30,13 @@ fn test_parsing_themantic_break() {
 }
 
 #[test]
-fn test_parsing_intented_code_block() {
+fn test_parsing_indented_code_block() {
     parses_to! {
         parser: BlockParser,
         input: "    indented code block",
         rule: Rule::document,
         tokens: [
-          intented_code_block(0, 23, [
+          indented_code_block(0, 23, [
             text(4,23,[]),
           ]),
         ]

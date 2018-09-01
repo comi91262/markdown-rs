@@ -64,10 +64,10 @@ fn print(tree: Block) -> String {
             ..
         } => format!("<h6>{}</h6>\n", raw_text),
         Block {
-            block_type: BlockType::IntentedCodeBlock,
+            block_type: BlockType::IndentedCodeBlock,
             raw_text,
             ..
-        } => format!("to be done"),
+        } => format!("<pre><code>{}\n</code></pre>\n", raw_text),
     }
 }
 
@@ -209,6 +209,19 @@ fn test_example_38() {
     assert_eq!(html_code, "<h3>foo</h3>\n<h2>foo</h2>\n<h1>foo</h1>\n");
 }
 
+/// # Example 76
+///    a simple
+///      indented code block
+/// 
+///<pre><code>a simple
+///  indented code block
+///</code></pre>
+#[test]
+fn test_example_76() {
+    let html_code = exec("    a simple\n      indented code block\n");
+    assert_eq!(html_code, "<pre><code>a simple\n  indented code block\n</code></pre>\n");
+}
+
 /// # Example 182
 ///aaa
 ///
@@ -265,19 +278,19 @@ fn test_example_185() {
     assert_eq!(html_code, "<p>aaa\nbbb</p>\n");
 }
 
-//// # Example 186
-////aaa
-////             bbb
-////                                       ccc
-////
-////<p>aaa
-////bbb
-////ccc</p>
-//#[test]
-//fn test_example_186() {
-//    let html_code = exec("aaa\n             bbb\n                                       ccc\n");
-//    assert_eq!(html_code, "<p>aaa\nbbb\nccc</p>\n");
-//}
+/// # Example 186
+///aaa
+///             bbb
+///                                       ccc
+///
+///<p>aaa
+///bbb
+///ccc</p>
+#[test]
+fn test_example_186() {
+    let html_code = exec("aaa\n             bbb\n                                       ccc\n");
+    assert_eq!(html_code, "<p>aaa\nbbb\nccc</p>\n");
+}
 
 /// # Example 187
 ///   aaa

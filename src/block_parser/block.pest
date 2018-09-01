@@ -52,7 +52,7 @@ text = { (!newline ~ !carrige_return ~ character)+ }
                             
 sharp = _{ "#" }
 
-intented_code_block = {
+indented_code_block = {
     space{4} ~ text
 }
 
@@ -99,7 +99,7 @@ paragraph = { no_token_text }
 
 
 line = _{
-    intented_code_block  
+    indented_code_block  
   | thematic_break
   | space* ~ atx_headings
   | break_line
