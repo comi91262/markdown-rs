@@ -57,11 +57,11 @@ intented_code_block = {
 }
 
 atx_heading1 = { sharp ~ space+ ~ text }
-atx_heading2 = { sharp ~ sharp ~ space+ ~ text }
-atx_heading3 = { sharp ~ sharp ~ sharp ~ space+ ~ text }
-atx_heading4 = { sharp ~ sharp ~ sharp ~ sharp ~ space+ ~ text }
-atx_heading5 = { sharp ~ sharp ~ sharp ~ sharp ~ sharp ~ space+ ~ text }
-atx_heading6 = { sharp ~ sharp ~ sharp ~ sharp ~ sharp ~ sharp ~ space+ ~ text }
+atx_heading2 = { sharp{2} ~ space+ ~ text }
+atx_heading3 = { sharp{3} ~ space+ ~ text }
+atx_heading4 = { sharp{4} ~ space+ ~ text }
+atx_heading5 = { sharp{5} ~ space+ ~ text }
+atx_heading6 = { sharp{6} ~ space+ ~ text }
 
 atx_headings = _{ 
     atx_heading1
