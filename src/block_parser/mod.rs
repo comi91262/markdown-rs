@@ -72,6 +72,10 @@ pub fn parse(line: &str) -> Block {
                 let text = token.into_inner().next().unwrap();
                 root_block.add(BlockType::AtxHeading6, text.as_str().to_string());
             }
+            Rule::intented_code_block => {
+                let text = token.into_inner().next().unwrap();
+                root_block.add(BlockType::AtxHeading6, text.as_str().to_string());
+            }
             _ => (),
         }
     }
@@ -90,6 +94,20 @@ fn test_parsing_themantic_break() {
           thematic_break(4, 7, [
           ]),
           thematic_break(8, 11, [
+          ]),
+        ]
+    };
+}
+
+#[test]
+fn test_parsing_intented_code_block() {
+    parses_to! {
+        parser: BlockParser,
+        input: "    indented code block",
+        rule: Rule::document,
+        tokens: [
+          intented_code_block(0, 23, [
+            text(4,23,[]),
           ]),
         ]
     };

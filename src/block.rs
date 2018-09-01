@@ -9,6 +9,7 @@ pub enum BlockType {
     AtxHeading4,
     AtxHeading5,
     AtxHeading6,
+    IntentedCodeBlock,
     //    BlockQuote,
     Paragraph,
     //    List,

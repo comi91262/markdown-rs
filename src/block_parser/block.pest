@@ -52,6 +52,9 @@ text = { (!newline ~ !carrige_return ~ character)+ }
                             
 sharp = _{ "#" }
 
+intented_code_block = {
+    space{4} ~ text
+}
 
 atx_heading1 = { sharp ~ space+ ~ text }
 atx_heading2 = { sharp ~ sharp ~ space+ ~ text }
@@ -96,8 +99,9 @@ paragraph = { no_token_text }
 
 
 line = _{
-    space* ~ atx_headings
+    intented_code_block  
   | thematic_break
+  | space* ~ atx_headings
   | break_line
   | space* ~ paragraph
   | empty
