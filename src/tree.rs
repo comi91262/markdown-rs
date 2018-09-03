@@ -96,7 +96,8 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 }
             }
             Rule::setext_heading_underline2 => {
-                let mut is_updated = false;
+                let mut is_paragraph = false;
+                let mut is_thematic_breaks = false;
                 match root_block.get_mut_prev() {
                     None => (),
                     Some(prev) => match prev {
@@ -105,14 +106,23 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                             ..
                         } => {
                             prev.change_block_type(BlockType::SetextHeadingUnderline2);
-                            is_updated = true;
+                            is_paragraph = true;
+                        }
+                        Block {
+                            block_type: BlockType::ThematicBreaks,
+                            ..
+                        } => {
+                            is_thematic_breaks = true;
                         }
                         _ => (),
                     },
                 }
-                if !is_updated {
-                    root_block.add(BlockType::Paragraph, token.as_str().to_string());
-                    //root_block.add(BlockType::ThematicBreaks, "".to_string());
+                if is_thematic_breaks {
+                    root_block.add(BlockType::ThematicBreaks, "".to_string());
+                } else {
+                    if !is_paragraph {
+                        root_block.add(BlockType::Paragraph, token.as_str().to_string());
+                    }
                 }
             }
             Rule::indented_code_block => {
