@@ -76,6 +76,45 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 let text = token.into_inner().next().unwrap();
                 root_block.add(BlockType::AtxHeading6, text.as_str().to_string());
             }
+            Rule::setext_heading_underline1 => {
+                let mut is_updated = false;
+                match root_block.get_mut_prev() {
+                    None => (),
+                    Some(prev) => match prev {
+                        Block {
+                            block_type: BlockType::Paragraph,
+                            ..
+                        } => {
+                            prev.change_block_type(BlockType::SetextHeadingUnderline1);
+                            is_updated = true;
+                        }
+                        _ => (),
+                    },
+                }
+                if !is_updated {
+                    root_block.add(BlockType::Paragraph, token.as_str().to_string());
+                }
+            }
+            Rule::setext_heading_underline2 => {
+                let mut is_updated = false;
+                match root_block.get_mut_prev() {
+                    None => (),
+                    Some(prev) => match prev {
+                        Block {
+                            block_type: BlockType::Paragraph,
+                            ..
+                        } => {
+                            prev.change_block_type(BlockType::SetextHeadingUnderline2);
+                            is_updated = true;
+                        }
+                        _ => (),
+                    },
+                }
+                if !is_updated {
+                    root_block.add(BlockType::Paragraph, token.as_str().to_string());
+                    //root_block.add(BlockType::ThematicBreaks, "".to_string());
+                }
+            }
             Rule::indented_code_block => {
                 let mut is_updated = false;
                 let text = token.into_inner().next().unwrap().as_str();
@@ -108,7 +147,6 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 if !is_updated {
                     root_block.add(BlockType::IndentedCodeBlock, text.to_string());
                 }
-                
             }
             _ => (),
         }

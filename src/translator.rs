@@ -64,6 +64,16 @@ fn print(tree: Block) -> String {
             ..
         } => format!("<h6>{}</h6>\n", raw_text),
         Block {
+            block_type: BlockType::SetextHeadingUnderline1,
+            raw_text,
+            ..
+        } => format!("<h1>{}</h1>\n", raw_text),
+        Block {
+            block_type: BlockType::SetextHeadingUnderline2,
+            raw_text,
+            ..
+        } => format!("<h2>{}</h2>\n", raw_text),
+        Block {
             block_type: BlockType::IndentedCodeBlock,
             raw_text,
             ..
@@ -209,17 +219,35 @@ fn test_example_38() {
     assert_eq!(html_code, "<h3>foo</h3>\n<h2>foo</h2>\n<h1>foo</h1>\n");
 }
 
+/// # Example 52
+///Foo
+///-------------------------
+///
+///Foo
+///=
+///
+///<h2>Foo</h2>
+///<h1>Foo</h1>
+#[test]
+fn test_example_52() {
+    let html_code = exec("Foo\n-------------------------\n\nFoo\n=\n");
+    assert_eq!(html_code, "<h2>Foo</h2>\n<h1>Foo</h1>\n");
+}
+
 /// # Example 76
 ///    a simple
 ///      indented code block
-/// 
+///
 ///<pre><code>a simple
 ///  indented code block
 ///</code></pre>
 #[test]
 fn test_example_76() {
     let html_code = exec("    a simple\n      indented code block\n");
-    assert_eq!(html_code, "<pre><code>a simple\n  indented code block\n</code></pre>\n");
+    assert_eq!(
+        html_code,
+        "<pre><code>a simple\n  indented code block\n</code></pre>\n"
+    );
 }
 
 /// # Example 182

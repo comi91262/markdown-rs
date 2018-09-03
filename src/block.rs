@@ -9,6 +9,9 @@ pub enum BlockType {
     AtxHeading4,
     AtxHeading5,
     AtxHeading6,
+    SetextHeadingUnderline1,
+    SetextHeadingUnderline2,
+
     IndentedCodeBlock,
     //    BlockQuote,
     Paragraph,
@@ -46,6 +49,10 @@ impl Block {
 
     pub fn push_raw_text(&mut self, s: &str) {
         self.raw_text.push_str(s);
+    }
+
+    pub fn change_block_type(&mut self, bt: BlockType) {
+        self.block_type = bt;
     }
 }
 

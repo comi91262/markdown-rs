@@ -21,7 +21,7 @@ fn test_parsing_themantic_break() {
         tokens: [
           thematic_break(0, 3, [
           ]),
-          setext_heading_underline2(4, 7, [  // -; setext_heading >  thematic_break 
+          setext_heading_underline2(4, 7, [  // -; setext_heading > thematic_break 
           ]),
           thematic_break(8, 11, [
           ]),
