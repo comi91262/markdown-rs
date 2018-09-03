@@ -21,7 +21,7 @@ fn test_parsing_themantic_break() {
         tokens: [
           thematic_break(0, 3, [
           ]),
-          thematic_break(4, 7, [
+          setext_heading_underline2(4, 7, [  // -; setext_heading >  thematic_break 
           ]),
           thematic_break(8, 11, [
           ]),
@@ -88,6 +88,27 @@ fn test_parsing_paragraph() {
           paragraph(11, 14, [
           ]),
           paragraph(15, 20, [
+          ])
+        ]
+    };
+}
+
+#[test]
+fn test_parsing_setext_heading_underlines() {
+    parses_to! {
+        parser: BlockParser,
+        input: "Foo\n-------------------------\n\nFoo\n=",
+        rule: Rule::document,
+        tokens: [
+          paragraph(0, 3, [
+          ]),
+          setext_heading_underline2(4, 29, [
+          ]),
+          empty(30, 30, [
+          ]),
+          paragraph(31, 34, [
+          ]),
+          setext_heading_underline1(35, 36, [
           ])
         ]
     };

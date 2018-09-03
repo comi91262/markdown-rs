@@ -72,7 +72,20 @@ atx_headings = _{
   | atx_heading6
 }
 
+setext_heading_underline1 = {
+    equal+
+}
 
+setext_heading_underline2 = {
+    hyphen+
+}
+
+setext_heading_underlines = _{
+    setext_heading_underline1
+  | setext_heading_underline2
+}
+
+equal = _{ "=" }
 astar = _{ "*" }
 hyphen = _{ "-" }
 under = _{ "_" }
@@ -100,8 +113,9 @@ paragraph = { no_token_text }
 
 line = _{
     indented_code_block  
-  | thematic_break
+  | setext_heading_underlines
   | space* ~ atx_headings
+  | thematic_break
   | break_line
   | space* ~ paragraph
   | empty
