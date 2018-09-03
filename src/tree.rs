@@ -53,28 +53,28 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 }
             }
             Rule::atx_heading1 => {
-                let text = token.into_inner().next().unwrap();
-                root_block.add(BlockType::AtxHeading1, text.as_str().to_string());
+                let text = token.into_inner().next().unwrap().as_str().to_string();
+                root_block.add(BlockType::AtxHeading1, text);
             }
             Rule::atx_heading2 => {
-                let text = token.into_inner().next().unwrap();
-                root_block.add(BlockType::AtxHeading2, text.as_str().to_string());
+                let text = token.into_inner().next().unwrap().as_str().to_string();
+                root_block.add(BlockType::AtxHeading2, text);
             }
             Rule::atx_heading3 => {
-                let text = token.into_inner().next().unwrap();
-                root_block.add(BlockType::AtxHeading3, text.as_str().to_string());
+                let text = token.into_inner().next().unwrap().as_str().to_string();
+                root_block.add(BlockType::AtxHeading3, text);
             }
             Rule::atx_heading4 => {
-                let text = token.into_inner().next().unwrap();
-                root_block.add(BlockType::AtxHeading4, text.as_str().to_string());
+                let text = token.into_inner().next().unwrap().as_str().to_string();
+                root_block.add(BlockType::AtxHeading4, text);
             }
             Rule::atx_heading5 => {
-                let text = token.into_inner().next().unwrap();
-                root_block.add(BlockType::AtxHeading5, text.as_str().to_string());
+                let text = token.into_inner().next().unwrap().as_str().to_string();
+                root_block.add(BlockType::AtxHeading5, text);
             }
             Rule::atx_heading6 => {
-                let text = token.into_inner().next().unwrap();
-                root_block.add(BlockType::AtxHeading6, text.as_str().to_string());
+                let text = token.into_inner().next().unwrap().as_str().to_string();
+                root_block.add(BlockType::AtxHeading6, text);
             }
             Rule::setext_heading_underline1 => {
                 let mut is_updated = false;
