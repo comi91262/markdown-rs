@@ -135,19 +135,38 @@ fn test_example_16() {
     assert_eq!(html_code, "<p>--\n**\n__</p>\n");
 }
 
-// # Example 17
-// ***
-//  ***
-//   ***
-//
-//<hr />
-//<hr />
-//<hr />
-//#[test]
-//fn test_example_17() {
-//    let html_code = exec(" ***\n  ***\n   ***\n");
-//    assert_eq!(html_code, "<hr />\n<hr />\n<hr />\n");
-//}
+/// # Example 17
+/// ***
+///  ***
+///   ***
+///
+///<hr />
+///<hr />
+///<hr />
+#[test]
+fn test_example_17() {
+    let html_code = exec(" ***\n  ***\n   ***\n");
+    assert_eq!(html_code, "<hr />\n<hr />\n<hr />\n");
+}
+
+/// # Example 18
+///    ***
+/// 
+///<pre><code>***
+///</code></pre>
+#[test]
+fn test_example_18() {
+    let html_code = exec("    ***\n");
+    assert_eq!(html_code, "<pre><code>***\n</code></pre>\n");
+}
+
+///Example 19
+///Foo
+///    ***
+/// 
+///<p>Foo
+///***</p>
+
 
 /// # Example 32
 ///# foo

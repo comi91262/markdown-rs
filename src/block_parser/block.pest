@@ -115,7 +115,7 @@ line = _{
     indented_code_block  
   | setext_heading_underlines
   | space* ~ atx_headings
-  | thematic_break
+  | space* ~ thematic_break
   | break_line
   | space* ~ paragraph
   | empty
