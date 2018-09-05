@@ -82,7 +82,12 @@ fn print(tree: Block) -> String {
 }
 
 pub fn exec(input_str: &str) -> String {
-    let tokens = block_parser::parse(input_str);
+    // Add line feed.
+    let mut input = String::new();
+    input.push_str(input_str);
+    input.push_str("\n");
+
+    let tokens = block_parser::parse(&input);
     let tree = tree::to_tree(tokens);
     print(tree)
 }

@@ -96,32 +96,25 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 }
             }
             Rule::setext_heading_underline2 => {
-                let mut is_paragraph = false;
                 let mut is_thematic_breaks = false;
                 match root_block.get_mut_prev() {
-                    None => (),
+                    None => is_thematic_breaks = true,
                     Some(prev) => match prev {
                         Block {
                             block_type: BlockType::Paragraph,
                             ..
                         } => {
                             prev.change_block_type(BlockType::SetextHeadingUnderline2);
-                            is_paragraph = true;
                         }
-                        Block {
-                            block_type: BlockType::ThematicBreaks,
-                            ..
-                        } => {
-                            is_thematic_breaks = true;
-                        }
-                        _ => (),
+                        _ => is_thematic_breaks = true,
                     },
                 }
                 if is_thematic_breaks {
-                    root_block.add(BlockType::ThematicBreaks, "".to_string());
-                } else {
-                    if !is_paragraph {
-                        root_block.add(BlockType::Paragraph, token.as_str().to_string());
+                    let text = token.as_str().to_string();
+                    if text == "--".to_string() {
+                        root_block.add(BlockType::Paragraph, text);
+                    } else {
+                        root_block.add(BlockType::ThematicBreaks, "".to_string());
                     }
                 }
             }

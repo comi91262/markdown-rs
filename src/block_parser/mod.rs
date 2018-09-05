@@ -16,14 +16,36 @@ pub fn parse(line: &str) -> Pairs<Rule> {
 fn test_parsing_themantic_break() {
     parses_to! {
         parser: BlockParser,
-        input: "***\n---\n___",
+        input: "*     *      *      *\n",
         rule: Rule::document,
         tokens: [
-          thematic_break(0, 3, [
+          thematic_break(0, 21, [
           ]),
-          setext_heading_underline2(4, 7, [  // -; setext_heading > thematic_break
+        ]
+    };
+}
+
+#[test]
+fn test_parsing_paragraph_underlines_as_setext_heading_underlines() {
+    parses_to! {
+        parser: BlockParser,
+        input: "-- a\n",
+        rule: Rule::document,
+        tokens: [
+          paragraph(0, 4, [
           ]),
-          thematic_break(8, 11, [
+        ]
+    };
+}
+
+#[test]
+fn test_parsing_paragraph_as_themantic_break() {
+    parses_to! {
+        parser: BlockParser,
+        input: "_ _ _ _ a\n",
+        rule: Rule::document,
+        tokens: [
+          paragraph(0, 9, [
           ]),
         ]
     };
@@ -33,7 +55,7 @@ fn test_parsing_themantic_break() {
 fn test_parsing_indented_code_block() {
     parses_to! {
         parser: BlockParser,
-        input: "    indented code block",
+        input: "    indented code block\n",
         rule: Rule::document,
         tokens: [
           indented_code_block(0, 23, [
@@ -47,7 +69,7 @@ fn test_parsing_indented_code_block() {
 fn test_parsing_atx_headings() {
     parses_to! {
         parser: BlockParser,
-        input: "# foo\n## foo\n### foo\n#### foo\n##### foo\n###### foo",
+        input: "# foo\n## foo\n### foo\n#### foo\n##### foo\n###### foo\n",
         rule: Rule::document,
         tokens: [
           atx_heading1(0, 5, [
@@ -76,7 +98,7 @@ fn test_parsing_atx_headings() {
 fn test_parsing_paragraph() {
     parses_to! {
         parser: BlockParser,
-        input: "  aaa\nbbb\n\nccc\nd d d",
+        input: "  aaa\nbbb\n\nccc\nd d d\n",
         rule: Rule::document,
         tokens: [
           paragraph(2, 5, [
@@ -97,7 +119,7 @@ fn test_parsing_paragraph() {
 fn test_parsing_setext_heading_underlines() {
     parses_to! {
         parser: BlockParser,
-        input: "Foo\n-------------------------\n\nFoo\n=",
+        input: "Foo\n-------------------------\n\nFoo\n=\n",
         rule: Rule::document,
         tokens: [
           paragraph(0, 3, [
@@ -110,6 +132,19 @@ fn test_parsing_setext_heading_underlines() {
           ]),
           setext_heading_underline1(35, 36, [
           ])
+        ]
+    };
+}
+
+#[test]
+fn test_parsing_empty() {
+    parses_to! {
+        parser: BlockParser,
+        input: "\n",
+        rule: Rule::document,
+        tokens: [
+          empty(0, 0, [
+          ]),
         ]
     };
 }
