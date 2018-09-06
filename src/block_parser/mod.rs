@@ -149,6 +149,21 @@ fn test_parsing_empty() {
     };
 }
 
+#[test]
+fn test_parsing_block_quote() {
+    parses_to! {
+        parser: BlockParser,
+        input: "> aaa\n",
+        rule: Rule::document,
+        tokens: [
+          block_quote(0, 5, [
+            paragraph(1, 5, [
+            ]),
+          ]),
+        ]
+    };
+}
+
 // > Lorem ipsum dolor
 // sit amet.
 // > - Qui *quodsi iracundia*

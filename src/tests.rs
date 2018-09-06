@@ -215,7 +215,7 @@ fn test_example_34() {
 }
 
 ///// # Example 37
-/////#                  foo                     
+/////#                  foo
 /////
 /////<h1>foo</h1>
 //#[test]

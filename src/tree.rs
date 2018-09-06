@@ -186,3 +186,29 @@ fn test_skip_space() {
     let s = String::from("  aaa   ");
     assert_eq!("aaa   ", skip_space(s));
 }
+
+#[cfg(test)]
+mod tests {
+    use super::to_tree;
+    use block_parser::parse;
+
+    #[test]
+    fn test_token() {
+        let input = String::from("hoge\n");
+        let tokens = parse(&input);
+        let result = to_tree(tokens);
+
+        println!("{:?}", result);
+    }
+
+}
+
+//Pairs { pairs: [Pair { rule: paragraph,
+//                       inner: Pairs { pairs: [] } },
+//                                     Pair { rule: indented_code_block,
+//                                            inner: Pairs { pairs: [Pair { rule: text,
+//                                                                          span: Span { start: 8, end: 20 },
+//                                                                          inner: Pairs { pairs: [] } }] } },
+//                                                                   Pair { rule: indented_code_block,
+//                                                                          span: Span { start: 21, end: 63 },
+//                                                                          inner: Pairs { pairs: [Pair { rule: text, span: Span { start: 25, end: 63 }, inner: Pairs { pairs: [] } }] } }, Pair { rule: empty, span: Span { start: 64, end: 64 }, inner: Pairs { pairs: [] } }] }

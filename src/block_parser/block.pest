@@ -123,8 +123,15 @@ paragraph = { no_token_text }
 
 empty = { "" }
 
+quote_mark = _{ ">" }
+
+block_quote = {
+  quote_mark ~ paragraph
+}
+
 line = _{
     indented_code_block         // Because of 4 spaces, is required.
+  | block_quote
   | setext_heading_underlines ~ !paragraph
   | atx_headings
   | thematic_break ~ !paragraph
