@@ -11,9 +11,8 @@ pub enum BlockType {
     AtxHeading6,
     SetextHeadingUnderline1,
     SetextHeadingUnderline2,
-
     IndentedCodeBlock,
-    //    BlockQuote,
+    BlockQuote,
     Paragraph,
     //    List,
     //    ListItem,
@@ -37,6 +36,10 @@ impl Block {
         };
 
         self.children.push(child);
+    }
+
+    pub fn add_block(&mut self, block: Block) {
+        self.children.push(block);
     }
 
     pub fn get_mut_prev(&mut self) -> Option<&mut Block> {

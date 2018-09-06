@@ -151,6 +151,18 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                     root_block.add(BlockType::IndentedCodeBlock, text.to_string());
                 }
             }
+            Rule::block_quote => {
+                let text = token.into_inner().next().unwrap().as_str().to_string();
+                let mut block_quote_block = Block {
+                    is_closed: false,
+                    block_type: BlockType::BlockQuote,
+                    raw_text: "".to_string(),
+                    children: vec![],
+                };
+                block_quote_block.add(BlockType::Paragraph, text);
+
+                root_block.add_block(block_quote_block);
+            }
             _ => (),
         }
     }
@@ -187,6 +199,7 @@ fn test_skip_space() {
     assert_eq!("aaa   ", skip_space(s));
 }
 
+// TODO  constitute Pairs struct.
 #[cfg(test)]
 mod tests {
     use super::to_tree;
@@ -194,21 +207,7 @@ mod tests {
 
     #[test]
     fn test_token() {
-        let input = String::from("hoge\n");
-        let tokens = parse(&input);
-        let result = to_tree(tokens);
-
-        println!("{:?}", result);
+        println!("{:?}", to_tree(parse(&String::from("> aaa\n"))));
     }
 
 }
-
-//Pairs { pairs: [Pair { rule: paragraph,
-//                       inner: Pairs { pairs: [] } },
-//                                     Pair { rule: indented_code_block,
-//                                            inner: Pairs { pairs: [Pair { rule: text,
-//                                                                          span: Span { start: 8, end: 20 },
-//                                                                          inner: Pairs { pairs: [] } }] } },
-//                                                                   Pair { rule: indented_code_block,
-//                                                                          span: Span { start: 21, end: 63 },
-//                                                                          inner: Pairs { pairs: [Pair { rule: text, span: Span { start: 25, end: 63 }, inner: Pairs { pairs: [] } }] } }, Pair { rule: empty, span: Span { start: 64, end: 64 }, inner: Pairs { pairs: [] } }] }

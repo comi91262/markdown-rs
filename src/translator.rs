@@ -78,6 +78,17 @@ fn print(tree: Block) -> String {
             raw_text,
             ..
         } => format!("<pre><code>{}\n</code></pre>\n", raw_text),
+        Block {
+            block_type: BlockType::BlockQuote,
+            children,
+            ..
+        } => {
+            let mut result_str = String::new();
+            for v in children {
+                result_str.push_str(&print(v))
+            }
+            format!("<blockquote>\n{}</blockquote>\n", result_str)
+        }
     }
 }
 
