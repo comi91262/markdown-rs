@@ -14,8 +14,8 @@ pub enum BlockType {
     IndentedCodeBlock,
     BlockQuote,
     Paragraph,
+    ListItem,
     //    List,
-    //    ListItem,
 }
 
 #[derive(Debug, PartialEq)]

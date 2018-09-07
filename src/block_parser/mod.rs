@@ -157,7 +157,7 @@ fn test_parsing_block_quote() {
         rule: Rule::document,
         tokens: [
           block_quote(0, 5, [
-            paragraph(1, 5, [
+            paragraph(2, 5, [
             ]),
           ]),
         ]

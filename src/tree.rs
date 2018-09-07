@@ -163,6 +163,18 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
 
                 root_block.add_block(block_quote_block);
             }
+            Rule::list_item => {
+                let text = token.into_inner().next().unwrap().as_str().to_string();
+                let mut block_quote_block = Block {
+                    is_closed: false,
+                    block_type: BlockType::ListItem,
+                    raw_text: "".to_string(),
+                    children: vec![],
+                };
+                block_quote_block.add(BlockType::Paragraph, text);
+
+                root_block.add_block(block_quote_block);
+            }
             _ => (),
         }
     }

@@ -89,6 +89,17 @@ fn print(tree: Block) -> String {
             }
             format!("<blockquote>\n{}</blockquote>\n", result_str)
         }
+        Block {
+            block_type: BlockType::ListItem,
+            children,
+            ..
+        } => {
+            let mut result_str = String::new();
+            for v in children {
+                result_str.push_str(&print(v))
+            }
+            format!("<ol><li>\n{}</li></ol>\n", result_str)
+        }
     }
 }
 
