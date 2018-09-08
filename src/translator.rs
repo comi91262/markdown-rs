@@ -1,6 +1,7 @@
 use block::Block;
 use block::BlockType;
 use block_parser;
+use inline_parser;
 use tree;
 
 fn print(tree: Block) -> String {
@@ -111,5 +112,6 @@ pub fn exec(input_str: &str) -> String {
 
     let tokens = block_parser::parse(&input);
     let tree = tree::to_tree(tokens);
+    //inline_parser::inline_parser(&mut tree);
     print(tree)
 }
