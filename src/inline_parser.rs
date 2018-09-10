@@ -1,7 +1,7 @@
 use block::Block;
 use block::BlockType;
 
-fn inline_parser(block_tree: &mut Block) {
+pub fn inline_parser(block_tree: &mut Block) {
     match block_tree {
         Block {
             block_type: BlockType::Document,
