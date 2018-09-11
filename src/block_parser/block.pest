@@ -69,13 +69,7 @@ atx_heading5 = { sharp{5} ~ space+ ~ text }
 atx_heading6 = { sharp{6} ~ space+ ~ text }
 
 atx_headings = _{ 
-    space* ~ 
-        ( atx_heading1
-        | atx_heading2
-        | atx_heading3
-        | atx_heading4
-        | atx_heading5
-        | atx_heading6)
+    space{0, 3} ~ ( atx_heading1 | atx_heading2 | atx_heading3 | atx_heading4 | atx_heading5 | atx_heading6)
 }
 
 setext_heading_underline1 = {
@@ -140,11 +134,11 @@ line = _{
     indented_code_block         // Because of 4 spaces, is required.
   | block_quote
 //  | list_item
-  | setext_heading_underlines ~ !paragraph
+  | setext_heading_underlines ~ !text
   | atx_headings
-  | thematic_break ~ !paragraph
-  | break_line ~ !paragraph
-  | space* ~ paragraph
+  | thematic_break ~ !text
+  | break_line ~ !text
+  | paragraph
   | empty
 }
 

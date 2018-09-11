@@ -101,7 +101,7 @@ fn test_parsing_paragraph() {
         input: "  aaa\nbbb\n\nccc\nd d d\n",
         rule: Rule::document,
         tokens: [
-          paragraph(2, 5, [
+          paragraph(0, 5, [
           ]),
           paragraph(6, 9, [
           ]),

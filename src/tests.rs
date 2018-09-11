@@ -214,15 +214,15 @@ fn test_example_34() {
     assert_eq!(html_code, "<p>#5 bolt</p>\n<p>#hashtag</p>\n");
 }
 
-///// # Example 37
-/////#                  foo
-/////
-/////<h1>foo</h1>
-//#[test]
-//fn test_example_37() {
-//    let html_code = exec("#                  foo                     \n");
-//    assert_eq!(html_code, "<h1>foo</h1>\n");
-//}
+/// # Example 37
+///#                  foo
+///
+///<h1>foo</h1>
+#[test]
+fn test_example_37() {
+    let html_code = exec("#                  foo                     \n");
+    assert_eq!(html_code, "<h1>foo</h1>\n");
+}
 
 /// # Example 38
 /// ### foo

@@ -1,7 +1,6 @@
 use block::Block;
 use block::BlockType;
 use block_parser;
-use inline_parser;
 use tree;
 
 fn print(tree: Block) -> String {
