@@ -25,8 +25,6 @@ pub fn inline_parser(block_tree: &mut Block) {
     }
 }
 
-
-
 #[test]
 fn test_inline_parser() {
     let mut root_block = Block {
@@ -39,8 +37,8 @@ fn test_inline_parser() {
     root_block.add(BlockType::Paragraph, "   a  a   a   ".to_string());
     inline_parser(&mut root_block);
 
-
-    assert_eq!("a  a   a".to_string(), root_block.get_mut_prev().unwrap().raw_text);
+    assert_eq!(
+        "a  a   a".to_string(),
+        root_block.get_mut_prev().unwrap().raw_text
+    );
 }
-
-
