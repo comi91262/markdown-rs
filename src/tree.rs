@@ -17,7 +17,7 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 root_block.add(BlockType::ThematicBreaks, "".to_string());
             }
             Rule::break_line | Rule::empty => {
-                if let Some(prev) = root_block.get_mut_prev() {
+                if let Some(prev) = root_block.get_mut_last_open_block() {
                     match prev {
                         Block {
                             block_type: BlockType::Paragraph,
@@ -35,7 +35,7 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 let mut token_str = token.as_str().to_string();
                 trim_string(&mut token_str);
 
-                match root_block.get_mut_prev() {
+                match root_block.get_mut_last_open_block() {
                     None => (),
                     Some(prev) => match prev {
                         Block {
