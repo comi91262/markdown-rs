@@ -153,12 +153,19 @@ fn test_parsing_empty() {
 fn test_parsing_block_quote() {
     parses_to! {
         parser: BlockParser,
-        input: "> aaa\n",
+        input: "> # Foo\n> bar\n> baz\n",//> bar \n> baz",
         rule: Rule::document,
         tokens: [
-          block_quote(0, 5, [
-            paragraph(2, 5, [
-            ]),
+          block_quote(0, 7, [
+            atx_heading1(2, 7, [
+               text(4, 7, []),
+            ])
+          ]),
+          block_quote(8, 13, [
+            paragraph(10, 13, []),
+          ]),
+          block_quote(14, 19, [
+            paragraph(16, 19, []),
           ]),
         ]
     };

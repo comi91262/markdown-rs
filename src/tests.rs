@@ -373,3 +373,22 @@ fn test_example_187() {
     let html_code = exec("   aaa\nbbb\n");
     assert_eq!(html_code, "<p>aaa\nbbb</p>\n");
 }
+
+/// # Example 199
+///> # Foo
+///> bar
+///> baz
+///
+///<blockquote>
+///<h1>Foo</h1>
+///<p>bar
+///baz</p>
+///</blockquote>
+#[test]
+fn test_example_199() {
+    let html_code = exec("> # Foo\n> bar\n> baz\n");
+    assert_eq!(
+        html_code,
+        "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>\n"
+    );
+}

@@ -11,13 +11,19 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
         children: vec![],
     };
 
+    to_inner_tree(tokens, &mut root_block);
+
+    root_block
+}
+
+fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
     for token in tokens {
         match token.as_rule() {
             Rule::thematic_break => {
-                root_block.add(BlockType::ThematicBreaks, "".to_string());
+                block.add(BlockType::ThematicBreaks, "".to_string());
             }
             Rule::break_line | Rule::empty => {
-                if let Some(prev) = root_block.get_mut_last_open_block() {
+                if let Some(prev) = block.get_mut_last_open_block() {
                     match prev {
                         Block {
                             block_type: BlockType::Paragraph,
@@ -28,14 +34,14 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                         _ => (),
                     }
                 }
-                root_block.add(BlockType::BreakLine, "".to_string());
+                block.add(BlockType::BreakLine, "".to_string());
             }
             Rule::paragraph => {
                 let mut is_updated = false;
                 let mut token_str = token.as_str().to_string();
                 trim_string(&mut token_str);
 
-                match root_block.get_mut_last_open_block() {
+                match block.get_mut_last_open_block() {
                     None => (),
                     Some(prev) => match prev {
                         Block {
@@ -52,42 +58,42 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 }
 
                 if !is_updated {
-                    root_block.add(BlockType::Paragraph, token_str);
+                    block.add(BlockType::Paragraph, token_str);
                 }
             }
             Rule::atx_heading1 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
                 trim_string(&mut text);
-                root_block.add(BlockType::AtxHeading1, text);
+                block.add(BlockType::AtxHeading1, text);
             }
             Rule::atx_heading2 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
                 trim_string(&mut text);
-                root_block.add(BlockType::AtxHeading2, text);
+                block.add(BlockType::AtxHeading2, text);
             }
             Rule::atx_heading3 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
                 trim_string(&mut text);
-                root_block.add(BlockType::AtxHeading3, text);
+                block.add(BlockType::AtxHeading3, text);
             }
             Rule::atx_heading4 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
                 trim_string(&mut text);
-                root_block.add(BlockType::AtxHeading4, text);
+                block.add(BlockType::AtxHeading4, text);
             }
             Rule::atx_heading5 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
                 trim_string(&mut text);
-                root_block.add(BlockType::AtxHeading5, text);
+                block.add(BlockType::AtxHeading5, text);
             }
             Rule::atx_heading6 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
                 trim_string(&mut text);
-                root_block.add(BlockType::AtxHeading6, text);
+                block.add(BlockType::AtxHeading6, text);
             }
             Rule::setext_heading_underline1 => {
                 let mut is_updated = false;
-                match root_block.get_mut_prev() {
+                match block.get_mut_prev() {
                     None => (),
                     Some(prev) => match prev {
                         Block {
@@ -101,12 +107,12 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                     },
                 }
                 if !is_updated {
-                    root_block.add(BlockType::Paragraph, token.as_str().to_string());
+                    block.add(BlockType::Paragraph, token.as_str().to_string());
                 }
             }
             Rule::setext_heading_underline2 => {
                 let mut is_thematic_breaks = false;
-                match root_block.get_mut_prev() {
+                match block.get_mut_prev() {
                     None => is_thematic_breaks = true,
                     Some(prev) => match prev {
                         Block {
@@ -122,9 +128,9 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                     let mut token_str = token.as_str().to_string();
                     trim_string(&mut token_str);
                     if token_str == "--".to_string() {
-                        root_block.add(BlockType::Paragraph, token_str);
+                        block.add(BlockType::Paragraph, token_str);
                     } else {
-                        root_block.add(BlockType::ThematicBreaks, "".to_string());
+                        block.add(BlockType::ThematicBreaks, "".to_string());
                     }
                 }
             }
@@ -132,7 +138,7 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 let mut is_updated = false;
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
 
-                match root_block.get_mut_prev() {
+                match block.get_mut_prev() {
                     None => (),
                     Some(prev) => match prev {
                         Block {
@@ -159,20 +165,39 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 }
 
                 if !is_updated {
-                    root_block.add(BlockType::IndentedCodeBlock, text);
+                    block.add(BlockType::IndentedCodeBlock, text);
                 }
             }
             Rule::block_quote => {
-                let text = token.into_inner().next().unwrap().as_str().to_string();
+                let inner_token = token.into_inner();
+                let mut is_updated = false;
+
                 let mut block_quote_block = Block {
                     is_closed: false,
                     block_type: BlockType::BlockQuote,
                     raw_text: "".to_string(),
                     children: vec![],
                 };
-                block_quote_block.add(BlockType::Paragraph, text);
 
-                root_block.add_block(block_quote_block);
+                match block.get_mut_prev() {
+                    Some(mut block1) => match block1 {
+                        Block {
+                            block_type: BlockType::BlockQuote,
+                            ..
+                        } => {
+                           to_inner_tree(inner_token, &mut block1);
+                        }
+                        _ => (),
+                    },
+                    None => {
+                        is_updated = true;
+                        to_inner_tree(inner_token, &mut block_quote_block);
+                    }
+                }
+
+                if is_updated {
+                    block.add_block(block_quote_block);
+                }
             }
             Rule::list_item => {
                 let text = token.into_inner().next().unwrap().as_str().to_string();
@@ -184,13 +209,12 @@ pub fn to_tree(tokens: Pairs<Rule>) -> Block {
                 };
                 block_quote_block.add(BlockType::Paragraph, text);
 
-                root_block.add_block(block_quote_block);
+                block.add_block(block_quote_block);
             }
             _ => (),
         }
     }
 
-    root_block
 }
 
 // thanks to @qnighy
@@ -220,7 +244,9 @@ mod tests {
 
     #[test]
     fn test_token() {
-        println!("{:?}", to_tree(parse(&String::from("> aaa\n"))));
+        let st = String::from("> > aaa\n");
+        let a = to_tree(parse(&st));
+        println!("{:?}", a);
     }
 
 }

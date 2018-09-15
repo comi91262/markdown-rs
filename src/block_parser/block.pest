@@ -120,7 +120,7 @@ empty = { "" }
 quote_marker = _{ ">" }
 
 block_quote = {
-  quote_marker ~ space ~ paragraph
+  quote_marker ~ space ~ line 
 }
 
 list_marker = _{ "-" }
