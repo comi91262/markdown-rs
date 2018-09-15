@@ -33,6 +33,7 @@
 //u nicode_whitespace = { unicode_whitespace_character+ }
 //
 space = _{ "\u{0020}" }
+tab = _{ "\u{0009}" }
 
 
 ascii_punctuation_character = { "!" | "\"" | "#" | "$" | "%" | "'"
@@ -58,7 +59,7 @@ under = _{ "_" }
 character = _{ any } 
 
 indented_code_block = {
-    space{4} ~ text
+    (space{4} | space* ~ tab ~ space*) ~ text
 }
 
 atx_heading1 = { sharp ~ space+ ~ text }

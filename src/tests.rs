@@ -1,5 +1,42 @@
 use translator::exec;
 
+
+/// # Example 1
+///\tfoo\tbaz\t\tbim
+/// 
+///<pre><code>foo\tbaz\t\tbim
+///</code></pre>
+#[test]
+fn test_example_1() {
+    let html_code = exec("\tfoo\tbaz\t\tbim");
+    assert_eq!(html_code, "<pre><code>foo\tbaz\t\tbim\n</code></pre>\n");
+}
+
+/// # Example 2
+///  \tfoo\tbaz\t\tbim
+/// 
+///<pre><code>foo\tbaz\t\tbim
+///</code></pre>
+#[test]
+fn test_example_2() {
+    let html_code = exec("  \tfoo\tbaz\t\tbim");
+    assert_eq!(html_code, "<pre><code>foo\tbaz\t\tbim\n</code></pre>\n");
+}
+
+/// # Example 3
+///    a\ta
+///    ὐ\ta
+/// 
+///<pre><code>a\ta
+///ὐ\ta
+///</code></pre>
+#[test]
+fn test_example_3() {
+    let html_code = exec("    a\ta\n    ὐ\ta");
+    assert_eq!(html_code, "<pre><code>a\ta\nὐ\ta\n</code></pre>\n");
+}
+
+
 /// # Example 13
 ///***
 ///---
