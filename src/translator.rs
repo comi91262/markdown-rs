@@ -79,6 +79,11 @@ fn print(tree: Block) -> String {
             ..
         } => format!("<pre><code>{}\n</code></pre>\n", raw_text),
         Block {
+            block_type: BlockType::FencedCodeBlock,
+            raw_text,
+            ..
+        } => format!("<pre><code>{}</code></pre>\n", raw_text),
+        Block {
             block_type: BlockType::BlockQuote,
             children,
             ..

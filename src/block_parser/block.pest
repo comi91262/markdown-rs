@@ -112,6 +112,18 @@ break_line = {
 }
 
 
+fenced_marker1 = _{ "```" }
+fenced_marker2 = _{ "~~~" }
+fenced_text1 = { (!"`" ~ character)+ }
+fenced_text2 = { (!"~" ~ character)+ }
+
+fenced_code_block = {
+    space{0, 3} ~ ( fenced_marker1 ~ line_ending ~ fenced_text1 ~ fenced_marker1 
+                  | fenced_marker2 ~ line_ending ~ fenced_text2 ~ fenced_marker2 )
+}
+
+
+
 newline = _{ "\u{000A}" }
 carrige_return = _{ "\u{000D}" }
 paragraph = { no_token_text }
@@ -132,7 +144,8 @@ list_item = {
 
 
 line = _{
-    indented_code_block         // Because of 4 spaces, is required.
+    indented_code_block     
+  | fenced_code_block
   | block_quote
 //  | list_item
   | setext_heading_underlines ~ !text

@@ -329,6 +329,43 @@ fn test_example_76() {
     );
 }
 
+/// # Example 91
+///```
+///aaa
+///~~~
+///```
+/// 
+///<pre><code>aaa
+///~~~
+///</code></pre>
+#[test]
+fn test_example_91() {
+    let html_code = exec("```\naaa\n~~~\n```\n");
+    assert_eq!(
+        html_code,
+        "<pre><code>aaa\n~~~\n</code></pre>\n"
+    );
+}
+
+/// # Example 92
+///~~~
+///aaa
+///```
+///~~~
+///
+///<pre><code>aaa
+///```
+///</code></pre>
+#[test]
+fn test_example_92() {
+    let html_code = exec("~~~\naaa\n```\n~~~\n");
+    assert_eq!(
+        html_code,
+        "<pre><code>aaa\n```\n</code></pre>\n"
+    );
+}
+ 
+
 /// # Example 182
 ///aaa
 ///

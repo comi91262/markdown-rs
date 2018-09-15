@@ -66,6 +66,21 @@ fn test_parsing_indented_code_block() {
 }
 
 #[test]
+fn test_parsing_fenced_code_block() {
+    parses_to! {
+        parser: BlockParser,
+        input: "```\naaa\n~~~\n```\n",
+        rule: Rule::document,
+        tokens: [
+          fenced_code_block(0, 15, [
+            fenced_text1(4, 12, [])
+          ]),
+        ]
+    };
+
+}
+
+#[test]
 fn test_parsing_atx_headings() {
     parses_to! {
         parser: BlockParser,

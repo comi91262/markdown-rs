@@ -12,6 +12,7 @@ pub enum BlockType {
     SetextHeadingUnderline1,
     SetextHeadingUnderline2,
     IndentedCodeBlock,
+    FencedCodeBlock,
     BlockQuote,
     Paragraph,
     ListItem,

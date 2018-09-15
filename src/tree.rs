@@ -168,6 +168,10 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
                     block.add(BlockType::IndentedCodeBlock, text);
                 }
             }
+            Rule::fenced_code_block => {
+                let mut text = token.into_inner().next().unwrap().as_str().to_string();
+                block.add(BlockType::FencedCodeBlock, text);
+            }
             Rule::block_quote => {
                 let inner_token = token.into_inner();
                 let mut is_updated = false;
