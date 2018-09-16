@@ -77,7 +77,6 @@ fn test_parsing_fenced_code_block() {
           ]),
         ]
     };
-
 }
 
 #[test]
