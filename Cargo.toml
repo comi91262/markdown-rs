@@ -7,6 +7,7 @@ repository = "https://github.com/ykonomi/markdown-rs"
 [dependencies]
 pest = "^1.0"
 pest_derive = "^1.0"
+htmlescape-plus = { git = "https://github.com/ykonomi/rust-htmlescape.git" }
 
 [lib]
 name = "markdown"

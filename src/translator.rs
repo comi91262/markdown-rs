@@ -1,6 +1,7 @@
 use block::Block;
 use block::BlockType;
 use block_parser;
+use htmlescape::encode_minimal;
 use inline_parser;
 use tree;
 
@@ -78,12 +79,12 @@ fn print(tree: Block) -> String {
             block_type: BlockType::IndentedCodeBlock,
             raw_text,
             ..
-        } => format!("<pre><code>{}</code></pre>", raw_text),
+        } => format!("<pre><code>{}</code></pre>", encode_minimal(&raw_text)),
         Block {
             block_type: BlockType::FencedCodeBlock,
             raw_text,
             ..
-        } => format!("<pre><code>{}</code></pre>", raw_text),
+        } => format!("<pre><code>{}</code></pre>", encode_minimal(&raw_text)),
         Block {
             block_type: BlockType::BlockQuote,
             children,

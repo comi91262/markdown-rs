@@ -170,7 +170,7 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
             }
             Rule::fenced_code_block => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
-                trim_string(&mut text);  // ???
+                trim_string(&mut text); // ???
                 block.add(BlockType::FencedCodeBlock, text);
             }
             Rule::block_quote => {

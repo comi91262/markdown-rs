@@ -247,3 +247,12 @@ fn test_example_199() {
     let output = "<blockquote><h1>Foo</h1><p>bar\nbaz</p></blockquote>";
     assert_eq!(exec(input), output);
 }
+
+#[test]
+fn test_example_314() {
+    let input = "&nbsp; &amp; &copy; &AElig; &Dcaron;\n&frac34; &HilbertSpace; &DifferentialD;\n&ClockwiseContourIntegral; &ngE;";
+    let output = "<p>  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>";  // &amp?
+    assert_eq!(exec(input), output);
+}
+
+
