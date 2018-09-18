@@ -1,12 +1,15 @@
 [package]
-name = "markdown-rs"
+name = "markdown"
 version = "0.1.0"
 authors = ["ykonomi <hgKaguyaToupako4er@gmail.com>"]
-
-[lib]
-crate-type = ["cdylib"]
-
+repository = "https://github.com/ykonomi/markdown-rs"
 
 [dependencies]
 pest = "^1.0"
 pest_derive = "^1.0"
+htmlescape-plus = { git = "https://github.com/ykonomi/rust-htmlescape.git" }
+
+[lib]
+name = "markdown"
+doctest = false
+crate-type = ["cdylib"]

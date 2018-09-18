@@ -9,11 +9,14 @@ pub enum BlockType {
     AtxHeading4,
     AtxHeading5,
     AtxHeading6,
+    SetextHeadingUnderline1,
+    SetextHeadingUnderline2,
     IndentedCodeBlock,
-    //    BlockQuote,
+    FencedCodeBlock,
+    BlockQuote,
     Paragraph,
+    ListItem,
     //    List,
-    //    ListItem,
 }
 
 #[derive(Debug, PartialEq)]
@@ -36,6 +39,10 @@ impl Block {
         self.children.push(child);
     }
 
+    pub fn add_block(&mut self, block: Block) {
+        self.children.push(block);
+    }
+
     pub fn get_mut_prev(&mut self) -> Option<&mut Block> {
         self.children.as_mut_slice().last_mut()
     }
@@ -47,6 +54,70 @@ impl Block {
     pub fn push_raw_text(&mut self, s: &str) {
         self.raw_text.push_str(s);
     }
+
+    pub fn change_block_type(&mut self, bt: BlockType) {
+        self.block_type = bt;
+    }
+
+    pub fn get_mut_last_open_block(&mut self) -> Option<&mut Block> {
+        if self.children.is_empty() {
+            return Some(self);
+        }
+
+        for child in self.children.iter_mut().rev() {
+            if !child.is_closed {
+                return child.get_mut_last_open_block();
+            }
+        }
+
+        None
+    }
+}
+
+//impl Clone for Block {
+//    fn clone(&self) -> Block { *self }
+//}
+
+#[test]
+fn test_get_mut_last_open_block() {
+    let mut root_block = Block {
+        is_closed: false,
+        block_type: BlockType::Document,
+        raw_text: "".to_string(),
+        children: vec![],
+    };
+
+    assert_eq!(
+        BlockType::Document,
+        root_block.get_mut_last_open_block().unwrap().block_type
+    );
+
+    let child1 = Block {
+        is_closed: true,
+        block_type: BlockType::Paragraph,
+        raw_text: "foo".to_string(),
+        children: vec![],
+    };
+    root_block.add_block(child1);
+
+    assert_eq!(None, root_block.get_mut_last_open_block());
+
+    let child2 = Block {
+        is_closed: false,
+        block_type: BlockType::Paragraph,
+        raw_text: "bar".to_string(),
+        children: vec![],
+    };
+    root_block.add_block(child2);
+
+    assert_eq!(
+        BlockType::Paragraph,
+        root_block.get_mut_last_open_block().unwrap().block_type
+    );
+    assert_eq!(
+        "bar".to_string(),
+        root_block.get_mut_last_open_block().unwrap().raw_text
+    );
 }
 
 #[test]

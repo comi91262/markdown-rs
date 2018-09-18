@@ -7,10 +7,12 @@ use std::os::raw::{c_char, c_void};
 extern crate pest;
 #[macro_use]
 extern crate pest_derive;
+extern crate htmlescape;
 
 mod block;
 mod block_parser;
 mod inline_parser;
+mod tests;
 mod translator;
 mod tree;
 

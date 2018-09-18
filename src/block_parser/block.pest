@@ -1,6 +1,6 @@
 // A whitespace character is a space (U+0020), tab (U+0009), newline (U+000A), line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D).
 
-whitespace_character = { "\u{0020}" | "\u{0009}" | "\u{000A}" | "\u{000B}" | "\u{000C}" | "\u{000D}" }
+// whitespace_character = { "\u{0020}" | "\u{0009}" | "\u{000A}" | "\u{000B}" | "\u{000C}" | "\u{000D}" }
 // whitespace = _{ whitespace_character+ }
 
 // A Unicode whitespace character is any code point in the Unicode Zs general category, or a tab (U+0009),
@@ -27,12 +27,13 @@ whitespace_character = { "\u{0020}" | "\u{0009}" | "\u{000A}" | "\u{000B}" | "\u
 // U+3000 IDEOGRAPHIC SPACE
 //
 
-unicode_whitespace_character = { "\u{0020}" | "\u{00A0}" | "\u{1680}" | '\u{2000}'..'\u{200A}' | "\u{202F}" | "\u{205F}" 
-                               | "\u{0009}" | "\u{000D}" | "\u{000A}" | "\u{000C}" }
-
-unicode_whitespace = { unicode_whitespace_character+ }
-
+// unicode_whitespace_character = { "\u{0020}" | "\u{00A0}" | "\u{1680}" | '\u{2000}'..'\u{200A}' | "\u{202F}" | "\u{205F}" 
+//                               | "\u{0009}" | "\u{000D}" | "\u{000A}" | "\u{000C}" }
+//
+//u nicode_whitespace = { unicode_whitespace_character+ }
+//
 space = _{ "\u{0020}" }
+tab = _{ "\u{0009}" }
 
 
 ascii_punctuation_character = { "!" | "\"" | "#" | "$" | "%" | "'"
@@ -51,9 +52,14 @@ no_token_text = _{ (!newline ~ !carrige_return ~ character)+ }
 text = { (!newline ~ !carrige_return ~ character)+ }
                             
 sharp = _{ "#" }
+equal = _{ "=" }
+astar = _{ "*" }
+hyphen = _{ "-" }
+under = _{ "_" }
+character = _{ any } 
 
 indented_code_block = {
-    space{4} ~ text
+    (space{4} | space* ~ tab ~ space*) ~ text
 }
 
 atx_heading1 = { sharp ~ space+ ~ text }
@@ -64,50 +70,94 @@ atx_heading5 = { sharp{5} ~ space+ ~ text }
 atx_heading6 = { sharp{6} ~ space+ ~ text }
 
 atx_headings = _{ 
-    atx_heading1
-  | atx_heading2
-  | atx_heading3
-  | atx_heading4
-  | atx_heading5
-  | atx_heading6
+    space{0, 3} ~ ( atx_heading1 | atx_heading2 | atx_heading3 | atx_heading4 | atx_heading5 | atx_heading6)
+}
+
+setext_heading_underline1 = {
+    equal+
+}
+
+setext_heading_underline2 = {
+    hyphen+
 }
 
 
-astar = _{ "*" }
-hyphen = _{ "-" }
-under = _{ "_" }
+//                none |  paragraph|
+//  --------------------------------
+//  -     -> paragraph |    setext |
+//  --    -> paragraph |    setext |
+//  _ _   -> list      |      list |
+//  ---   -> thematic  |    setext |
+//  - --  -> thematic  |  thematic |
+//  ----  -> thematic  |    setext |
+//  --- - -> thematic  |  thematic |
+//  ----a -> paragraph | paragraph |
+//  --------------------------------
+//
+setext_heading_underlines = _{
+    setext_heading_underline1
+  | setext_heading_underline2
+}
+
 
 thematic_break =
 {
-    astar ~ astar ~ astar
-  | hyphen ~ hyphen ~ hyphen
-  | under ~ under ~ under
+    space* ~ astar ~ space* ~ astar ~ space* ~ astar ~ (space* ~ astar)* ~ space*
+  | space* ~ hyphen ~ space* ~ hyphen ~ space* ~ hyphen ~ (space* ~ hyphen)* ~ space*
+  | space* ~ under ~ space* ~ under ~ space* ~ under ~ (space* ~ under)* ~ space*
 }
-
 
 break_line = {
-  ("\u{0020}" | "\u{0009}")+ ~ !text
+  ("\u{0020}" | "\u{0009}")+
 }
 
-empty = { "" }
+
+fenced_marker1 = _{ "```" }
+fenced_marker2 = _{ "~~~" }
+fenced_text1 = { (!"`" ~ character)+ }
+fenced_text2 = { (!"~" ~ character)+ }
+
+fenced_code_block = {
+    space{0, 3} ~ ( fenced_marker1 ~ line_ending ~ fenced_text1 ~ fenced_marker1 
+                  | fenced_marker2 ~ line_ending ~ fenced_text2 ~ fenced_marker2 )
+}
+
+
 
 newline = _{ "\u{000A}" }
 carrige_return = _{ "\u{000D}" }
-line_ending = _{ newline | carrige_return | newline ~ carrige_return }
-character = _{ any } 
 paragraph = { no_token_text }
+
+empty = { "" }
+
+quote_marker = _{ ">" }
+
+block_quote = {
+  quote_marker ~ space ~ line 
+}
+
+list_marker = _{ "-" }
+
+list_item = {
+  list_marker ~ space ~ paragraph
+}
 
 
 line = _{
-    indented_code_block  
-  | thematic_break
-  | space* ~ atx_headings
-  | break_line
-  | space* ~ paragraph
+    indented_code_block     
+  | fenced_code_block
+  | block_quote
+//  | list_item
+  | setext_heading_underlines ~ !text
+  | atx_headings
+  | thematic_break ~ !text
+  | break_line ~ !text
+  | paragraph
   | empty
 }
 
-document = _{ line ~ (line_ending ~ line)* }
+line_ending = _{ newline | carrige_return | newline ~ carrige_return }
+document = _{ soi ~ (line ~ line_ending)+ ~ eoi }
 
         
 
