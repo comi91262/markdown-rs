@@ -255,4 +255,37 @@ fn test_example_314() {
     assert_eq!(exec(input), output);
 }
 
+#[test]
+fn test_example_343() {
+    let input = "*foo bar*";
+    let output =  "<p><em>foo bar</em></p>";
+    assert_eq!(exec(input), output);
+}
+ 
+#[test]
+fn test_example_344() {
+    let input = "a * foo bar*";
+    let output =  "<p>a * foo bar*</p>";
+    assert_eq!(exec(input), output);
+}
 
+#[test]
+fn test_example_346() {
+    let input = "* a *";
+    let output =  "<p>* a *</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_347() {
+    let input = "foo*bar*";
+    let output =  "<p>foo<em>bar</em></p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_348() {
+    let input = "5*6*78";
+    let output =  "<p>5<em>6</em>78</p>";
+    assert_eq!(exec(input), output);
+}

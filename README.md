@@ -2,7 +2,10 @@
 * GitHub Flavored Markdown Spec (https://github.github.com/gfm/)
 
 # Done
-Some examples are included in syntax elements in GFM. Below is the result of the example test.
+Some examples are included in syntax elements in GFM.
+
+The number attached to that syntax element below is the number that tested that example.
+
 ## Blocks
 * Tabs (3/11)
 * Thematic breaks (13/19)
@@ -14,6 +17,7 @@ Some examples are included in syntax elements in GFM. Below is the result of the
 * Block quotes (1)
 ## Inlines
 * Entity and numeric character references (1)
+* Emphasis and strong emphasis (3)
 
 # Future work
 * save to local storages

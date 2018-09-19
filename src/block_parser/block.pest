@@ -48,8 +48,8 @@ ascii_punctuation_character = { "!" | "\"" | "#" | "$" | "%" | "'"
 // TODO: A non-whitespace character is any character that is not a whitespace character.
 
 
-no_token_text = _{ (!newline ~ !carrige_return ~ character)+ }
-text = { (!newline ~ !carrige_return ~ character)+ }
+no_token_text = _{ (!newline ~ !carriage_return ~ character)+ }
+text = { (!newline ~ !carriage_return ~ character)+ }
                             
 sharp = _{ "#" }
 equal = _{ "=" }
@@ -125,7 +125,7 @@ fenced_code_block = {
 
 
 newline = _{ "\u{000A}" }
-carrige_return = _{ "\u{000D}" }
+carriage_return = _{ "\u{000D}" }
 paragraph = { no_token_text }
 
 empty = { "" }
@@ -156,7 +156,7 @@ line = _{
   | empty
 }
 
-line_ending = _{ newline | carrige_return | newline ~ carrige_return }
+line_ending = _{ newline | carriage_return | newline ~ carriage_return }
 document = _{ soi ~ (line ~ line_ending)+ ~ eoi }
 
         
