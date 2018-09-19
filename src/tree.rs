@@ -192,7 +192,10 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
                         } => {
                             to_inner_tree(inner_token, &mut block1);
                         }
-                        _ => (),
+                        _ => {
+                            is_updated = true;
+                            to_inner_tree(inner_token, &mut block_quote_block);
+                        },
                     },
                     None => {
                         is_updated = true;

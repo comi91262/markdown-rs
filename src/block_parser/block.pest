@@ -133,13 +133,13 @@ empty = { "" }
 quote_marker = _{ ">" }
 
 block_quote = {
-  quote_marker ~ space ~ line 
+  space{0, 3} ~ quote_marker ~ space{0, 1} ~ line 
 }
 
 list_marker = _{ "-" }
 
 list_item = {
-  list_marker ~ space ~ paragraph
+  space{0, 3} ~ list_marker ~ space{0, 1} ~ paragraph
 }
 
 
