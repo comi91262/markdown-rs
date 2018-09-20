@@ -249,6 +249,13 @@ fn test_example_187() {
 }
 
 #[test]
+fn test_example_190() {
+    let input = "  \n\naaa\n  \n\n# aaa\n\n  ";
+    let output = "<p>aaa</p><h1>aaa</h1>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
 fn test_example_199() {
     let input = "> # Foo\n> bar\n> baz";
     let output = "<blockquote><h1>Foo</h1><p>bar\nbaz</p></blockquote>";

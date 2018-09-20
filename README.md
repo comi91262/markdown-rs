@@ -14,6 +14,7 @@ The number attached to that syntax element below is the number that tested that 
 * Indented code blocks (1)
 * Fenced code blocks (2)
 * Paragraphs (6)
+* Blank lines (1/1)
 * Block quotes (1)
 ## Inlines
 * Entity and numeric character references (1)
