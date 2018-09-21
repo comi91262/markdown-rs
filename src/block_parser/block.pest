@@ -136,21 +136,44 @@ block_quote = {
   space{0, 3} ~ quote_marker ~ space{0, 1} ~ line 
 }
 
-list_marker = _{ "-" }
+bullet_list_marker = _{ "-" | "+" }  // TODO must define *
 
-list_item = {
-  space{0, 3} ~ list_marker ~ space{0, 1} ~ paragraph
+bullet_list_items = {
+  space{0, 3} ~ bullet_list_marker ~ 
+  ((space{1} ~ !space ~ text 
+   ~ (line_ending ~ (space{2} ~ line | &line_ending ~ empty))*) 
+  | (space{2} ~ !space ~ text 
+   ~ (line_ending ~ (space{3} ~ line | &line_ending ~ empty))*)
+  | (space{3} ~ !space ~ text
+   ~ (line_ending ~ (space{4} ~ line | &line_ending ~ empty))*)
+  | (space{4} ~ !space ~ text
+   ~ (line_ending ~ (space{5} ~ line | &line_ending ~ empty))*)) 
 }
 
+digit = _{ '0'..'9' }  // TODO  modify that 0 not starts
+ordered_list_marker = _{ digit{1, 10} ~ ("." | ")") }
+
+ordered_list_items = {
+  space{0, 3} ~ ordered_list_marker ~ 
+  ((space{1} ~ !space ~ paragraph 
+   ~ (line_ending ~ (space{3} ~ line | &line_ending ~ empty))*) 
+  | (space{2} ~ !space ~ paragraph
+   ~ (line_ending ~ (space{4} ~ line | &line_ending ~ empty))*)
+  | (space{3} ~ !space ~ paragraph
+   ~ (line_ending ~ (space{5} ~ line | &line_ending ~ empty))*)
+  | (space{4} ~ !space ~ paragraph
+   ~ (line_ending ~ (space{6} ~ line | &line_ending ~ empty))*)) 
+}
 
 line = _{
     indented_code_block     
   | fenced_code_block
   | block_quote
-//  | list_item
   | setext_heading_underlines ~ !text
   | atx_headings
   | thematic_break ~ !text
+  | bullet_list_items
+  | ordered_list_items
   | break_line ~ !text
   | paragraph
   | empty

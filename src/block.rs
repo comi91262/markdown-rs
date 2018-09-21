@@ -15,7 +15,8 @@ pub enum BlockType {
     FencedCodeBlock,
     BlockQuote,
     Paragraph,
-    ListItem,
+    BulletListItem,
+    OrderedListItem,
     //    List,
 }
 
@@ -71,6 +72,10 @@ impl Block {
         }
 
         None
+    }
+
+    pub fn get_text(&self) -> &str {
+        &self.raw_text
     }
 }
 

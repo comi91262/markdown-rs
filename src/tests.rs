@@ -331,7 +331,7 @@ fn test_example_214() {
     let output = "<blockquote><p>foo\nbar</p></blockquote>";
     assert_eq!(exec(input), output);
 }
- 
+
 #[test]
 fn test_example_215() {
     let input = "> foo\n>\n> bar";
@@ -345,14 +345,14 @@ fn test_example_216() {
     let output = "<p>foo</p><blockquote><p>bar</p></blockquote>";
     assert_eq!(exec(input), output);
 }
- 
+
 #[test]
 fn test_example_217() {
     let input = "> aaa\n***\n> bbb";
     let output = "<blockquote><p>aaa</p></blockquote><hr /><blockquote><p>bbb</p></blockquote>";
     assert_eq!(exec(input), output);
 }
- 
+
 #[test]
 fn test_example_218() {
     let input = "> bar\nbaz";
@@ -375,43 +375,86 @@ fn test_example_220() {
 }
 
 #[test]
+fn test_example_224() {
+    let input = "a paragraph\nwith two lines.\n\n    indented code\n\n> A block quote.";
+    let output = "<p>a paragraph\nwith two lines.</p><pre><code>indented code</code></pre><blockquote><p>A block quote.</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_225() {
+    let input =
+        "1.  a paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote.";
+    let output = "<ol><li><p>a paragraph\nwith two lines.</p><pre><code>indented code</code></pre><blockquote><p>A block quote.</p></blockquote></li></ol>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_226() {
+    let input = "- one\n\n two\n";
+    let output = "<ul><li>one</li></ul><p>two</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_227() {
+    let input = "- one\n\n  two\n";
+    let output = "<ul><li><p>one</p><p>two</p></li></ul>";
+    assert_eq!(exec(input), output);
+}
+
+//#[test]
+//fn test_example_228() {
+//    let input = "-    one\n\n     two\n";
+//    let output = "<ul><li>one</li></ul><pre><code> two</code></pre>";
+//    assert_eq!(exec(input), output);
+//}
+
+#[test]
+fn test_example_229() {
+    let input = " -    one\n\n      two\n";
+    let output = "<ul><li><p>one</p><p>two</p></li></ul>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
 fn test_example_314() {
     let input = "&nbsp; &amp; &copy; &AElig; &Dcaron;\n&frac34; &HilbertSpace; &DifferentialD;\n&ClockwiseContourIntegral; &ngE;";
-    let output = "<p>  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>";  // &amp?
+    let output = "<p>  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>"; // &amp?
     assert_eq!(exec(input), output);
 }
 
 #[test]
 fn test_example_343() {
     let input = "*foo bar*";
-    let output =  "<p><em>foo bar</em></p>";
+    let output = "<p><em>foo bar</em></p>";
     assert_eq!(exec(input), output);
 }
- 
+
 #[test]
 fn test_example_344() {
     let input = "a * foo bar*";
-    let output =  "<p>a * foo bar*</p>";
+    let output = "<p>a * foo bar*</p>";
     assert_eq!(exec(input), output);
 }
 
 #[test]
 fn test_example_346() {
     let input = "* a *";
-    let output =  "<p>* a *</p>";
+    let output = "<p>* a *</p>";
     assert_eq!(exec(input), output);
 }
 
 #[test]
 fn test_example_347() {
     let input = "foo*bar*";
-    let output =  "<p>foo<em>bar</em></p>";
+    let output = "<p>foo<em>bar</em></p>";
     assert_eq!(exec(input), output);
 }
 
 #[test]
 fn test_example_348() {
     let input = "5*6*78";
-    let output =  "<p>5<em>6</em>78</p>";
+    let output = "<p>5<em>6</em>78</p>";
     assert_eq!(exec(input), output);
 }

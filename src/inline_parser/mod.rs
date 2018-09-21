@@ -1,6 +1,6 @@
 use pest::iterators::Pairs;
-use pest::Parser;
 use pest::Error;
+use pest::Parser;
 
 #[cfg(debug_assertions)]
 const _GRAMMAR: &'static str = include_str!("inline.pest");
@@ -35,14 +35,13 @@ pub fn inline_parser(block_tree: &mut Block) {
         } => {
             let mut s = raw_text.to_string();
             let s = decode_html(&s).unwrap();
-            
+
             let s = match parse(&s) {
                 Ok(tokens) => interpret(tokens),
-                _ => s.to_string()
+                _ => s.to_string(),
             };
             raw_text.clear();
             raw_text.push_str(&s);
-
         }
         Block { raw_text, .. } => {
             let mut s = raw_text.to_string();
@@ -58,15 +57,13 @@ fn interpret(tokens: Pairs<Rule>) -> String {
 
     for token in tokens {
         match token.as_rule() {
-            Rule::text => {
-                result.push_str(token.as_str())
-            }
+            Rule::text => result.push_str(token.as_str()),
             Rule::emphasis => {
                 result.push_str("<em>");
                 result.push_str(token.as_str());
                 result.push_str("</em>");
             }
-            _ => panic!("Error: inte")
+            _ => panic!("Error: inte"),
         }
     }
 
