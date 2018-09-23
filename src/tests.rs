@@ -123,8 +123,15 @@ fn test_example_26() {
 }
 
 #[test]
+fn test_example_27() {
+    let input = "- foo\n***\n- bar";
+    let output = "<ul><li>foo</li></ul><hr /><ul><li>bar</li></ul>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
 fn test_example_28() {
-    let input = "Foo\n***\nbar\n";
+    let input = "Foo\n***\nbar";
     let output = "<p>Foo</p><hr /><p>bar</p>";
     assert_eq!(exec(input), output);
 }

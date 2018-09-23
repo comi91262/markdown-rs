@@ -101,8 +101,8 @@ fn print(tree: Block) -> String {
             children,
             ..
         } => {
-            if children.len() == 2 {
-                //  Paragraph + BreakLine
+            if children.len() <= 2 {
+                //  Paragraph + BreakLine | Paragraph
                 return format!(
                     "<ul><li>{}</li></ul>",
                     children.iter().next().unwrap().get_text()

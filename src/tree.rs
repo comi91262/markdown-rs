@@ -313,7 +313,7 @@ mod tests {
 
     #[test]
     fn test_token() {
-        let st = String::from("> > aaa\n");
+        let st = String::from("- foo\n***\n- bar\n");
         let a = to_tree(parse(&st));
         println!("{:?}", a);
     }
