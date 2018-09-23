@@ -136,7 +136,7 @@ block_quote = {
   space{0, 3} ~ quote_marker ~ space{0, 1} ~ line 
 }
 
-bullet_list_marker = _{ "-" | "+" }  // TODO must define *
+bullet_list_marker = _{ "-" | "+" | "*" }
 
 bullet_list_items = {
   space{0, 3} ~ bullet_list_marker ~ 
