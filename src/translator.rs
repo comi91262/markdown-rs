@@ -97,7 +97,26 @@ fn print(tree: Block) -> String {
             format!("<blockquote>{}</blockquote>", result_str)
         }
         Block {
-            block_type: BlockType::ListItem,
+            block_type: BlockType::BulletListItem,
+            children,
+            ..
+        } => {
+            if children.len() <= 2 {
+                //  Paragraph + BreakLine | Paragraph
+                return format!(
+                    "<ul><li>{}</li></ul>",
+                    children.iter().next().unwrap().get_text()
+                );
+            }
+            let mut result_str = String::new();
+            // ad_hoc
+            for v in children {
+                result_str.push_str(&print(v))
+            }
+            format!("<ul><li>{}</li></ul>", result_str)
+        }
+        Block {
+            block_type: BlockType::OrderedListItem,
             children,
             ..
         } => {

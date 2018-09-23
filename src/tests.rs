@@ -116,11 +116,46 @@ fn test_example_25() {
 }
 
 #[test]
+fn test_example_26() {
+    let input = "*-*";
+    let output = "<p><em>-</em></p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_27() {
+    let input = "- foo\n***\n- bar";
+    let output = "<ul><li>foo</li></ul><hr /><ul><li>bar</li></ul>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
 fn test_example_28() {
-    let input = "Foo\n***\nbar\n";
+    let input = "Foo\n***\nbar";
     let output = "<p>Foo</p><hr /><p>bar</p>";
     assert_eq!(exec(input), output);
 }
+
+#[test]
+fn test_example_29() {
+    let input = "Foo\n---\nbar";
+    let output = "<h2>Foo</h2><p>bar</p>";
+    assert_eq!(exec(input), output);
+}
+ 
+#[test]
+fn test_example_30() {
+    let input = "* Foo\n* * *\n* Bar";
+    let output = "<ul><li>Foo</li></ul><hr /><ul><li>Bar</li></ul>";
+    assert_eq!(exec(input), output);
+}
+
+//#[test]
+//fn test_example_31() {
+//    let input = "- Foo\n- * * *";
+//    let output = "<ul><li>Foo</li></ul><li><hr /></li></ul>";
+//    assert_eq!(exec(input), output);
+//}
 
 #[test]
 fn test_example_32() {
@@ -242,6 +277,13 @@ fn test_example_187() {
 }
 
 #[test]
+fn test_example_190() {
+    let input = "  \n\naaa\n  \n\n# aaa\n\n  ";
+    let output = "<p>aaa</p><h1>aaa</h1>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
 fn test_example_199() {
     let input = "> # Foo\n> bar\n> baz";
     let output = "<blockquote><h1>Foo</h1><p>bar\nbaz</p></blockquote>";
@@ -249,10 +291,198 @@ fn test_example_199() {
 }
 
 #[test]
-fn test_example_314() {
-    let input = "&nbsp; &amp; &copy; &AElig; &Dcaron;\n&frac34; &HilbertSpace; &DifferentialD;\n&ClockwiseContourIntegral; &ngE;";
-    let output = "<p>  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>";  // &amp?
+fn test_example_200() {
+    let input = "># Foo\n>bar\n> baz";
+    let output = "<blockquote><h1>Foo</h1><p>bar\nbaz</p></blockquote>";
     assert_eq!(exec(input), output);
 }
 
+#[test]
+fn test_example_201() {
+    let input = "   > # Foo\n   > bar\n > baz";
+    let output = "<blockquote><h1>Foo</h1><p>bar\nbaz</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
 
+#[test]
+fn test_example_202() {
+    let input = " > # Foo\n> bar\nbaz";
+    let output = "<blockquote><h1>Foo</h1><p>bar\nbaz</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_204() {
+    let input = "> bar\nbaz\n> foo";
+    let output = "<blockquote><p>bar\nbaz\nfoo</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_205() {
+    let input = "> foo\n---";
+    let output = "<blockquote><p>foo</p></blockquote><hr />";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_210() {
+    let input = ">";
+    let output = "<blockquote></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_211() {
+    let input = ">\n>  \n> ";
+    let output = "<blockquote></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_212() {
+    let input = ">\n> foo\n>  ";
+    let output = "<blockquote><p>foo</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_213() {
+    let input = "> foo\n\n> bar";
+    let output = "<blockquote><p>foo</p></blockquote><blockquote><p>bar</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_214() {
+    let input = "> foo\n> bar";
+    let output = "<blockquote><p>foo\nbar</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_215() {
+    let input = "> foo\n>\n> bar";
+    let output = "<blockquote><p>foo</p><p>bar</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_216() {
+    let input = "foo\n> bar";
+    let output = "<p>foo</p><blockquote><p>bar</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_217() {
+    let input = "> aaa\n***\n> bbb";
+    let output = "<blockquote><p>aaa</p></blockquote><hr /><blockquote><p>bbb</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_218() {
+    let input = "> bar\nbaz";
+    let output = "<blockquote><p>bar\nbaz</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_219() {
+    let input = "> bar\n\nbaz";
+    let output = "<blockquote><p>bar</p></blockquote><p>baz</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_220() {
+    let input = "> bar\n>\nbaz";
+    let output = "<blockquote><p>bar</p></blockquote><p>baz</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_224() {
+    let input = "a paragraph\nwith two lines.\n\n    indented code\n\n> A block quote.";
+    let output = "<p>a paragraph\nwith two lines.</p><pre><code>indented code</code></pre><blockquote><p>A block quote.</p></blockquote>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_225() {
+    let input =
+        "1.  a paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote.";
+    let output = "<ol><li><p>a paragraph\nwith two lines.</p><pre><code>indented code</code></pre><blockquote><p>A block quote.</p></blockquote></li></ol>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_226() {
+    let input = "- one\n\n two\n";
+    let output = "<ul><li>one</li></ul><p>two</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_227() {
+    let input = "- one\n\n  two\n";
+    let output = "<ul><li><p>one</p><p>two</p></li></ul>";
+    assert_eq!(exec(input), output);
+}
+
+//#[test]
+//fn test_example_228() {
+//    let input = "-    one\n\n     two\n";
+//    let output = "<ul><li>one</li></ul><pre><code> two</code></pre>";
+//    assert_eq!(exec(input), output);
+//}
+
+#[test]
+fn test_example_229() {
+    let input = " -    one\n\n      two\n";
+    let output = "<ul><li><p>one</p><p>two</p></li></ul>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_314() {
+    let input = "&nbsp; &amp; &copy; &AElig; &Dcaron;\n&frac34; &HilbertSpace; &DifferentialD;\n&ClockwiseContourIntegral; &ngE;";
+    let output = "<p>  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>"; // &amp?
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_343() {
+    let input = "*foo bar*";
+    let output = "<p><em>foo bar</em></p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_344() {
+    let input = "a * foo bar*";
+    let output = "<p>a * foo bar*</p>";
+    assert_eq!(exec(input), output);
+}
+
+//#[test]
+//fn test_example_346() {
+//    let input = "* a *";   
+//    let output = "<p>* a *</p>";        ->  should be <ul><li>a *</li></ul>  ?
+//    assert_eq!(exec(input), output);
+//}
+
+#[test]
+fn test_example_347() {
+    let input = "foo*bar*";
+    let output = "<p>foo<em>bar</em></p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_348() {
+    let input = "5*6*78";
+    let output = "<p>5<em>6</em>78</p>";
+    assert_eq!(exec(input), output);
+}

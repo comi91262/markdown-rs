@@ -167,7 +167,7 @@ fn test_parsing_empty() {
 fn test_parsing_block_quote() {
     parses_to! {
         parser: BlockParser,
-        input: "> # Foo\n> bar\n> baz\n",//> bar \n> baz",
+        input: "> # Foo\n> bar\n> baz\n",
         rule: Rule::document,
         tokens: [
           block_quote(0, 7, [
@@ -184,45 +184,3 @@ fn test_parsing_block_quote() {
         ]
     };
 }
-
-// > Lorem ipsum dolor
-// sit amet.
-// > - Qui *quodsi iracundia*
-// > - aliquando id
-//-> document
-//  -> block_quote
-//       paragraph
-//         "Lorem ipsum dolor\nsit amet."
-//    -> list (type=bullet tight=true bullet_char=-)
-//         list_item
-//           paragraph
-//             "Qui *quodsi iracundia*"
-//      -> list_item
-//        -> paragraph
-//             "aliquando id"
-//    root_block.add(BlockType::BlockQuote, "".to_string());
-//
-//    let block2 = Block {
-//        is_closed: false,
-//        block_type: BlockType::Document,
-//        raw_text: "".to_string(),
-//        children: vec![Block {
-//            is_closed: false,
-//            block_type: BlockType::BlockQuote,
-//            raw_text: "".to_string(),
-//            children: vec![
-//                Block {
-//                    is_closed: false,
-//                    block_type: BlockType::Paragraph,
-//                    raw_text: "Lorem ipsum dolor\nsit amet.".to_string(),
-//                    children: vec![],
-//                },
-//                Block {
-//                    is_closed: false,
-//                    block_type: BlockType::List,
-//                    raw_text: "".to_string(),
-//                    children: vec![],
-//                },
-//            ],
-//        }],
-//    };

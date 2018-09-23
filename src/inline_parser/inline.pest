@@ -1,0 +1,15 @@
+newline = _{ "\n" }
+carriage_return = _{ "\r" }
+space = _{ " " }
+character = _{ any } 
+emphasis_maker = _{ "*" }
+
+text = { (!emphasis_maker ~ !newline ~ !carriage_return ~ character)* }
+emphasis = {!space ~ (!emphasis_maker ~ !newline ~ !carriage_return ~ character)+ ~ !space }
+
+
+line = _{
+   text ~ emphasis_maker ~ emphasis ~ emphasis_maker ~ text
+}
+
+inline = _{ soi ~ line ~ eoi }

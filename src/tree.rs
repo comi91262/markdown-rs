@@ -192,7 +192,10 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
                         } => {
                             to_inner_tree(inner_token, &mut block1);
                         }
-                        _ => (),
+                        _ => {
+                            is_updated = true;
+                            to_inner_tree(inner_token, &mut block_quote_block);
+                        }
                     },
                     None => {
                         is_updated = true;
@@ -204,17 +207,79 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
                     block.add_block(block_quote_block);
                 }
             }
-            Rule::list_item => {
-                let text = token.into_inner().next().unwrap().as_str().to_string();
-                let mut block_quote_block = Block {
+            Rule::bullet_list_items => {
+                let mut inner_token = token.into_inner();
+                let mut text = inner_token.next().unwrap().as_str().to_string();
+                let mut is_updated = false;
+
+                let mut new_block = Block {
                     is_closed: false,
-                    block_type: BlockType::ListItem,
+                    block_type: BlockType::BulletListItem,
+                    raw_text: "".to_string(),
+                    children: vec![Block {
+                        is_closed: false,
+                        block_type: BlockType::Paragraph,
+                        raw_text: text,
+                        children: vec![],
+                    }],
+                };
+
+                match block.get_mut_prev() {
+                    Some(mut block1) => match block1 {
+                        Block {
+                            block_type: BlockType::BulletListItem,
+                            ..
+                        } => {
+                            to_inner_tree(inner_token, &mut block1);
+                        }
+                        _ => {
+                            is_updated = true;
+                            to_inner_tree(inner_token, &mut new_block);
+                        }
+                    },
+                    None => {
+                        is_updated = true;
+                        to_inner_tree(inner_token, &mut new_block);
+                    }
+                }
+
+                if is_updated {
+                    block.add_block(new_block);
+                }
+            }
+            Rule::ordered_list_items => {
+                let inner_token = token.into_inner();
+                let mut is_updated = false;
+
+                let mut new_block = Block {
+                    is_closed: false,
+                    block_type: BlockType::OrderedListItem,
                     raw_text: "".to_string(),
                     children: vec![],
                 };
-                block_quote_block.add(BlockType::Paragraph, text);
 
-                block.add_block(block_quote_block);
+                match block.get_mut_prev() {
+                    Some(mut block1) => match block1 {
+                        Block {
+                            block_type: BlockType::OrderedListItem,
+                            ..
+                        } => {
+                            to_inner_tree(inner_token, &mut block1);
+                        }
+                        _ => {
+                            is_updated = true;
+                            to_inner_tree(inner_token, &mut new_block);
+                        }
+                    },
+                    None => {
+                        is_updated = true;
+                        to_inner_tree(inner_token, &mut new_block);
+                    }
+                }
+
+                if is_updated {
+                    block.add_block(new_block);
+                }
             }
             _ => (),
         }
@@ -248,7 +313,7 @@ mod tests {
 
     #[test]
     fn test_token() {
-        let st = String::from("> > aaa\n");
+        let st = String::from("- foo\n***\n- bar\n");
         let a = to_tree(parse(&st));
         println!("{:?}", a);
     }
