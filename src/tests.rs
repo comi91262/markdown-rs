@@ -142,7 +142,7 @@ fn test_example_29() {
     let output = "<h2>Foo</h2><p>bar</p>";
     assert_eq!(exec(input), output);
 }
- 
+
 #[test]
 fn test_example_30() {
     let input = "* Foo\n* * *\n* Bar";
@@ -203,6 +203,22 @@ fn test_example_39() {
 fn test_example_40() {
     let input = "foo\n    # bar";
     let output = "<p>foo\n# bar</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_50() {
+    let input = "Foo *bar*\n=========\n\nFoo *bar*\n---------";
+    let output = "<h1>Foo <em>bar</em></h1><h2>Foo <em>bar</em></h2>";
+
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_51() {
+    let input = "Foo *bar\nbaz*\n====";
+    let output = "<h1>Foo <em>bar\nbaz</em></h1>";
+
     assert_eq!(exec(input), output);
 }
 
@@ -468,7 +484,7 @@ fn test_example_344() {
 
 //#[test]
 //fn test_example_346() {
-//    let input = "* a *";   
+//    let input = "* a *";
 //    let output = "<p>* a *</p>";        ->  should be <ul><li>a *</li></ul>  ?
 //    assert_eq!(exec(input), output);
 //}

@@ -181,12 +181,14 @@ fn test_push_raw_text() {
 impl fmt::Display for Block {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let mut result = String::new();
-        result.push_str(&format!("Block: (\n  block_type: {:?}\n  raw_text: {}\n  is_closed: {}\n  children: \n", self.block_type, self.raw_text, self.is_closed));
+        result.push_str(&format!(
+            "Block: (\n  block_type: {:?}\n  raw_text: {}\n  is_closed: {}\n  children: \n",
+            self.block_type, self.raw_text, self.is_closed
+        ));
 
         for v in &self.children {
             result.push_str(&format!("    {}\n", v))
         }
         write!(f, "{})", result)
-
     }
 }

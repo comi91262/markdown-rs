@@ -5,7 +5,7 @@ character = _{ any }
 emphasis_maker = _{ "*" }
 
 text = { (!emphasis_maker ~ !newline ~ !carriage_return ~ character)* }
-emphasis = {!space ~ (!emphasis_maker ~ !newline ~ !carriage_return ~ character)+ ~ !space }
+emphasis = {!space ~ (!emphasis_maker ~ character)+ ~ !space }
 
 
 line = _{
