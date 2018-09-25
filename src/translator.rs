@@ -1,6 +1,7 @@
 use block::Block;
 use block::BlockType;
 use block_parser;
+use preparser::convert_tabs;
 use htmlescape::encode_minimal;
 use inline_parser;
 use tree;
@@ -135,6 +136,7 @@ pub fn exec(input_str: &str) -> String {
     input.push_str(input_str);
     input.push_str("\n");
 
+    //let mut input = convert_tabs(&input);
     let tokens = block_parser::parse(&input);
     let mut tree = tree::to_tree(tokens);
     inline_parser::inline_parser(&mut tree);
