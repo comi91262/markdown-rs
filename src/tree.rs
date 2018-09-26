@@ -22,7 +22,7 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
             Rule::thematic_break => {
                 block.add(BlockType::ThematicBreaks, "".to_string());
             }
-            Rule::break_line | Rule::empty => {
+            Rule::break_line => {
                 if let Some(prev) = block.get_mut_last_open_block() {
                     match prev {
                         Block {

@@ -119,7 +119,7 @@ fn test_parsing_paragraph() {
           ]),
           paragraph(6, 9, [
           ]),
-          empty(10, 10, [
+          break_line(10, 10, [
           ]),
           paragraph(11, 14, [
           ]),
@@ -140,7 +140,7 @@ fn test_parsing_setext_heading_underlines() {
           ]),
           setext_heading_underline2(4, 29, [
           ]),
-          empty(30, 30, [
+          break_line(30, 30, [
           ]),
           paragraph(31, 34, [
           ]),
@@ -157,7 +157,7 @@ fn test_parsing_empty() {
         input: "\n",
         rule: Rule::document,
         tokens: [
-          empty(0, 0, [
+          break_line(0, 0, [
           ]),
         ]
     };
