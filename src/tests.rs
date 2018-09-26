@@ -447,17 +447,24 @@ fn test_example_227() {
     assert_eq!(exec(input), output);
 }
 
-//#[test]
-//fn test_example_228() {
-//    let input = "-    one\n\n     two\n";
-//    let output = "<ul><li>one</li></ul><pre><code> two</code></pre>";
-//    assert_eq!(exec(input), output);
-//}
+#[test]
+fn test_example_228() {
+    let input = " -    one\n\n     two\n";
+    let output = "<ul><li>one</li></ul><pre><code> two</code></pre>";
+    assert_eq!(exec(input), output);
+}
 
 #[test]
 fn test_example_229() {
-    let input = " -    one\n\n      two\n";
+    let input = " -    one\n\n      two";
     let output = "<ul><li><p>one</p><p>two</p></li></ul>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_274() {
+    let input = "- foo\n- bar\n+ baz";
+    let output = "<ul><li>foo</li><li>bar</li></ul><ul><li>baz</li></ul>";
     assert_eq!(exec(input), output);
 }
 

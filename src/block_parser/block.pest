@@ -136,19 +136,43 @@ block_quote = {
   space{0, 3} ~ quote_marker ~ space{0, 1} ~ line 
 }
 
-bullet_list_marker = _{ "-" | "+" | "*" }
+bullet_list_marker = _{ "*" | "+" | "-" }
+
+bullet_list_items_space0 = _{
+   bullet_list_marker ~ (
+      (space{1} ~ !space ~ text ~ (line_ending ~ (space{2} ~ line | &line_ending ~ empty))*) 
+    | (space{2} ~ !space ~ text ~ (line_ending ~ (space{3} ~ line | &line_ending ~ empty))*)
+    | (space{3} ~ !space ~ text ~ (line_ending ~ (space{4} ~ line | &line_ending ~ empty))*)
+    | (space{4} ~ !space ~ text ~ (line_ending ~ (space{5} ~ line | &line_ending ~ empty))*))
+}
+bullet_list_items_space1 = _{
+   space{1} ~ bullet_list_marker ~ (
+      (space{1} ~ !space ~ text ~ (line_ending ~ (space{3} ~ line | &line_ending ~ empty))*) 
+    | (space{2} ~ !space ~ text ~ (line_ending ~ (space{4} ~ line | &line_ending ~ empty))*)
+    | (space{3} ~ !space ~ text ~ (line_ending ~ (space{5} ~ line | &line_ending ~ empty))*)
+    | (space{4} ~ !space ~ text ~ (line_ending ~ (space{6} ~ line | &line_ending ~ empty))*))
+}
+bullet_list_items_space2 = _{
+  space{2} ~ bullet_list_marker ~ (
+      (space{1} ~ !space ~ text ~ (line_ending ~ (space{4} ~ line | &line_ending ~ empty))*) 
+    | (space{2} ~ !space ~ text ~ (line_ending ~ (space{5} ~ line | &line_ending ~ empty))*)
+    | (space{3} ~ !space ~ text ~ (line_ending ~ (space{6} ~ line | &line_ending ~ empty))*)
+    | (space{4} ~ !space ~ text ~ (line_ending ~ (space{7} ~ line | &line_ending ~ empty))*))
+}
+bullet_list_items_space3 = _{
+  space{3} ~ bullet_list_marker ~ (
+      (space{1} ~ !space ~ text ~ (line_ending ~ (space{5} ~ line | &line_ending ~ empty))*) 
+    | (space{2} ~ !space ~ text ~ (line_ending ~ (space{6} ~ line | &line_ending ~ empty))*)
+    | (space{3} ~ !space ~ text ~ (line_ending ~ (space{7} ~ line | &line_ending ~ empty))*)
+    | (space{4} ~ !space ~ text ~ (line_ending ~ (space{8} ~ line | &line_ending ~ empty))*))
+}
 
 bullet_list_items = {
-  space{0, 3} ~ bullet_list_marker ~ 
-  ((space{1} ~ !space ~ text 
-   ~ (line_ending ~ (space{2} ~ line | &line_ending ~ empty))*) 
-  | (space{2} ~ !space ~ text 
-   ~ (line_ending ~ (space{3} ~ line | &line_ending ~ empty))*)
-  | (space{3} ~ !space ~ text
-   ~ (line_ending ~ (space{4} ~ line | &line_ending ~ empty))*)
-  | (space{4} ~ !space ~ text
-   ~ (line_ending ~ (space{5} ~ line | &line_ending ~ empty))*)) 
-}
+  bullet_list_items_space0 
+  | bullet_list_items_space1
+  | bullet_list_items_space2
+  | bullet_list_items_space3
+} 
 
 digit = _{ '0'..'9' }  // TODO  modify that 0 not starts
 ordered_list_marker = _{ digit{1, 10} ~ ("." | ")") }
