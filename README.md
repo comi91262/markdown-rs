@@ -13,7 +13,7 @@ The number attached to those syntax elements below is the number that tested tha
 * Setext headings (3/26)
 * Indented code blocks (8/12)
 * Fenced code blocks (2)
-* Paragraphs (6)
+* Paragraphs (6/8)
 * Blank lines (1/1)
 * Block quotes (1)
 * List items (5)

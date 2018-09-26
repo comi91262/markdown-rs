@@ -397,12 +397,19 @@ fn test_example_201() {
     assert_eq!(exec(input), output);
 }
 
-#[test]
-fn test_example_202() {
-    let input = " > # Foo\n> bar\nbaz";
-    let output = "<blockquote><h1>Foo</h1><p>bar\nbaz</p></blockquote>";
-    assert_eq!(exec(input), output);
-}
+//#[test]
+//fn test_example_202() {
+//    let input = "    > # Foo\n    > bar\n    baz";
+//    let output = "<blockquote><h1>Foo</h1><p>bar\nbaz</p></blockquote>";
+//    assert_eq!(exec(input), output);
+//}
+//
+//#[test]
+//fn test_example_203() {
+//    let input = "> # Foo\n> bar\nbaz";
+//    let output = "<blockquote><h1>Foo</h1><p>barbaz</p></blockquote>";
+//    assert_eq!(exec(input), output);
+//}
 
 #[test]
 fn test_example_204() {
@@ -417,6 +424,34 @@ fn test_example_205() {
     let output = "<blockquote><p>foo</p></blockquote><hr />";
     assert_eq!(exec(input), output);
 }
+
+#[test]
+fn test_example_206() {
+    let input = "> - foo\n- bar";
+    let output = "<blockquote><ul><li>foo</li></ul></blockquote><ul><li>bar</li></ul>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_207() {
+    let input = ">     foo\n    bar";
+    let output = "<blockquote><pre><code>foo</code></pre></blockquote><pre><code>bar</code></pre>";
+    assert_eq!(exec(input), output);
+}
+
+//#[test]
+//fn test_example_208() {
+//    let input = "> ```\nfoo\n```";
+//    let output = "<blockquote><pre><code></code></pre></blockquote><p>foo</p><pre><code></code></pre>";
+//    assert_eq!(exec(input), output);
+//}
+//
+//#[test]
+//fn test_example_209() {
+//    let input = "> foo\n    - bar";
+//    let output = "<blockquote><p>foo- bar</p></blockquote>";
+//    assert_eq!(exec(input), output);
+//}
 
 #[test]
 fn test_example_210() {
@@ -492,6 +527,27 @@ fn test_example_219() {
 fn test_example_220() {
     let input = "> bar\n>\nbaz";
     let output = "<blockquote><p>bar</p></blockquote><p>baz</p>";
+    assert_eq!(exec(input), output);
+}
+
+//#[test]
+//fn test_example_221() {
+//    let input = "> > > foo\nbar";
+//    let output = "<blockquote><blockquote><blockquote><p>foobar</p></blockquote></blockquote></blockquote>";
+//    assert_eq!(exec(input), output);
+//}
+
+//#[test]
+//fn test_example_222() {
+//    let input = ">>> foo\n> bar\n>>baz";
+//    let output = "<blockquote><blockquote><blockquote><p>foobarbaz</p></blockquote></blockquote></blockquote>";
+//    assert_eq!(exec(input), output);
+//}
+
+#[test]
+fn test_example_223() {
+    let input = ">     code\n\n>    not code";
+    let output = "<blockquote><pre><code>code</code></pre></blockquote><blockquote><p>not code</p></blockquote>";
     assert_eq!(exec(input), output);
 }
 
