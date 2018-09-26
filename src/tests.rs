@@ -237,6 +237,83 @@ fn test_example_76() {
 }
 
 #[test]
+fn test_example_77() {
+    let input = "  - foo\n\n    bar";
+    let output = "<ul><li><p>foo</p><p>bar</p></li></ul>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_78() {
+    let input = "1.  foo\n\n    - bar";
+    let output = "<ol><li><p>foo</p><ul><li>bar</li></ul></li></ol>";
+    assert_eq!(exec(input), output);
+}
+
+//#[test]
+//fn test_example_79() {
+//    let input = "    <a/>\n    *hi*\n\n    - one";
+//    let output = "<pre><code>&lt;a/&gt;\n*hi*\n\n- one</code></pre>";
+//    assert_eq!(exec(input), output);
+//}
+
+//#[test]
+//fn test_example_80() {
+//    let input = "    chunk1\n\n    chunk2\n  \n \n \n    chunk3";
+//    let output = "<pre><code>chunk1\n\nchunk2\n\n\n\nchunk3</code></pre>";
+//    assert_eq!(exec(input), output);
+//}
+
+//#[test]
+//fn test_example_81() {
+//    let input = "    chunk1\n      \n      chunk2";
+//    let output = "<pre><code>chunk1\n  \n  chunk2\n</code></pre>";
+//    assert_eq!(exec(input), output);
+//}
+
+#[test]
+fn test_example_82() {
+    let input = "Foo\n    bar";
+    let output = "<p>Foo\nbar</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_83() {
+    let input = "    foo\nbar";
+    let output = "<pre><code>foo</code></pre><p>bar</p>";
+    assert_eq!(exec(input), output);
+}
+
+//#[test]
+//fn test_example_84() {
+//    let input = "# Heading/n    foo\nHeading\n------\n    foo\n----";
+//    let output = "<h1>Heading</h1><pre><code>foo</code></pre><h2>Heading</h2><pre><code>foo</code></pre><hr />";
+//    assert_eq!(exec(input), output);
+//}
+
+#[test]
+fn test_example_85() {
+    let input = "        foo\n    bar";
+    let output = "<pre><code>    foo\nbar</code></pre>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_86() {
+    let input = "\n    \n    foo\n    ";
+    let output = "<pre><code>foo</code></pre>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_87() {
+    let input = "    foo  ";
+    let output = "<pre><code>foo  </code></pre>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
 fn test_example_91() {
     let input = "```\naaa\n~~~\n```";
     let output = "<pre><code>aaa\n~~~</code></pre>";

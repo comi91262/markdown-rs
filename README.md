@@ -11,7 +11,7 @@ The number attached to those syntax elements below is the number that tested tha
 * Thematic breaks (18/19)
 * ATX headings (8/18)
 * Setext headings (3/26)
-* Indented code blocks (1)
+* Indented code blocks (8/12)
 * Fenced code blocks (2)
 * Paragraphs (6)
 * Blank lines (1/1)
