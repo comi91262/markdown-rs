@@ -1,8 +1,3 @@
-// A whitespace character is a space (U+0020), tab (U+0009), newline (U+000A), line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D).
-
-// whitespace_character = { "\u{0020}" | "\u{0009}" | "\u{000A}" | "\u{000B}" | "\u{000C}" | "\u{000D}" }
-// whitespace = _{ whitespace_character+ }
-
 // A Unicode whitespace character is any code point in the Unicode Zs general category, or a tab (U+0009),
 //  carriage return (U+000D), newline (U+000A), or form feed (U+000C).
 // 
