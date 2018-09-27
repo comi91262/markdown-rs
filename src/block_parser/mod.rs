@@ -184,3 +184,28 @@ fn test_parsing_block_quote() {
         ]
     };
 }
+
+#[test]
+fn test_parsing_link_reference_definition() {
+    parses_to! {
+        parser: BlockParser,
+        input: "   [foo]: \n      /url  \n           'the title'  \n\n[foo]\n",
+        rule: Rule::document,
+        tokens: [
+          link_definition(0, 48, [
+            link_label_text(4, 7, []),
+            link_destination_text(18, 21, []),
+            link_title_text(36, 45, [])
+          ]),
+          break_line(49, 49, []),
+          reference_link(50, 55, [
+            link_label_text(51, 54, []),
+          ]),
+        ]
+    };
+}
+ 
+
+
+
+

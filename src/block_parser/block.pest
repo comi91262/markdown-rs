@@ -42,16 +42,20 @@ ascii_punctuation_character = { "!" | "\"" | "#" | "$" | "%" | "'"
 // TODO: A line containing no characters, or a line containing only spaces (U+0020) or tabs (U+0009), is called a blank line.
 // TODO: A non-whitespace character is any character that is not a whitespace character.
 
+character = _{ any } 
+
+//space (U+0020), tab (U+0009), newline (U+000A), line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D).
+whitespace_character = _{ "\u{0020}" | "\u{0009}" | "\u{000A}" | "\u{000B}" | "\u{000C}" | "\u{000D}" }
+non_whitespace_character = _{ !whitespace_character ~ character }
 
 no_token_text = _{ (!newline ~ !carriage_return ~ character)+ }
 text = { (!newline ~ !carriage_return ~ character)+ }
-                            
+
 sharp = _{ "#" }
 equal = _{ "=" }
 astar = _{ "*" }
 hyphen = _{ "-" }
 under = _{ "_" }
-character = _{ any } 
 
 indented_code_block = {
     (space{4} | space* ~ tab ~ space*) ~ text
@@ -192,6 +196,8 @@ line = _{
   | thematic_break ~ !text
   | bullet_list_items
   | ordered_list_items
+  | link_definition
+  | reference_link
   | break_line
   | paragraph
 }
@@ -200,6 +206,17 @@ line_ending = _{ newline | carriage_return | newline ~ carriage_return }
 document = _{ soi ~ (line ~ line_ending)+ ~ eoi }
 
         
+link_label_text = { (!"]" ~ non_whitespace_character)+ }
+link_destination_text = { non_whitespace_character+ }
+link_title_text = { (!"'" ~ character)+ }
 
+link_label = _{ "[" ~ link_label_text ~ "]" }
+link_destination = _{ "/" ~ link_destination_text }
+link_title = _{ "'" ~ link_title_text ~ "'" }
+//link_title = _{ "\"" ~ link_title ~ "\"" }
 
+link_spaces = _{ space* ~ line_ending? ~ space* }
+
+link_definition = { space{0, 3} ~ link_label ~ ":" ~ link_spaces ~ link_destination ~ link_spaces ~ link_title? ~ space* }
+reference_link = { link_label }
 
