@@ -13,10 +13,12 @@ The number attached to those syntax elements below is the number that tested tha
 * Setext headings (3/26)
 * Indented code blocks (8/12)
 * Fenced code blocks (2)
+* Link Reference Definition (1)
 * Paragraphs (6/8)
 * Blank lines (1/1)
 * Block quotes (19/25)
 * List items (5)
+
 ## Inlines
 * Entity and numeric character references (1)
 * Emphasis and strong emphasis (2)
