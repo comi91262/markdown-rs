@@ -19,7 +19,8 @@ pub enum BlockType {
     Paragraph,
     BulletListItem,
     OrderedListItem,
-    //    List,
+    LinkDefinition,
+    ReferenceLink,
 }
 
 #[derive(Debug, PartialEq)]

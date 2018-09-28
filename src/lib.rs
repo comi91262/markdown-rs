@@ -10,9 +10,9 @@ extern crate pest_derive;
 extern crate htmlescape;
 
 mod block;
-mod preparser;
 mod block_parser;
 mod inline_parser;
+mod preparser;
 mod tests;
 mod translator;
 mod tree;

@@ -281,6 +281,40 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
                     block.add_block(new_block);
                 }
             }
+            Rule::reference_link => {
+                block.add(
+                    BlockType::ReferenceLink,
+                    token.into_inner().next().unwrap().as_str().to_string(),
+                );
+            }
+            Rule::link_definition => {
+                let mut inner_token = token.into_inner();
+
+                let mut link_label = inner_token.next().unwrap().as_str();
+                let mut link_destination = inner_token.next().unwrap().as_str();
+
+                let text = match inner_token.next() {
+                    Some(link_title) => format!(
+                        "<a href=\"/{}\" title=\"{}\">{}</a>",
+                        link_destination,
+                        link_title.as_str(),
+                        link_label
+                    ),
+                    None => format!("<a href=\"{}\">{}</a>", link_destination, link_label),
+                };
+
+                block.add_block(Block {
+                    is_closed: false,
+                    block_type: BlockType::LinkDefinition,
+                    raw_text: link_label.to_string(),
+                    children: vec![Block {
+                        is_closed: false,
+                        block_type: BlockType::Paragraph,
+                        raw_text: text,
+                        children: vec![],
+                    }],
+                });
+            }
             _ => (),
         }
     }

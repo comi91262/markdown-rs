@@ -1,3 +1,4 @@
+#[cfg(test)]
 use translator::exec;
 
 #[test]
@@ -324,6 +325,13 @@ fn test_example_91() {
 fn test_example_92() {
     let input = "~~~\naaa\n```\n~~~";
     let output = "<pre><code>aaa\n```</code></pre>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_160() {
+    let input = "   [foo]: \n      /url  \n           'the title'  \n\n[foo]";
+    let output = "<p><a href=\"/url\" title=\"the title\">foo</a></p>";
     assert_eq!(exec(input), output);
 }
 
