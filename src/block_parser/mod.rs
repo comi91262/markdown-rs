@@ -119,7 +119,7 @@ fn test_parsing_paragraph() {
           ]),
           paragraph(6, 9, [
           ]),
-          empty(10, 10, [
+          break_line(10, 10, [
           ]),
           paragraph(11, 14, [
           ]),
@@ -140,7 +140,7 @@ fn test_parsing_setext_heading_underlines() {
           ]),
           setext_heading_underline2(4, 29, [
           ]),
-          empty(30, 30, [
+          break_line(30, 30, [
           ]),
           paragraph(31, 34, [
           ]),
@@ -157,7 +157,7 @@ fn test_parsing_empty() {
         input: "\n",
         rule: Rule::document,
         tokens: [
-          empty(0, 0, [
+          break_line(0, 0, [
           ]),
         ]
     };
@@ -180,6 +180,26 @@ fn test_parsing_block_quote() {
           ]),
           block_quote(14, 19, [
             paragraph(16, 19, []),
+          ]),
+        ]
+    };
+}
+
+#[test]
+fn test_parsing_link_reference_definition() {
+    parses_to! {
+        parser: BlockParser,
+        input: "   [foo]: \n      /url  \n           'the title'  \n\n[foo]\n",
+        rule: Rule::document,
+        tokens: [
+          link_definition(0, 48, [
+            link_label_text(4, 7, []),
+            link_destination_text(18, 21, []),
+            link_title_text(36, 45, [])
+          ]),
+          break_line(49, 49, []),
+          reference_link(50, 55, [
+            link_label_text(51, 54, []),
           ]),
         ]
     };

@@ -3,9 +3,11 @@ use block::BlockType;
 use block_parser;
 use htmlescape::encode_minimal;
 use inline_parser;
+use preparser::convert_tabs;
+use std::collections::HashMap;
 use tree;
 
-fn print(tree: Block) -> String {
+fn print(tree: Block, mut env: &mut HashMap<String, String>) -> String {
     match tree {
         Block {
             block_type: BlockType::Document,
@@ -14,7 +16,7 @@ fn print(tree: Block) -> String {
         } => {
             let mut result_str = String::new();
             for v in children {
-                result_str.push_str(&print(v))
+                result_str.push_str(&print(v, &mut env))
             }
             result_str
         }
@@ -92,7 +94,7 @@ fn print(tree: Block) -> String {
         } => {
             let mut result_str = String::new();
             for v in children {
-                result_str.push_str(&print(v))
+                result_str.push_str(&print(v, &mut env))
             }
             format!("<blockquote>{}</blockquote>", result_str)
         }
@@ -111,7 +113,7 @@ fn print(tree: Block) -> String {
             let mut result_str = String::new();
             // ad_hoc
             for v in children {
-                result_str.push_str(&print(v))
+                result_str.push_str(&print(v, &mut env))
             }
             format!("<ul><li>{}</li></ul>", result_str)
         }
@@ -122,10 +124,31 @@ fn print(tree: Block) -> String {
         } => {
             let mut result_str = String::new();
             for v in children {
-                result_str.push_str(&print(v))
+                result_str.push_str(&print(v, &mut env))
             }
             format!("<ol><li>{}</li></ol>", result_str)
         }
+        Block {
+            block_type: BlockType::LinkDefinition,
+            raw_text,
+            children,
+            ..
+        } => {
+            let mut result_str = String::new();
+            for v in children {
+                result_str.push_str(&print(v, &mut env))
+            }
+            env.insert(raw_text.to_string(), result_str);
+            "".to_string()
+        }
+        Block {
+            block_type: BlockType::ReferenceLink,
+            raw_text,
+            ..
+        } => match env.get(&raw_text) {
+            Some(html) => html.to_string(),
+            None => "".to_string(),
+        },
     }
 }
 
@@ -135,8 +158,10 @@ pub fn exec(input_str: &str) -> String {
     input.push_str(input_str);
     input.push_str("\n");
 
+    //let mut input = convert_tabs(&input);
     let tokens = block_parser::parse(&input);
     let mut tree = tree::to_tree(tokens);
     inline_parser::inline_parser(&mut tree);
-    print(tree)
+    let mut env = HashMap::new();
+    print(tree, &mut env)
 }

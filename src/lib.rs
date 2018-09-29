@@ -12,6 +12,7 @@ extern crate htmlescape;
 mod block;
 mod block_parser;
 mod inline_parser;
+mod preparser;
 mod tests;
 mod translator;
 mod tree;

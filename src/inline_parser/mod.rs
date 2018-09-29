@@ -43,6 +43,51 @@ pub fn inline_parser(block_tree: &mut Block) {
             raw_text.clear();
             raw_text.push_str(&s);
         }
+        Block {
+            block_type: BlockType::AtxHeading1, // TODO inplement h2,3,4,5 and 6
+            raw_text,
+            ..
+        } => {
+            let mut s = raw_text.to_string();
+            let s = decode_html(&s).unwrap();
+
+            let s = match parse(&s) {
+                Ok(tokens) => interpret(tokens),
+                _ => s.to_string(),
+            };
+            raw_text.clear();
+            raw_text.push_str(&s);
+        }
+        Block {
+            block_type: BlockType::SetextHeadingUnderline1,
+            raw_text,
+            ..
+        } => {
+            let mut s = raw_text.to_string();
+            let s = decode_html(&s).unwrap();
+
+            let s = match parse(&s) {
+                Ok(tokens) => interpret(tokens),
+                _ => s.to_string(),
+            };
+            raw_text.clear();
+            raw_text.push_str(&s);
+        }
+        Block {
+            block_type: BlockType::SetextHeadingUnderline2,
+            raw_text,
+            ..
+        } => {
+            let mut s = raw_text.to_string();
+            let s = decode_html(&s).unwrap();
+
+            let s = match parse(&s) {
+                Ok(tokens) => interpret(tokens),
+                _ => s.to_string(),
+            };
+            raw_text.clear();
+            raw_text.push_str(&s);
+        }
         Block { raw_text, .. } => {
             let mut s = raw_text.to_string();
             let s = decode_html(&s).unwrap();
