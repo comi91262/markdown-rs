@@ -115,6 +115,72 @@ fn interpret(tokens: Pairs<Rule>) -> String {
     result
 }
 
+const ESCAPED_CHARACTERS: [(char, &'static str); 32] = [
+    ('!', "!"),
+    ('"', "&quot;"),
+    ('#', "#"),
+    ('$', "$"),
+    ('%', "%"),
+    ('&', "&amp;"),
+    ('\'', "\'"),
+    ('(', "("),
+    (')', ")"),
+    ('*', "*"),
+    ('+', "+"),
+    (',', ","),
+    ('-', "-"),
+    ('.', "."),
+    ('/', "/"),
+    (':', ":"),
+    (';', ";"),
+    ('<', "&lt;"),
+    ('=', "="),
+    ('>', "&gt;"),
+    ('?', "?"),
+    ('@', "@"),
+    ('[', "["),
+    ('\\', "\\"),
+    (']', "]"),
+    ('^', "^"),
+    ('_', "_"),
+    ('`', "`"),
+    ('{', "{"),
+    ('|', "|"),
+    ('}', "}"),
+    ('~', "~"),
+];
+
+fn escape_backslash(s: &str) -> String {
+    enum Status {
+        SLASH,
+        NOSLASH,
+    };
+
+    let mut status = Status::NOSLASH;
+
+    s.chars()
+        .map(|c| match status {
+            Status::SLASH => match ESCAPED_CHARACTERS.binary_search_by_key(&c, |&(a, b)| a) {
+                Ok(s) => {
+                    println!("{}", c);
+                    status = Status::NOSLASH;
+                    let (a, b) = ESCAPED_CHARACTERS[s];
+                    println!("{}", b);
+                    b.to_string()
+                }
+                Err(s) => {
+                    status = Status::NOSLASH;
+                    c.to_string()
+                }
+            },
+            Status::NOSLASH if c == '\\' => {
+                status = Status::SLASH;
+                "".to_string()
+            }
+            Status::NOSLASH => c.to_string(),
+        }).collect()
+}
+
 #[test]
 fn test_emphasis_rule1() {
     parses_to! {
@@ -133,16 +199,10 @@ fn test_emphasis_rule1() {
 }
 
 #[test]
-fn test_inline_parser() {
-    //    let mut root_block = Block {
-    //        is_closed: false,
-    //        block_type: BlockType::Document,
-    //        raw_text: "aaa".to_string(),
-    //        children: vec![],
-    //    };
-
-    //    assert_eq!(
-    //        "a  a   a".to_string(),
-    //        root_block.get_mut_prev().unwrap().raw_text
-    //    );
+fn test_escape_backslash() {
+    let mut s = "\\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\]\\^\\_\\`\\{\\|\\}\\~";
+    assert_eq!(
+        escape_backslash(&s),
+        "!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~"
+    );
 }
