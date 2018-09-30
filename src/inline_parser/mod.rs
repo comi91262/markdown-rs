@@ -34,7 +34,12 @@ pub fn inline_parser(block_tree: &mut Block) {
             ..
         } => {
             let mut s = raw_text.to_string();
-            let s = decode_html(&s).unwrap();
+            let s = match decode_html(&s) {
+                Ok(actual) => actual,
+                Err(_) => s,
+            };
+
+            let s = escape_backslash(&s);
 
             let s = match parse(&s) {
                 Ok(tokens) => interpret(tokens),
@@ -160,17 +165,15 @@ fn escape_backslash(s: &str) -> String {
 
     s.chars()
         .map(|c| match status {
-            Status::SLASH => match ESCAPED_CHARACTERS.binary_search_by_key(&c, |&(a, b)| a) {
+            Status::SLASH => match ESCAPED_CHARACTERS.binary_search_by_key(&c, |&(a, _)| a) {
                 Ok(s) => {
-                    println!("{}", c);
                     status = Status::NOSLASH;
-                    let (a, b) = ESCAPED_CHARACTERS[s];
-                    println!("{}", b);
+                    let (_, b) = ESCAPED_CHARACTERS[s];
                     b.to_string()
                 }
-                Err(s) => {
+                Err(_) => {
                     status = Status::NOSLASH;
-                    c.to_string()
+                    format!("\\{}", c)
                 }
             },
             Status::NOSLASH if c == '\\' => {
@@ -196,13 +199,4 @@ fn test_emphasis_rule1() {
           ]),
         ]
     };
-}
-
-#[test]
-fn test_escape_backslash() {
-    let mut s = "\\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\]\\^\\_\\`\\{\\|\\}\\~";
-    assert_eq!(
-        escape_backslash(&s),
-        "!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~"
-    );
 }
