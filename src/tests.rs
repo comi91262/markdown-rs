@@ -317,14 +317,14 @@ fn test_example_87() {
 #[test]
 fn test_example_91() {
     let input = "```\naaa\n~~~\n```";
-    let output = "<pre><code>aaa\n~~~</code></pre>";
+    let output = "<pre><code>aaa\n~~~\n</code></pre>";
     assert_eq!(exec(input), output);
 }
 
 #[test]
 fn test_example_92() {
     let input = "~~~\naaa\n```\n~~~";
-    let output = "<pre><code>aaa\n```</code></pre>";
+    let output = "<pre><code>aaa\n```\n</code></pre>";
     assert_eq!(exec(input), output);
 }
 
@@ -609,6 +609,7 @@ fn test_example_229() {
 //    assert_eq!(exec(input), output);
 //}
 
+<<<<<<< HEAD
 #[test]
 fn test_example_301() {
     let input = "\\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\]\\^\\_\\`\\{\\|\\}\\~";
@@ -629,6 +630,14 @@ fn test_example_314() {
     let output = "<p>  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>"; // TODO &amp?
     assert_eq!(exec(input), output);
 }
+=======
+//#[test]
+//fn test_example_314() {
+//    let input = "&nbsp; &amp; &copy; &AElig; &Dcaron;\n&frac34; &HilbertSpace; &DifferentialD;\n&ClockwiseContourIntegral; &ngE;";
+//    let output = "<p>  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>"; // TODO &amp?
+//    assert_eq!(exec(input), output);
+//}
+>>>>>>> f2488b2... Add Hard line breask.
 
 #[test]
 fn test_example_343() {
@@ -664,3 +673,11 @@ fn test_example_348() {
     let output = "<p>5<em>6</em>78</p>";
     assert_eq!(exec(input), output);
 }
+
+#[test]
+fn test_example_632() {
+    let input = "foo  \nbaz";
+    let output = "<p>foo<br />baz</p>";
+    assert_eq!(exec(input), output);
+}
+ 

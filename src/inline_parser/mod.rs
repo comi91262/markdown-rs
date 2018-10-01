@@ -40,11 +40,18 @@ pub fn inline_parser(block_tree: &mut Block) {
             };
 
             let s = escape_backslash(&s);
+            let mut s = decode_html(&s).unwrap();
 
-            let s = match parse(&s) {
+            trim_string(&mut s);
+            let mut s = match parse(&s) {
                 Ok(tokens) => interpret(tokens),
                 _ => s.to_string(),
             };
+            // hard break
+            if s.contains("  \n") {
+                s = s.replace("  \n", "<br />");
+            }
+
             raw_text.clear();
             raw_text.push_str(&s);
         }
@@ -56,10 +63,11 @@ pub fn inline_parser(block_tree: &mut Block) {
             let mut s = raw_text.to_string();
             let s = decode_html(&s).unwrap();
 
-            let s = match parse(&s) {
+            let mut s = match parse(&s) {
                 Ok(tokens) => interpret(tokens),
                 _ => s.to_string(),
             };
+            trim_string(&mut s);
             raw_text.clear();
             raw_text.push_str(&s);
         }
@@ -71,10 +79,11 @@ pub fn inline_parser(block_tree: &mut Block) {
             let mut s = raw_text.to_string();
             let s = decode_html(&s).unwrap();
 
-            let s = match parse(&s) {
+            let mut s = match parse(&s) {
                 Ok(tokens) => interpret(tokens),
                 _ => s.to_string(),
             };
+            trim_string(&mut s);
             raw_text.clear();
             raw_text.push_str(&s);
         }
@@ -86,16 +95,18 @@ pub fn inline_parser(block_tree: &mut Block) {
             let mut s = raw_text.to_string();
             let s = decode_html(&s).unwrap();
 
-            let s = match parse(&s) {
+            let mut s = match parse(&s) {
                 Ok(tokens) => interpret(tokens),
                 _ => s.to_string(),
             };
+            trim_string(&mut s);
             raw_text.clear();
             raw_text.push_str(&s);
         }
         Block { raw_text, .. } => {
             let mut s = raw_text.to_string();
-            let s = decode_html(&s).unwrap();
+            let mut s = decode_html(&s).unwrap();
+            //trim_string(&mut s);
             raw_text.clear();
             raw_text.push_str(&s);
         }
@@ -199,4 +210,38 @@ fn test_emphasis_rule1() {
           ]),
         ]
     };
+}
+
+// thanks to @qnighy
+fn trim_string(s: &mut String) {
+    let new_len = s.trim_right().len();
+    s.truncate(new_len);
+    let drain_len = s.len() - s.trim_left().len();
+    drop(s.drain(..drain_len));
+}
+
+#[test]
+fn test_trim_string() {
+    let mut s = String::from("    ");
+    trim_string(&mut s);
+    assert_eq!("", s);
+
+    let mut s = String::from("   foo bar    ");
+    trim_string(&mut s);
+    assert_eq!("foo bar", s);
+}
+
+#[test]
+fn test_inline_parser() {
+    //    let mut root_block = Block {
+    //        is_closed: false,
+    //        block_type: BlockType::Document,
+    //        raw_text: "aaa".to_string(),
+    //        children: vec![],
+    //    };
+
+    //    assert_eq!(
+    //        "a  a   a".to_string(),
+    //        root_block.get_mut_prev().unwrap().raw_text
+    //    );
 }

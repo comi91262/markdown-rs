@@ -112,10 +112,10 @@ fn test_parsing_atx_headings() {
 fn test_parsing_paragraph() {
     parses_to! {
         parser: BlockParser,
-        input: "  aaa\nbbb\n\nccc\nd d d\n",
+        input: "  aaa\nbbb\n\nccc\n   d d d\n",
         rule: Rule::document,
         tokens: [
-          paragraph(0, 5, [
+          paragraph(2, 5, [
           ]),
           paragraph(6, 9, [
           ]),
@@ -123,7 +123,7 @@ fn test_parsing_paragraph() {
           ]),
           paragraph(11, 14, [
           ]),
-          paragraph(15, 20, [
+          paragraph(18, 23, [
           ])
         ]
     };

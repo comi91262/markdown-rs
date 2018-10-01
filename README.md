@@ -21,7 +21,8 @@ The number attached to those syntax elements below is the number that tested tha
 
 ## Inlines
 * Entity and numeric character references (1)
-* Emphasis and strong emphasis (2)
+* Emphasis and strong emphasis (1)
+* Hard line breaks (1)
 
 # Future work
 * save to local storages
