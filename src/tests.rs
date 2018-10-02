@@ -610,6 +610,20 @@ fn test_example_229() {
 //}
 
 #[test]
+fn test_example_301() {
+    let input = "\\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\]\\^\\_\\`\\{\\|\\}\\~";
+    let output = "<p>!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_302() {
+    let input = "\\→\\A\\a\\ \\3\\φ\\«";
+    let output = "<p>\\→\\A\\a\\ \\3\\φ\\«</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
 fn test_example_314() {
     let input = "&nbsp; &amp; &copy; &AElig; &Dcaron;\n&frac34; &HilbertSpace; &DifferentialD;\n&ClockwiseContourIntegral; &ngE;";
     let output = "<p>  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>"; // TODO &amp?

@@ -34,7 +34,12 @@ pub fn inline_parser(block_tree: &mut Block) {
             ..
         } => {
             let mut s = raw_text.to_string();
-            let s = decode_html(&s).unwrap();
+            let s = match decode_html(&s) {
+                Ok(actual) => actual,
+                Err(_) => s,
+            };
+
+            let s = escape_backslash(&s);
 
             let s = match parse(&s) {
                 Ok(tokens) => interpret(tokens),
@@ -115,6 +120,70 @@ fn interpret(tokens: Pairs<Rule>) -> String {
     result
 }
 
+const ESCAPED_CHARACTERS: [(char, &'static str); 32] = [
+    ('!', "!"),
+    ('"', "&quot;"),
+    ('#', "#"),
+    ('$', "$"),
+    ('%', "%"),
+    ('&', "&amp;"),
+    ('\'', "\'"),
+    ('(', "("),
+    (')', ")"),
+    ('*', "*"),
+    ('+', "+"),
+    (',', ","),
+    ('-', "-"),
+    ('.', "."),
+    ('/', "/"),
+    (':', ":"),
+    (';', ";"),
+    ('<', "&lt;"),
+    ('=', "="),
+    ('>', "&gt;"),
+    ('?', "?"),
+    ('@', "@"),
+    ('[', "["),
+    ('\\', "\\"),
+    (']', "]"),
+    ('^', "^"),
+    ('_', "_"),
+    ('`', "`"),
+    ('{', "{"),
+    ('|', "|"),
+    ('}', "}"),
+    ('~', "~"),
+];
+
+fn escape_backslash(s: &str) -> String {
+    enum Status {
+        SLASH,
+        NOSLASH,
+    };
+
+    let mut status = Status::NOSLASH;
+
+    s.chars()
+        .map(|c| match status {
+            Status::SLASH => match ESCAPED_CHARACTERS.binary_search_by_key(&c, |&(a, _)| a) {
+                Ok(s) => {
+                    status = Status::NOSLASH;
+                    let (_, b) = ESCAPED_CHARACTERS[s];
+                    b.to_string()
+                }
+                Err(_) => {
+                    status = Status::NOSLASH;
+                    format!("\\{}", c)
+                }
+            },
+            Status::NOSLASH if c == '\\' => {
+                status = Status::SLASH;
+                "".to_string()
+            }
+            Status::NOSLASH => c.to_string(),
+        }).collect()
+}
+
 #[test]
 fn test_emphasis_rule1() {
     parses_to! {
@@ -130,19 +199,4 @@ fn test_emphasis_rule1() {
           ]),
         ]
     };
-}
-
-#[test]
-fn test_inline_parser() {
-    //    let mut root_block = Block {
-    //        is_closed: false,
-    //        block_type: BlockType::Document,
-    //        raw_text: "aaa".to_string(),
-    //        children: vec![],
-    //    };
-
-    //    assert_eq!(
-    //        "a  a   a".to_string(),
-    //        root_block.get_mut_prev().unwrap().raw_text
-    //    );
 }
