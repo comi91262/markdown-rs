@@ -39,7 +39,6 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
             Rule::paragraph => {
                 let mut is_updated = false;
                 let mut token_str = token.as_str().to_string();
-                trim_string(&mut token_str);
 
                 match block.get_mut_last_open_block() {
                     None => (),
@@ -63,32 +62,26 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
             }
             Rule::atx_heading1 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
-                trim_string(&mut text);
                 block.add(BlockType::AtxHeading1, text);
             }
             Rule::atx_heading2 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
-                trim_string(&mut text);
                 block.add(BlockType::AtxHeading2, text);
             }
             Rule::atx_heading3 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
-                trim_string(&mut text);
                 block.add(BlockType::AtxHeading3, text);
             }
             Rule::atx_heading4 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
-                trim_string(&mut text);
                 block.add(BlockType::AtxHeading4, text);
             }
             Rule::atx_heading5 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
-                trim_string(&mut text);
                 block.add(BlockType::AtxHeading5, text);
             }
             Rule::atx_heading6 => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
-                trim_string(&mut text);
                 block.add(BlockType::AtxHeading6, text);
             }
             Rule::setext_heading_underline1 => {
@@ -126,7 +119,6 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
                 }
                 if is_thematic_breaks {
                     let mut token_str = token.as_str().to_string();
-                    trim_string(&mut token_str);
                     if token_str == "--".to_string() {
                         block.add(BlockType::Paragraph, token_str);
                     } else {
@@ -147,8 +139,7 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
                         } => {
                             // lazy continution line
                             prev.push_raw_text("\n");
-                            trim_string(&mut text);
-                            prev.push_raw_text(&text);
+                            prev.push_raw_text(text.trim_left());
                             is_updated = true;
                         }
                         Block {
@@ -170,7 +161,6 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
             }
             Rule::fenced_code_block => {
                 let mut text = token.into_inner().next().unwrap().as_str().to_string();
-                trim_string(&mut text); // ???
                 block.add(BlockType::FencedCodeBlock, text);
             }
             Rule::block_quote => {
@@ -318,38 +308,4 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
             _ => (),
         }
     }
-}
-
-// thanks to @qnighy
-fn trim_string(s: &mut String) {
-    let new_len = s.trim_right().len();
-    s.truncate(new_len);
-    let drain_len = s.len() - s.trim_left().len();
-    drop(s.drain(..drain_len));
-}
-
-#[test]
-fn test_trim_string() {
-    let mut s = String::from("    ");
-    trim_string(&mut s);
-    assert_eq!("", s);
-
-    let mut s = String::from("   foo bar   ");
-    trim_string(&mut s);
-    assert_eq!("foo bar", s);
-}
-
-// TODO  constitute Pairs struct.
-#[cfg(test)]
-mod tests {
-    use super::to_tree;
-    use block_parser::parse;
-
-    #[test]
-    fn test_token() {
-        let st = String::from("- foo\n***\n- bar\n");
-        let a = to_tree(parse(&st));
-        println!("{:?}", a);
-    }
-
 }

@@ -48,7 +48,6 @@ character = _{ any }
 whitespace_character = _{ "\u{0020}" | "\u{0009}" | "\u{000A}" | "\u{000B}" | "\u{000C}" | "\u{000D}" }
 non_whitespace_character = _{ !whitespace_character ~ character }
 
-no_token_text = _{ (!newline ~ !carriage_return ~ character)+ }
 text = { (!newline ~ !carriage_return ~ character)+ }
 
 sharp = _{ "#" }
@@ -122,7 +121,7 @@ fenced_code_block = {
 
 newline = _{ "\u{000A}" }
 carriage_return = _{ "\u{000D}" }
-paragraph = { no_token_text }
+paragraph = { (!newline ~ !carriage_return ~ character)+ }
 
 quote_marker = _{ ">" }
 
@@ -199,7 +198,7 @@ line = _{
   | link_definition
   | reference_link
   | break_line
-  | paragraph
+  | space* ~ paragraph
 }
 
 line_ending = _{ newline | carriage_return | newline ~ carriage_return }

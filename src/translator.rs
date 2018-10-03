@@ -3,7 +3,6 @@ use block::BlockType;
 use block_parser;
 use htmlescape::encode_minimal;
 use inline_parser;
-use preparser::convert_tabs;
 use std::collections::HashMap;
 use tree;
 
@@ -161,7 +160,7 @@ pub fn exec(input_str: &str) -> String {
     //let mut input = convert_tabs(&input);
     let tokens = block_parser::parse(&input);
     let mut tree = tree::to_tree(tokens);
-    inline_parser::inline_parser(&mut tree);
+    inline_parser::top(&mut tree);
     let mut env = HashMap::new();
     print(tree, &mut env)
 }

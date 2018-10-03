@@ -19,9 +19,11 @@ The number attached to those syntax elements below is the number that tested tha
 * Block quotes (19/25)
 * List items (5)
 
-## Inlines
+## Inlines (0/1)
+* Backslash escapes (2/13)
 * Entity and numeric character references (1)
-* Emphasis and strong emphasis (2)
+* Emphasis and strong emphasis (4)
+* Hard line breaks (1)
 
 # Future work
 * save to local storages

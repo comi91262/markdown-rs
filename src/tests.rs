@@ -317,14 +317,14 @@ fn test_example_87() {
 #[test]
 fn test_example_91() {
     let input = "```\naaa\n~~~\n```";
-    let output = "<pre><code>aaa\n~~~</code></pre>";
+    let output = "<pre><code>aaa\n~~~\n</code></pre>";
     assert_eq!(exec(input), output);
 }
 
 #[test]
 fn test_example_92() {
     let input = "~~~\naaa\n```\n~~~";
-    let output = "<pre><code>aaa\n```</code></pre>";
+    let output = "<pre><code>aaa\n```\n</code></pre>";
     assert_eq!(exec(input), output);
 }
 
@@ -611,7 +611,7 @@ fn test_example_229() {
 
 #[test]
 fn test_example_301() {
-    let input = "\\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\]\\^\\_\\`\\{\\|\\}\\~";
+    let input = "\\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\\\]\\^\\_\\`\\{\\|\\}\\~";
     let output = "<p>!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</p>";
     assert_eq!(exec(input), output);
 }
@@ -662,5 +662,12 @@ fn test_example_347() {
 fn test_example_348() {
     let input = "5*6*78";
     let output = "<p>5<em>6</em>78</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_632() {
+    let input = "foo  \nbaz";
+    let output = "<p>foo<br />baz</p>";
     assert_eq!(exec(input), output);
 }
