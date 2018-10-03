@@ -609,10 +609,9 @@ fn test_example_229() {
 //    assert_eq!(exec(input), output);
 //}
 
-<<<<<<< HEAD
 #[test]
 fn test_example_301() {
-    let input = "\\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\]\\^\\_\\`\\{\\|\\}\\~";
+    let input = "\\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\\\]\\^\\_\\`\\{\\|\\}\\~";
     let output = "<p>!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</p>";
     assert_eq!(exec(input), output);
 }
@@ -630,14 +629,6 @@ fn test_example_314() {
     let output = "<p>  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>"; // TODO &amp?
     assert_eq!(exec(input), output);
 }
-=======
-//#[test]
-//fn test_example_314() {
-//    let input = "&nbsp; &amp; &copy; &AElig; &Dcaron;\n&frac34; &HilbertSpace; &DifferentialD;\n&ClockwiseContourIntegral; &ngE;";
-//    let output = "<p>  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>"; // TODO &amp?
-//    assert_eq!(exec(input), output);
-//}
->>>>>>> f2488b2... Add Hard line breask.
 
 #[test]
 fn test_example_343() {
@@ -680,4 +671,3 @@ fn test_example_632() {
     let output = "<p>foo<br />baz</p>";
     assert_eq!(exec(input), output);
 }
- 

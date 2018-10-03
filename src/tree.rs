@@ -309,19 +309,3 @@ fn to_inner_tree(tokens: Pairs<Rule>, block: &mut Block) {
         }
     }
 }
-
-
-// TODO  constitute Pairs struct.
-#[cfg(test)]
-mod tests {
-    use super::to_tree;
-    use block_parser::parse;
-
-    #[test]
-    fn test_token() {
-        let st = String::from("- foo\n***\n- bar\n");
-        let a = to_tree(parse(&st));
-        println!("{:?}", a);
-    }
-
-}

@@ -1,15 +1,51 @@
-newline = _{ "\n" }
-carriage_return = _{ "\r" }
 space = _{ " " }
 character = _{ any } 
-emphasis_maker = _{ "*" }
-
-text = { (!emphasis_maker ~ !newline ~ !carriage_return ~ character)* }
-emphasis = {!space ~ (!emphasis_maker ~ character)+ ~ !space }
 
 
-line = _{
-   text ~ emphasis_maker ~ emphasis ~ emphasis_maker ~ text
+//space (U+0020), tab (U+0009), newline (U+000A), line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D).
+whitespace_character = _{ "\u{0020}" | "\u{0009}" | "\u{000A}" | "\u{000B}" | "\u{000C}" | "\u{000D}" }
+non_whitespace_character = _{ !whitespace_character ~ character }
+
+
+ascii_punctuation_character = _{ "!" | "\"" | "#" | "$" | "%" | "&" | "'"
+                               | "(" | ")" | "*" | "+" | "," | "-"
+                               | "." | "/" | ":" | ";" | "<" | "="
+                               | ">" | "?" | "@" | "[" | "\\" | "]"
+                               | "^" | "_" | "`" | "{" | "|" | "}" | "~" }
+
+
+emphasis_marker = _{ "*" }
+emphasis = { (!emphasis_marker ~ character)+ }
+emphasis_front = _{
+     emphasis_marker ~ !space ~ emphasis ~ emphasis_marker
+ }
+
+line_ending = _{ "\n" | "\r" | "\r\n" }
+backslash = _{ "\\" }
+
+hard_line_break = {
+    (space{2, } | backslash) ~ line_ending
 }
 
-inline = _{ soi ~ line ~ eoi }
+and = _{ "&" }
+semicolon = _{ ";" }
+html_entity = {
+    and ~ (!semicolon ~ non_whitespace_character)+ ~ semicolon 
+}
+
+escaped_marker = _{ "\\" }
+escaped_slash = {
+    escaped_marker ~ ascii_punctuation_character
+}
+
+other = { character } 
+
+line = _{
+    escaped_slash ~ line*
+  | html_entity ~ line*
+  | emphasis_front ~ line* 
+  | hard_line_break ~ line*
+  | other ~ line*
+}
+
+inline = _{ soi ~ line? ~ eoi }
