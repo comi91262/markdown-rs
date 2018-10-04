@@ -56,7 +56,6 @@ fn escape_backslash(s: &str) -> String {
 
     if ch.next().unwrap() != '\\' {
         panic!("s should start with \\");
-        return "".to_string();
     }
 
     let c = ch.next().unwrap();

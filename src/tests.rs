@@ -378,6 +378,20 @@ fn test_example_187() {
 }
 
 #[test]
+fn test_example_188() {
+    let input = "    aaa\nbbb";
+    let output = "<pre><code>aaa</code></pre><p>bbb</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_189() {
+    let input = "aaa     \nbbb     ";
+    let output = "<p>aaa<br />bbb</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
 fn test_example_190() {
     let input = "  \n\naaa\n  \n\n# aaa\n\n  ";
     let output = "<p>aaa</p><h1>aaa</h1>";

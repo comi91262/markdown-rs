@@ -14,7 +14,7 @@ The number attached to those syntax elements below is the number that tested tha
 * Indented code blocks (8/12)
 * Fenced code blocks (2)
 * Link Reference Definition (1)
-* Paragraphs (6/8)
+* Paragraphs (8/8)
 * Blank lines (1/1)
 * Block quotes (19/25)
 * List items (5)
