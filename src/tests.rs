@@ -671,3 +671,74 @@ fn test_example_632() {
     let output = "<p>foo<br />baz</p>";
     assert_eq!(exec(input), output);
 }
+
+#[test]
+fn test_example_633() {
+    let input = "foo\\\nbaz";
+    let output = "<p>foo<br />baz</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_634() {
+    let input = "foo       \nbaz";
+    let output = "<p>foo<br />baz</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_635() {
+    let input = "foo  \n     bar";
+    let output = "<p>foo<br />bar</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_636() {
+    let input = "foo\\\n     bar";
+    let output = "<p>foo<br />bar</p>";
+    assert_eq!(exec(input), output);
+}
+
+//#[test]
+//fn test_example_637() {
+//    let input = "*foo  \nbar*";
+//    let output = "<p><em>foo<br />bar</em></p>";
+//    assert_eq!(exec(input), output);
+//}
+//
+//#[test]
+//fn test_example_638() {
+//    let input = "*foo\\\nbar*";
+//    let output = "<p><em>foo<br />bar</em></p>";
+//    assert_eq!(exec(input), output);
+//}
+
+#[test]
+fn test_example_643() {
+    let input = "foo\\";
+    let output = "<p>foo\\</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_644() {
+    let input = "foo  ";
+    let output = "<p>foo</p>";
+    assert_eq!(exec(input), output);
+}
+ 
+#[test]
+fn test_example_645() {
+    let input = "### foo\\";
+    let output = "<h3>foo\\</h3>";
+    assert_eq!(exec(input), output);
+}
+ 
+#[test]
+fn test_example_646() {
+    let input = "### foo  ";
+    let output = "<h3>foo</h3>";
+    assert_eq!(exec(input), output);
+}
+ 

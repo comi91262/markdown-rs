@@ -23,7 +23,7 @@ The number attached to those syntax elements below is the number that tested tha
 * Backslash escapes (2/13)
 * Entity and numeric character references (1)
 * Emphasis and strong emphasis (4)
-* Hard line breaks (1)
+* Hard line breaks (9/15)
 
 # Future work
 * save to local storages
