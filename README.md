@@ -12,7 +12,7 @@ The number attached to those syntax elements below is the number that tested tha
 * ATX headings (8/18)
 * Setext headings (3/26)
 * Indented code blocks (8/12)
-* Fenced code blocks (2)
+* Fenced code blocks (3/28)
 * Link Reference Definition (1)
 * Paragraphs (8/8)
 * Blank lines (1/1)
