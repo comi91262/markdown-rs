@@ -10,7 +10,7 @@ The number attached to those syntax elements below is the number that tested tha
 * Tabs (3/11)
 * Thematic breaks (18/19)
 * ATX headings (8/18)
-* Setext headings (3/26)
+* Setext headings (17/26)
 * Indented code blocks (8/12)
 * Fenced code blocks (3/28)
 * Link Reference Definition (1)
