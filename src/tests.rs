@@ -488,7 +488,7 @@ fn test_example_87() {
 //    let output = "<pre><code>&lt; &gt;</code></pre>";
 //    assert_eq!(exec(input), output);
 //}
-// 
+//
 //#[test]
 //fn test_example_90() {
 //    let input = "``\nfoo\n``";
@@ -523,7 +523,7 @@ fn test_example_92() {
 //    let output = "<pre><code>aaa\n~~~</code></pre>";
 //    assert_eq!(exec(input), output);
 //}
-// 
+//
 //#[test]
 //fn test_example_95() {
 //    let input = "```";
@@ -656,7 +656,7 @@ fn test_example_103() {
 //    let output = "<pre><code class=\"language-;\"></code></pre>";
 //    assert_eq!(exec(input), output);
 //}
-// 
+//
 //#[test]
 //fn test_example_114() {
 //    let input = "``` aa ```\nfoo";
@@ -1084,18 +1084,31 @@ fn test_example_644() {
     let output = "<p>foo</p>";
     assert_eq!(exec(input), output);
 }
- 
+
 #[test]
 fn test_example_645() {
     let input = "### foo\\";
     let output = "<h3>foo\\</h3>";
     assert_eq!(exec(input), output);
 }
- 
+
 #[test]
 fn test_example_646() {
     let input = "### foo  ";
     let output = "<h3>foo</h3>";
     assert_eq!(exec(input), output);
 }
- 
+
+#[test]
+fn test_example_647() {
+    let input = "foo\nbaz";
+    let output = "<p>foo\nbaz</p>";
+    assert_eq!(exec(input), output);
+}
+
+#[test]
+fn test_example_648() {
+    let input = "foo \n baz";
+    let output = "<p>foo\nbaz</p>";
+    assert_eq!(exec(input), output);
+}
