@@ -1,9 +1,6 @@
 use pest::iterators::Pairs;
 use pest::Parser;
 
-#[cfg(debug_assertions)]
-const _GRAMMAR: &'static str = include_str!("block.pest");
-
 #[derive(Parser)]
 #[grammar = "block_parser/block.pest"]
 struct BlockParser;

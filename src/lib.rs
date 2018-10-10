@@ -16,11 +16,13 @@ extern crate test;
 mod block;
 mod block_parser;
 mod inline_parser;
-mod tests;
 mod translator;
 mod tree;
 
+#[cfg(test)]
 mod bench;
+#[cfg(test)]
+mod tests;
 
 #[no_mangle]
 pub extern "C" fn alloc(size: usize) -> *mut c_void {

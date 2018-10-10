@@ -1,5 +1,5 @@
 space = _{ " " }
-character = _{ any } 
+character = _{ ANY } 
 
 
 //space (U+0020), tab (U+0009), newline (U+000A), line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D).
@@ -48,4 +48,4 @@ line = _{
   | other ~ line*
 }
 
-inline = _{ soi ~ line? ~ eoi }
+inline = _{ SOI ~ line? ~ EOI }

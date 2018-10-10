@@ -42,7 +42,7 @@ ascii_punctuation_character = { "!" | "\"" | "#" | "$" | "%" | "'"
 // TODO: A line containing no characters, or a line containing only spaces (U+0020) or tabs (U+0009), is called a blank line.
 // TODO: A non-whitespace character is any character that is not a whitespace character.
 
-character = _{ any } 
+character = _{ ANY } 
 
 //space (U+0020), tab (U+0009), newline (U+000A), line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D).
 whitespace_character = _{ "\u{0020}" | "\u{0009}" | "\u{000A}" | "\u{000B}" | "\u{000C}" | "\u{000D}" }
@@ -202,7 +202,7 @@ line = _{
 }
 
 line_ending = _{ newline | carriage_return | newline ~ carriage_return }
-document = _{ soi ~ (line ~ line_ending)+ ~ eoi }
+document = _{ SOI ~ (line ~ line_ending)+ ~ EOI }
 
         
 link_label_text = { (!"]" ~ non_whitespace_character)+ }
