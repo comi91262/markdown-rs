@@ -1,6 +1,6 @@
+use super::parser::Rule;
 use block::Block;
 use block::BlockType;
-use block_parser::Rule;
 use pest::iterators::Pairs;
 
 pub fn to_tree(tokens: Pairs<Rule>) -> Block {

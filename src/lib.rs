@@ -15,9 +15,8 @@ extern crate test;
 
 mod block;
 mod block_parser;
+mod html_translator;
 mod inline_parser;
-mod translator;
-mod tree;
 
 #[cfg(test)]
 mod bench;
@@ -49,6 +48,6 @@ pub extern "C" fn dealloc_str(ptr: *mut c_char) {
 #[no_mangle]
 pub extern "C" fn translate(data: *mut c_char) -> *mut c_char {
     let input = unsafe { CStr::from_ptr(data).to_string_lossy().into_owned() };
-    let output = translator::exec(&input);
+    let output = html_translator::top(&input);
     CString::new(output).unwrap().into_raw()
 }
