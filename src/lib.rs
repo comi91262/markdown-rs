@@ -1,3 +1,5 @@
+#![feature(test)]
+
 use std::ffi::CStr;
 use std::ffi::CString;
 use std::mem;
@@ -9,12 +11,17 @@ extern crate pest;
 extern crate pest_derive;
 extern crate htmlescape;
 
+extern crate test;
+
 mod block;
 mod block_parser;
+mod html_translator;
 mod inline_parser;
+
+#[cfg(test)]
+mod bench;
+#[cfg(test)]
 mod tests;
-mod translator;
-mod tree;
 
 #[no_mangle]
 pub extern "C" fn alloc(size: usize) -> *mut c_void {
@@ -41,6 +48,6 @@ pub extern "C" fn dealloc_str(ptr: *mut c_char) {
 #[no_mangle]
 pub extern "C" fn translate(data: *mut c_char) -> *mut c_char {
     let input = unsafe { CStr::from_ptr(data).to_string_lossy().into_owned() };
-    let output = translator::exec(&input);
+    let output = html_translator::top(&input);
     CString::new(output).unwrap().into_raw()
 }

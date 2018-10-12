@@ -1,12 +1,12 @@
 [package]
 name = "markdown"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["ykonomi <hgKaguyaToupako4er@gmail.com>"]
 repository = "https://github.com/ykonomi/markdown-rs"
 
 [dependencies]
-pest = "^1.0"
-pest_derive = "^1.0"
+pest = "2.0.1"
+pest_derive = "2.0.1"
 htmlescape-plus = { git = "https://github.com/ykonomi/rust-htmlescape.git" }
 
 [lib]

@@ -83,6 +83,7 @@ pub fn top(tokens: Pairs<Rule>) -> String {
             Rule::emphasis => result.push_str(&emphasize(token.as_str())),
             Rule::hard_line_break => result.push_str(&hard_line_break(token.as_str())),
             Rule::other => result.push_str(token.as_str()),
+            Rule::EOI => (),
             _ => panic!("Error: No token is parsed."),
         }
     }
