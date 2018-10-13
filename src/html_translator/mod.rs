@@ -4,7 +4,6 @@ use block_parser;
 use htmlescape::encode_minimal;
 use inline_parser;
 use std::collections::HashMap;
-use tree;
 
 fn print(tree: Block, mut env: &mut HashMap<String, String>) -> String {
     match tree {
@@ -151,16 +150,15 @@ fn print(tree: Block, mut env: &mut HashMap<String, String>) -> String {
     }
 }
 
-pub fn exec(input_str: &str) -> String {
+pub fn top(input_str: &str) -> String {
     // Add line feed.
     let mut input = String::new();
     input.push_str(input_str);
     input.push_str("\n");
 
     //let mut input = convert_tabs(&input);
-    let tokens = block_parser::parse(&input);
-    let mut tree = tree::to_tree(tokens);
-    inline_parser::top(&mut tree);
+    let mut block_tree = block_parser::top(&input);
+    inline_parser::top(&mut block_tree);
     let mut env = HashMap::new();
-    print(tree, &mut env)
+    print(block_tree, &mut env)
 }
