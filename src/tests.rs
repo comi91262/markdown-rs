@@ -182,14 +182,14 @@ fn test_example_34() {
 fn test_example_35() {
     let input = "\\## foo";
     let output = "<p>## foo</p>";
-    assert_eq!(exec(input), output);
+    assert_eq!(top(input), output);
 }
- 
+
 #[test]
 fn test_example_36() {
     let input = "# foo *bar* \\*baz\\*";
     let output = "<h1>foo <em>bar</em> *baz*</h1>";
-    assert_eq!(exec(input), output);
+    assert_eq!(top(input), output);
 }
 
 #[test]
@@ -501,7 +501,7 @@ fn test_example_87() {
 //    let output = "<pre><code>&lt; &gt;</code></pre>";
 //    assert_eq!(top(input), output);
 //}
-// 
+//
 //#[test]
 //fn test_example_90() {
 //    let input = "``\nfoo\n``";
@@ -536,7 +536,7 @@ fn test_example_92() {
 //    let output = "<pre><code>aaa\n~~~</code></pre>";
 //    assert_eq!(top(input), output);
 //}
-// 
+//
 //#[test]
 //fn test_example_95() {
 //    let input = "```";
@@ -669,7 +669,7 @@ fn test_example_103() {
 //    let output = "<pre><code class=\"language-;\"></code></pre>";
 //    assert_eq!(top(input), output);
 //}
-// 
+//
 //#[test]
 //fn test_example_114() {
 //    let input = "``` aa ```\nfoo";
@@ -1097,14 +1097,14 @@ fn test_example_644() {
     let output = "<p>foo</p>";
     assert_eq!(top(input), output);
 }
- 
+
 #[test]
 fn test_example_645() {
     let input = "### foo\\";
     let output = "<h3>foo\\</h3>";
     assert_eq!(top(input), output);
 }
- 
+
 #[test]
 fn test_example_646() {
     let input = "### foo  ";
@@ -1123,11 +1123,5 @@ fn test_example_647() {
 //fn test_example_648() {
 //    let input = "foo \n baz";
 //    let output = "<p>foo\nbaz</p>";
-<<<<<<< HEAD
 //    assert_eq!(exec(input), output);
 //}
- 
-=======
-//    assert_eq!(top(input), output);
-//}
->>>>>>> master

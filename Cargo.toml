@@ -11,5 +11,4 @@ htmlescape-plus = { git = "https://github.com/ykonomi/rust-htmlescape.git" }
 
 [lib]
 name = "markdown"
-doctest = false
 crate-type = ["cdylib"]
