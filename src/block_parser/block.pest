@@ -62,12 +62,13 @@ indented_code_block = {
 sharp = _{ "#" }
 atx_heading_text = { (!sharp ~ !newline ~ !carriage_return ~ character)+ }
 
-atx_heading1 = { sharp{1} ~ space+ ~ atx_heading_text ~ (space+ ~ sharp+)* ~ space* }
-atx_heading2 = { sharp{2} ~ space+ ~ atx_heading_text ~ (space+ ~ sharp+)* ~ space* }
-atx_heading3 = { sharp{3} ~ space+ ~ atx_heading_text ~ (space+ ~ sharp+)* ~ space* }
-atx_heading4 = { sharp{4} ~ space+ ~ atx_heading_text ~ (space+ ~ sharp+)* ~ space* }
-atx_heading5 = { sharp{5} ~ space+ ~ atx_heading_text ~ (space+ ~ sharp+)* ~ space* }
-atx_heading6 = { sharp{6} ~ space+ ~ atx_heading_text ~ (space+ ~ sharp+)* ~ space* }
+// parsed atx_heading_text : "hoge fuga", "hoge fuga   "
+atx_heading1 = { sharp{1} ~ space+ ~ atx_heading_text ~ sharp* ~ space* }
+atx_heading2 = { sharp{2} ~ space+ ~ atx_heading_text ~ sharp* ~ space* }
+atx_heading3 = { sharp{3} ~ space+ ~ atx_heading_text ~ sharp* ~ space* }
+atx_heading4 = { sharp{4} ~ space+ ~ atx_heading_text ~ sharp* ~ space* }
+atx_heading5 = { sharp{5} ~ space+ ~ atx_heading_text ~ sharp* ~ space* }
+atx_heading6 = { sharp{6} ~ space+ ~ atx_heading_text ~ sharp* ~ space* }
 
 atx_headings = _{ 
     space{0, 3} ~ ( atx_heading1 | atx_heading2 | atx_heading3 | atx_heading4 | atx_heading5 | atx_heading6)

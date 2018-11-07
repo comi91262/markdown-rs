@@ -219,6 +219,54 @@ fn test_example_40() {
     let output = "<p>foo\n# bar</p>";
     assert_eq!(top(input), output);
 }
+ 
+#[test]
+fn test_example_41() {
+    let input = "## foo ##\n  ###   bar    ###";
+    let output = "<h2>foo</h2><h3>bar</h3>";
+
+    assert_eq!(top(input), output);
+}
+
+#[test]
+fn test_example_42() {
+    let input = "# foo ##################################\n##### foo ##";
+    let output = "<h1>foo</h1><h5>foo</h5>";
+
+    assert_eq!(top(input), output);
+}
+
+#[test]
+fn test_example_43() {
+    let input = "### foo ###     ";
+    let output = "<h3>foo</h3>";
+
+    assert_eq!(top(input), output);
+}
+
+#[test]
+fn test_example_47() {
+    let input = "****\n## foo\n****";
+    let output = "<hr /><h2>foo</h2><hr />";
+
+    assert_eq!(top(input), output);
+}
+
+#[test]
+fn test_example_48() {
+    let input = "Foo bar\n# baz\nBar foo";
+    let output = "<p>Foo bar</p><h1>baz</h1><p>Bar foo</p>";
+
+    assert_eq!(top(input), output);
+}
+
+//#[test]
+//fn test_example_49() {
+//    let input = "## \n#\n### ###";
+//    let output = "<h2></h2><h1></h1><h3></h3>";
+//
+//    assert_eq!(top(input), output);
+//}
 
 #[test]
 fn test_example_50() {
