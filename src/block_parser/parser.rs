@@ -82,33 +82,75 @@ mod tests {
     }
 
     #[test]
-    fn test_parsing_atx_headings() {
+    fn test1_parsing_atx_headings() {
         parses_to! {
             parser: BlockParser,
             input: "# foo\n## foo\n### foo\n#### foo\n##### foo\n###### foo\n",
             rule: Rule::document,
             tokens: [
               atx_heading1(0, 5, [
-                text(2,5,[]),
+                atx_heading_text(2,5,[]),
               ]),
               atx_heading2(6, 12, [
-                text(9,12,[]),
+                atx_heading_text(9,12,[]),
               ]),
               atx_heading3(13, 20, [
-                text(17,20,[]),
+                atx_heading_text(17,20,[]),
               ]),
               atx_heading4(21, 29, [
-                text(26,29,[]),
+                atx_heading_text(26,29,[]),
               ]),
               atx_heading5(30, 39, [
-                text(36,39,[]),
+                atx_heading_text(36,39,[]),
               ]),
               atx_heading6(40, 50, [
-                text(47,50,[]),
+                atx_heading_text(47,50,[]),
               ]),
             ]
         };
     }
+
+    #[test]
+    fn test2_parsing_atx_headings() {
+        parses_to! {
+            parser: BlockParser,
+            input: " ### foo \n",
+            rule: Rule::document,
+            tokens: [
+              atx_heading3(1,9, [
+                atx_heading_text(5,9,[]),
+              ]),
+            ]
+        };
+    }
+
+    #[test]
+    fn test3_parsing_atx_headings() {
+        parses_to! {
+            parser: BlockParser,
+            input: "### foo ###     \n",
+            rule: Rule::document,
+            tokens: [
+              atx_heading3(0, 16, [
+                atx_heading_text(4,8,[]),
+              ]),
+            ]
+        };
+    }
+
+//    #[test]
+//    fn test4_parsing_atx_headings() {
+//        parses_to! {
+//            parser: BlockParser,
+//            input: "### foo ### b\n",
+//            rule: Rule::document,
+//            tokens: [
+//              atx_heading3(0, 5, [
+//                atx_heading_text(2,5,[]),
+//              ]),
+//            ]
+//        };
+//  }
 
     #[test]
     fn test_parsing_paragraph() {
@@ -174,7 +216,7 @@ mod tests {
             tokens: [
               block_quote(0, 7, [
                 atx_heading1(2, 7, [
-                   text(4, 7, []),
+                   atx_heading_text(4, 7, []),
                 ])
               ]),
               block_quote(8, 13, [
